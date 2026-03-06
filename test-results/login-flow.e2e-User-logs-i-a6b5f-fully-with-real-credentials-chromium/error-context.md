@@ -1,0 +1,180 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Emax Protocol Logo" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "Emax Protocol Logo" [ref=e7]
+      - navigation [ref=e8]:
+        - link "About Us" [ref=e9] [cursor=pointer]:
+          - /url: /about
+        - link "Trading" [ref=e10] [cursor=pointer]:
+          - /url: /trading
+        - link "Trading Plans" [ref=e11] [cursor=pointer]:
+          - /url: /trading-plans
+        - link "Markets" [ref=e12] [cursor=pointer]:
+          - /url: /markets
+        - link "Affiliate" [ref=e13] [cursor=pointer]:
+          - /url: /affiliate
+        - link "Get Started" [ref=e14] [cursor=pointer]:
+          - /url: /get-started
+        - link "FAQ" [ref=e15] [cursor=pointer]:
+          - /url: /faq
+        - link "Contact" [ref=e16] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e17]:
+        - link "Create Account" [ref=e18] [cursor=pointer]:
+          - /url: /signup
+        - link "Sign In" [ref=e19] [cursor=pointer]:
+          - /url: /login
+  - main [ref=e20]:
+    - generic [ref=e21]:
+      - navigation [ref=e31]:
+        - link "🏠 Home" [ref=e32] [cursor=pointer]:
+          - /url: /
+        - link "📖 About Us" [ref=e33] [cursor=pointer]:
+          - /url: /about
+        - link "📊 Trading" [ref=e34] [cursor=pointer]:
+          - /url: /trading
+        - link "📢 Affiliate Program" [ref=e35] [cursor=pointer]:
+          - /url: /affiliate
+        - link "🚀 Get Started" [ref=e36] [cursor=pointer]:
+          - /url: /get-started
+        - link "❓ FAQ" [ref=e37] [cursor=pointer]:
+          - /url: /faq
+        - link "📰 News" [ref=e38] [cursor=pointer]:
+          - /url: /news
+        - link "📝 Terms & Conditions" [ref=e39] [cursor=pointer]:
+          - /url: /terms
+        - link "📞 Contact Us" [ref=e40] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]: Welcome back!
+            - generic [ref=e45]: Sign in to your Emax Protocol account
+          - generic [ref=e46]:
+            - alert [ref=e47]:
+              - generic [ref=e48]: Invalid credentials
+            - generic [ref=e49]:
+              - generic [ref=e50]:
+                - text: Email Address
+                - textbox "Email Address" [ref=e51]:
+                  - /placeholder: your@email.com
+                  - text: test@example.com
+              - generic [ref=e52]:
+                - text: Password
+                - generic [ref=e53]:
+                  - textbox "Password" [ref=e54]: Test123456!
+                  - button [ref=e55] [cursor=pointer]:
+                    - img [ref=e56]
+              - link "Forgot your password?" [ref=e60] [cursor=pointer]:
+                - /url: /forgot-password
+              - button "Sign in to your account" [ref=e61] [cursor=pointer]
+            - paragraph [ref=e63]:
+              - text: Don't have an account yet?
+              - link "Signup Now" [ref=e64] [cursor=pointer]:
+                - /url: /signup
+        - generic [ref=e65]:
+          - link "Home Page" [ref=e66] [cursor=pointer]:
+            - /url: /
+          - text: •
+          - link "Terms of Service" [ref=e67] [cursor=pointer]:
+            - /url: /terms
+          - text: •
+          - link "Contact Us" [ref=e68] [cursor=pointer]:
+            - /url: /contact
+  - contentinfo [ref=e69]:
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - heading "Company" [level=3] [ref=e73]
+          - list [ref=e74]:
+            - listitem [ref=e75]:
+              - link "About Us" [ref=e76] [cursor=pointer]:
+                - /url: /company
+            - listitem [ref=e77]:
+              - link "Compliance" [ref=e78] [cursor=pointer]:
+                - /url: /compliance
+            - listitem [ref=e79]:
+              - link "Security & Audits" [ref=e80] [cursor=pointer]:
+                - /url: /security
+            - listitem [ref=e81]:
+              - link "Contact" [ref=e82] [cursor=pointer]:
+                - /url: /contact
+        - generic [ref=e83]:
+          - heading "Legal" [level=3] [ref=e84]
+          - list [ref=e85]:
+            - listitem [ref=e86]:
+              - link "Risk Disclosure" [ref=e87] [cursor=pointer]:
+                - /url: /risk-disclosure
+            - listitem [ref=e88]:
+              - link "Terms of Service" [ref=e89] [cursor=pointer]:
+                - /url: /terms
+            - listitem [ref=e90]:
+              - link "Privacy Policy" [ref=e91] [cursor=pointer]:
+                - /url: /privacy
+        - generic [ref=e92]:
+          - heading "Resources" [level=3] [ref=e93]
+          - list [ref=e94]:
+            - listitem [ref=e95]:
+              - link "FAQ" [ref=e96] [cursor=pointer]:
+                - /url: /faq
+            - listitem [ref=e97]:
+              - link "News" [ref=e98] [cursor=pointer]:
+                - /url: /news
+            - listitem [ref=e99]:
+              - link "Support" [ref=e100] [cursor=pointer]:
+                - /url: /support
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - heading "Connect" [level=3] [ref=e103]
+            - generic [ref=e104]:
+              - link [ref=e105] [cursor=pointer]:
+                - /url: https://twitter.com
+                - img [ref=e106]
+              - link [ref=e108] [cursor=pointer]:
+                - /url: https://facebook.com
+                - img [ref=e109]
+          - generic [ref=e111]: © 2024 Emax Protocol. All rights reserved.
+      - paragraph [ref=e113]: "Risk Disclaimer: Cryptocurrency trading involves substantial risk of loss. Past performance does not guarantee future results. Always do your own research and only invest what you can afford to lose."
+  - generic [ref=e118]:
+    - img [ref=e120]
+    - generic [ref=e122]:
+      - generic [ref=e123]:
+        - heading "Cookie Preferences" [level=3] [ref=e124]
+        - generic [ref=e125]: GDPR Compliant
+      - paragraph [ref=e126]: We use cookies to enhance your experience, analyze site usage, and assist in our marketing efforts. You can customize your preferences or accept all cookies to continue.
+      - generic [ref=e127]:
+        - button "Accept All" [ref=e128] [cursor=pointer]:
+          - img
+          - text: Accept All
+        - button "Reject All" [ref=e129] [cursor=pointer]:
+          - img
+          - text: Reject All
+        - button "Customize" [ref=e130] [cursor=pointer]:
+          - img
+          - text: Customize
+        - link "Privacy Policy" [ref=e131] [cursor=pointer]:
+          - /url: /privacy
+    - button [ref=e132] [cursor=pointer]:
+      - img
+  - button [ref=e134] [cursor=pointer]:
+    - img
+  - generic [ref=e139] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e140]:
+      - img [ref=e141]
+    - generic [ref=e144]:
+      - button "Open issues overlay" [ref=e145]:
+        - generic [ref=e146]:
+          - generic [ref=e147]: "1"
+          - generic [ref=e148]: "2"
+        - generic [ref=e149]:
+          - text: Issue
+          - generic [ref=e150]: s
+      - button "Collapse issues badge" [ref=e151]:
+        - img [ref=e152]
+  - alert [ref=e154]
+```
