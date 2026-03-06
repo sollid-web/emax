@@ -67,7 +67,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         {[...Array(6)].map((_, i) => (
@@ -89,7 +89,7 @@ export default function LoginPage() {
       {/* Top Navigation */}
       <div className="absolute top-0 left-0 right-0 p-4 bg-black/20 backdrop-blur-sm">
         <div className="container mx-auto">
-          <nav className="flex flex-wrap gap-4 text-sm text-white/80">
+          <nav className="flex flex-col lg:flex-row-wrap gap-4 text-sm text-white/80">
             <Link href="/" className="hover:text-white transition-colors">
               🏠 Home
             </Link>

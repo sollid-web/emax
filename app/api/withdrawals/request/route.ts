@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { cookies } from 'next/headers'
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -8,13 +9,13 @@ const supabaseAdmin = createClient(
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify auth token
-    const authHeader = request.headers.get('authorization')
-    if (!authHeader?.startsWith('Bearer ')) {
+    // Get auth token from cookies
+    const cookieStore = await cookies()
+    const token = cookieStore.get('sb-auth-token')?.value
+    if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const token = authHeader.replace('Bearer ', '')
     const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token)
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -34,18 +35,60 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid wallet address' }, { status: 400 })
     }
 
-    // Check user has sufficient balance — only ROI withdrawable, not principal
+    // Check user has sufficient balance
     const { data: profile } = await supabaseAdmin
       .from('users')
       .select('balance')
       .eq('id', user.id)
       .single()
 
-    if (!profile || profile.balance < parseFloat(amount)) {
-      return NextResponse.json(
-        { error: 'Insufficient balance. You can only withdraw earned returns.' },
-        { status: 400 }
-      )
+    if (!profile) {
+      return NextResponse.json({ error: 'User profile not found' }, { status: 404 })
+    }
+
+    const withdrawalAmount = parseFloat(amount)
+
+    if (withdrawalType === 'capital') {
+      // For capital withdrawals, check if user has completed investments with sufficient capital available
+      const { data: completedInvestments } = await supabaseAdmin
+        .from('investments')
+        .select('amount')
+        .eq('user_id', user.id)
+        .eq('status', 'completed')
+
+      if (!completedInvestments || completedInvestments.length === 0) {
+        return NextResponse.json(
+          { error: 'No completed investments available for capital withdrawal' },
+          { status: 400 }
+        )
+      }
+
+      const totalAvailableCapital = completedInvestments.reduce((sum, inv) => sum + inv.amount, 0)
+
+      if (totalAvailableCapital < withdrawalAmount) {
+        return NextResponse.json(
+          { error: `Insufficient completed investment capital. Available: $${totalAvailableCapital.toFixed(2)}` },
+          { status: 400 }
+        )
+      }
+
+      // Check if user has sufficient balance (which includes ROI earnings)
+      if (profile.balance < withdrawalAmount) {
+        return NextResponse.json(
+          { error: 'Insufficient balance for withdrawal' },
+          { status: 400 }
+        )
+      }
+    } else if (withdrawalType === 'profit') {
+      // For profit withdrawals, check balance (which should contain ROI earnings)
+      if (profile.balance < withdrawalAmount) {
+        return NextResponse.json(
+          { error: 'Insufficient balance. You can only withdraw earned returns.' },
+          { status: 400 }
+        )
+      }
+    } else {
+      return NextResponse.json({ error: 'Invalid withdrawal type' }, { status: 400 })
     }
 
     // Find or create user crypto wallet record

@@ -128,10 +128,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
   if (!post) {
     return (
-      <div className="pt-16 min-h-screen flex items-center justify-center">
+      <div className="pt-16 min-h-screen flex flex-col lg:flex-row items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
-          <Link href="/blog" className="text-blue-600 hover:text-blue-700 flex items-center gap-2 justify-center">
+          <Link href="/blog" className="text-blue-600 hover:text-blue-700 flex flex-col lg:flex-row items-center gap-2 justify-center">
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
           </Link>
@@ -153,7 +153,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
       <article className="py-20">
         <div className="container mx-auto px-4 max-w-3xl">
-          <Link href="/blog" className="text-blue-600 hover:text-blue-700 flex items-center gap-2 mb-8">
+          <Link href="/blog" className="text-blue-600 hover:text-blue-700 flex flex-col lg:flex-row items-center gap-2 mb-8">
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
           </Link>
@@ -172,14 +172,14 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 <CardTitle className="text-lg">About the Author</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-start gap-4">
-                  <div className="flex-1">
+                <div className="flex flex-col lg:flex-row items-start gap-4">
+                  <div className="flex flex-col lg:flex-row-1">
                     <p className="font-semibold text-gray-900">{post.author}</p>
                     <p className="text-sm text-gray-600 mb-3">{post.authorBio}</p>
-                    <div className="flex gap-3">
+                    <div className="flex flex-col lg:flex-row gap-3">
                       <a
                         href={`mailto:${post.email}`}
-                        className="text-blue-600 hover:text-blue-700 flex items-center gap-1 text-sm"
+                        className="text-blue-600 hover:text-blue-700 flex flex-col lg:flex-row items-center gap-1 text-sm"
                       >
                         <Mail className="w-4 h-4" />
                         Email
@@ -188,7 +188,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                         href={post.authorLinkedIn}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-700 flex items-center gap-1 text-sm"
+                        className="text-blue-600 hover:text-blue-700 flex flex-col lg:flex-row items-center gap-1 text-sm"
                       >
                         <Linkedin className="w-4 h-4" />
                         LinkedIn
@@ -200,12 +200,12 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             </Card>
 
             {/* Meta Information */}
-            <div className="flex flex-wrap gap-6 text-sm text-gray-600 pb-8 border-b">
-              <span className="flex items-center gap-2">
+            <div className="flex flex-col lg:flex-row-wrap gap-6 text-sm text-gray-600 pb-8 border-b">
+              <span className="flex flex-col lg:flex-row items-center gap-2">
                 <Calendar className="w-4 h-4" />
                 Published: {post.date}
               </span>
-              <span className="flex items-center gap-2 text-blue-600 font-semibold">
+              <span className="flex flex-col lg:flex-row items-center gap-2 text-blue-600 font-semibold">
                 <Calendar className="w-4 h-4" />
                 Updated: {post.lastUpdated}
               </span>
@@ -263,7 +263,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           {/* Keywords */}
           <div className="mb-8">
             <h3 className="text-sm font-semibold text-gray-500 uppercase mb-3">Keywords</h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col lg:flex-row-wrap gap-2">
               {post.keywords.map((keyword) => (
                 <span key={keyword} className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
                   {keyword}

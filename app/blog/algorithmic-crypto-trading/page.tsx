@@ -10,7 +10,7 @@ export default function AlgorithmicCryptoTradingPost() {
       <div className="max-w-3xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/blog" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6">
+          <Link href="/blog" className="flex flex-col lg:flex-row items-center gap-2 text-blue-600 hover:text-blue-700 mb-6">
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
           </Link>
@@ -19,16 +19,16 @@ export default function AlgorithmicCryptoTradingPost() {
             What Is Algorithmic Crypto Trading? Complete Guide
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 pb-6 border-b">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col lg:flex-row-wrap items-center gap-4 text-sm text-gray-600 pb-6 border-b">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               <User className="w-4 h-4" />
               <span>Sarah Chen</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               <Calendar className="w-4 h-4" />
               <span>January 15, 2024</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               <Clock className="w-4 h-4" />
               <span>8 min read</span>
             </div>
@@ -138,7 +138,7 @@ export default function AlgorithmicCryptoTradingPost() {
         <div className="mt-12 p-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg text-white text-center">
           <h3 className="text-2xl font-bold mb-4">Start Your Trading Journey</h3>
           <p className="mb-6 max-w-2xl mx-auto">Join thousands of traders using algorithmic strategies to navigate cryptocurrency markets with discipline and precision.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex flex-col lg:flex-row-row gap-4 justify-center">
             <Button variant="outline" className="bg-white text-blue-600 hover:bg-gray-100" asChild>
               <Link href="/risk-disclosure">View Risk Details</Link>
             </Button>

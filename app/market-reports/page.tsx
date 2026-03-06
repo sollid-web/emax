@@ -100,11 +100,11 @@ export default function MarketReportsPage() {
         <div className="grid gap-6 mb-16">
           {reports.map((report, index) => (
             <div key={index} className="bg-white border rounded-lg p-8 hover:shadow-lg transition">
-              <div className="flex items-start justify-between mb-4">
+              <div className="flex flex-col lg:flex-row items-start justify-between mb-4">
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">{report.title}</h3>
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
-                    <div className="flex items-center gap-1">
+                  <div className="flex flex-col lg:flex-row items-center gap-4 text-sm text-gray-600">
+                    <div className="flex flex-col lg:flex-row items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       {report.date}
                     </div>
@@ -122,7 +122,7 @@ export default function MarketReportsPage() {
                 <p className="text-sm font-semibold text-gray-600 mb-2">Key Sections:</p>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {report.highlights.map((highlight, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                    <li key={i} className="flex flex-col lg:flex-row items-start gap-2 text-sm text-gray-600">
                       <span className="text-blue-600 mt-1">•</span>
                       {highlight}
                     </li>
@@ -130,7 +130,7 @@ export default function MarketReportsPage() {
                 </ul>
               </div>
 
-              <a href="#download" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">
+              <a href="#download" className="inline-flex flex-col lg:flex-row items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">
                 <Download className="w-4 h-4" />
                 Download PDF
               </a>
@@ -163,11 +163,11 @@ export default function MarketReportsPage() {
           <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
             Subscribe to receive new research reports, market analysis, and trading insights directly to your email.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+          <div className="flex flex-col sm:flex flex-col lg:flex-row-row gap-4 justify-center max-w-md mx-auto">
             <input 
               type="email" 
               placeholder="Enter your email" 
-              className="px-4 py-3 rounded-lg text-gray-900 flex-1"
+              className="px-4 py-3 rounded-lg text-gray-900 flex flex-col lg:flex-row-1"
             />
             <button className="px-6 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition font-semibold">
               Subscribe

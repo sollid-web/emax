@@ -162,7 +162,7 @@ export default function KYCApprovalsPage() {
                       }`}
                       onClick={() => setSelectedKYC(submission)}
                     >
-                      <div className="flex-1">
+                      <div className="flex flex-col lg:flex-row-1">
                         <p className="font-medium text-white">{submission.firstName} {submission.lastName}</p>
                         <p className="text-sm text-gray-400">{submission.userEmail}</p>
                         <p className="text-xs text-gray-500 mt-1">
@@ -212,17 +212,17 @@ export default function KYCApprovalsPage() {
                     disabled={submitting}
                   />
 
-                  <div className="flex gap-2">
+                  <div className="flex flex-col lg:flex-row gap-2">
                     <Button
                       onClick={() => approveKYC(selectedKYC.id)}
-                      className="flex-1 bg-green-600 hover:bg-green-700"
+                      className="flex flex-col lg:flex-row-1 bg-green-600 hover:bg-green-700"
                       disabled={submitting}
                     >
                       {submitting ? 'Processing...' : 'Approve'}
                     </Button>
                     <Button
                       onClick={() => rejectKYC(selectedKYC.id)}
-                      className="flex-1 bg-red-600 hover:bg-red-700"
+                      className="flex flex-col lg:flex-row-1 bg-red-600 hover:bg-red-700"
                       disabled={submitting}
                     >
                       {submitting ? 'Processing...' : 'Reject'}

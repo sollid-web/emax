@@ -160,7 +160,7 @@ export default function WithdrawalsPage() {
             {/* Withdrawal Type */}
             <div>
               <Label className="text-gray-300 mb-3 block">Withdrawal Type</Label>
-              <div className="flex gap-4">
+              <div className="flex flex-col lg:flex-row gap-4">
                 {['profit', 'capital'].map((type) => (
                   <button
                     key={type}
@@ -273,9 +273,9 @@ export default function WithdrawalsPage() {
             <div className="space-y-4">
               {withdrawals.map((withdrawal) => (
                 <div key={withdrawal.id} className="p-4 bg-gray-800 rounded-lg border border-gray-700">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
+                  <div className="flex flex-col lg:flex-row items-start justify-between">
+                    <div className="flex flex-col lg:flex-row-1">
+                      <div className="flex flex-col lg:flex-row items-center gap-3 mb-2">
                         <span className="text-2xl">{CRYPTO_CURRENCIES.find((c) => c.code === withdrawal.currency)?.icon}</span>
                         <div>
                           <p className="text-white font-semibold">

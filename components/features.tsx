@@ -23,7 +23,7 @@ export function Features() {
               </Link>
             </Button>
           </div>
-          <div className="flex justify-center">
+          <div className="flex flex-col lg:flex-row justify-center">
             <div className="relative">
               <Image
                 src="/illustrations/trading-chart.png"
@@ -38,7 +38,7 @@ export function Features() {
 
         {/* Affiliate Program Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="order-2 lg:order-1 flex justify-center">
+          <div className="order-2 lg:order-1 flex flex-col lg:flex-row justify-center">
             <div className="relative">
               <Image
                 src="/illustrations/digital-wallet.png"

@@ -70,7 +70,7 @@ export default function TeamPage() {
               <p className="text-gray-600 text-sm mb-4">{member.bio}</p>
               <div className="mb-4">
                 <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Expertise</p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-col lg:flex-row-wrap gap-2">
                   {member.expertise.map((skill, i) => (
                     <span key={i} className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">
                       {skill}

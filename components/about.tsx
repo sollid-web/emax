@@ -26,7 +26,7 @@ export function About() {
         </div>
 
         {/* Decorative circles */}
-        <div className="flex justify-center space-x-4 mt-12">
+        <div className="flex flex-col lg:flex-row justify-center space-x-4 mt-12">
           {[...Array(6)].map((_, i) => (
             <div
               key={i}

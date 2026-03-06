@@ -7,12 +7,11 @@ import { supabase } from '@/lib/supabase-client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { TrendingUp, Wallet, CreditCard, Send, ArrowUpRight, ArrowDownLeft } from 'lucide-react'
-import type { Portfolio } from '@/types/auth'
 
 export default function DashboardPage() {
   const router = useRouter()
   const { user } = useAuth()
-  const [portfolio, setPortfolio] = useState<Portfolio | null>(null)
+  const [portfolio, setPortfolio] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -44,7 +43,7 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-gray-400">Loading portfolio...</p>
@@ -63,7 +62,7 @@ export default function DashboardPage() {
           {/* Total Invested */}
           <Card className="bg-gray-900 border-gray-800">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-400 flex items-center gap-2">
+              <CardTitle className="text-sm font-medium text-gray-400 flex flex-col lg:flex-row items-center gap-2">
                 <Wallet size={16} />
                 Total Invested
               </CardTitle>
@@ -79,7 +78,7 @@ export default function DashboardPage() {
           {/* Current Balance */}
           <Card className="bg-gray-900 border-gray-800">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-400 flex items-center gap-2">
+              <CardTitle className="text-sm font-medium text-gray-400 flex flex-col lg:flex-row items-center gap-2">
                 <CreditCard size={16} />
                 Current Balance
               </CardTitle>
@@ -95,7 +94,7 @@ export default function DashboardPage() {
           {/* Total Profit */}
           <Card className="bg-gray-900 border-gray-800">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-green-400 flex items-center gap-2">
+              <CardTitle className="text-sm font-medium text-green-400 flex flex-col lg:flex-row items-center gap-2">
                 <ArrowUpRight size={16} />
                 Total Profit
               </CardTitle>
@@ -111,7 +110,7 @@ export default function DashboardPage() {
           {/* Profit Percentage */}
           <Card className="bg-gray-900 border-gray-800">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-400 flex items-center gap-2">
+              <CardTitle className="text-sm font-medium text-gray-400 flex flex-col lg:flex-row items-center gap-2">
                 <TrendingUp size={16} />
                 ROI
               </CardTitle>

@@ -82,7 +82,7 @@ export default function DashboardPlansPage() {
             )}
 
             <CardHeader className={plan.popular ? 'pt-12' : ''}>
-              <div className="flex items-start justify-between mb-4">
+              <div className="flex flex-col lg:flex-row items-start justify-between mb-4">
                 <div>
                   <CardTitle className="text-2xl text-white mb-1">{plan.name}</CardTitle>
                   <CardDescription className="text-gray-400">{plan.subtitle}</CardDescription>
@@ -90,15 +90,15 @@ export default function DashboardPlansPage() {
               </div>
 
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col lg:flex-row items-center justify-between">
                   <span className="text-gray-400">Daily ROI:</span>
                   <span className="text-lg font-bold text-green-400">{plan.dailyROI}</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col lg:flex-row items-center justify-between">
                   <span className="text-gray-400">Min Deposit:</span>
                   <span className="text-white font-semibold">{plan.minDeposit}</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col lg:flex-row items-center justify-between">
                   <span className="text-gray-400">Max Deposit:</span>
                   <span className="text-white font-semibold">{plan.maxDeposit}</span>
                 </div>
@@ -108,11 +108,11 @@ export default function DashboardPlansPage() {
             <CardContent className="space-y-6">
               <div className="space-y-2 p-3 bg-gray-800 rounded">
                 <p className="text-sm text-gray-400 font-semibold">Withdrawal Timeline</p>
-                <div className="flex items-center gap-2 text-sm">
+                <div className="flex flex-col lg:flex-row items-center gap-2 text-sm">
                   <Clock size={16} className="text-blue-400" />
                   <span className="text-gray-300">Profit: {plan.profitWithdrawal}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm">
+                <div className="flex flex-col lg:flex-row items-center gap-2 text-sm">
                   <Clock size={16} className="text-blue-400" />
                   <span className="text-gray-300">Capital: {plan.capitalWithdrawal}</span>
                 </div>
@@ -121,8 +121,8 @@ export default function DashboardPlansPage() {
               <div className="space-y-3">
                 <p className="text-sm text-gray-400 font-semibold">Plan Features</p>
                 {plan.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-start gap-2">
-                    <CheckCircle size={16} className="text-green-400 mt-0.5 flex-shrink-0" />
+                  <div key={idx} className="flex flex-col lg:flex-row items-start gap-2">
+                    <CheckCircle size={16} className="text-green-400 mt-0.5 flex flex-col lg:flex-row-shrink-0" />
                     <span className="text-gray-300 text-sm">{feature}</span>
                   </div>
                 ))}
@@ -147,29 +147,29 @@ export default function DashboardPlansPage() {
       {/* Plan Comparison Info */}
       <Card className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30">
         <CardHeader>
-          <CardTitle className="text-white flex items-center gap-2">
+          <CardTitle className="text-white flex flex-col lg:flex-row items-center gap-2">
             <Shield size={20} />
             Why Choose Emax Protocol?
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex gap-3">
-              <TrendingUp size={20} className="text-green-400 flex-shrink-0" />
+            <div className="flex flex-col lg:flex-row gap-3">
+              <TrendingUp size={20} className="text-green-400 flex flex-col lg:flex-row-shrink-0" />
               <div>
                 <p className="font-semibold text-white">Consistent Returns</p>
                 <p className="text-sm text-gray-400">Daily profits with transparent reporting</p>
               </div>
             </div>
-            <div className="flex gap-3">
-              <Zap size={20} className="text-yellow-400 flex-shrink-0" />
+            <div className="flex flex-col lg:flex-row gap-3">
+              <Zap size={20} className="text-yellow-400 flex flex-col lg:flex-row-shrink-0" />
               <div>
                 <p className="font-semibold text-white">Fast Withdrawals</p>
                 <p className="text-sm text-gray-400">Get your profits within 24 hours</p>
               </div>
             </div>
-            <div className="flex gap-3">
-              <Shield size={20} className="text-blue-400 flex-shrink-0" />
+            <div className="flex flex-col lg:flex-row gap-3">
+              <Shield size={20} className="text-blue-400 flex flex-col lg:flex-row-shrink-0" />
               <div>
                 <p className="font-semibold text-white">Secure Platform</p>
                 <p className="text-sm text-gray-400">Your funds are protected with advanced security</p>

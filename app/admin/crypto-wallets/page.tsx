@@ -104,7 +104,7 @@ export default function AdminCryptoWalletsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex flex-col lg:flex-row items-center justify-center h-64">
         <p className="text-gray-400">Loading wallets...</p>
       </div>
     )
@@ -124,7 +124,7 @@ export default function AdminCryptoWalletsPage() {
           ? 'border-green-500 bg-green-500/10'
           : 'border-red-500 bg-red-500/10'
         }>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col lg:flex-row items-center gap-2">
             {message.type === 'success'
               ? <CheckCircle className="w-4 h-4 text-green-400" />
               : <AlertCircle className="w-4 h-4 text-red-400" />
@@ -149,15 +149,15 @@ export default function AdminCryptoWalletsPage() {
         {wallets.map((wallet) => (
           <Card key={wallet.id} className="border-gray-700 bg-gray-900">
             <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-col lg:flex-row items-center justify-between">
+                <div className="flex flex-col lg:flex-row items-center gap-3">
                   {cryptoIcons[wallet.currency]}
                   <div>
                     <CardTitle className="text-white text-lg">{wallet.currency}</CardTitle>
                     <CardDescription>{wallet.network}</CardDescription>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col lg:flex-row items-center gap-2">
                   <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                     wallet.is_active
                       ? 'bg-green-500/20 text-green-400'
@@ -203,7 +203,7 @@ export default function AdminCryptoWalletsPage() {
                     />
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-col lg:flex-row items-center gap-3">
                     <input
                       type="checkbox"
                       id={`active-${wallet.id}`}
@@ -216,11 +216,11 @@ export default function AdminCryptoWalletsPage() {
                     </Label>
                   </div>
 
-                  <div className="flex gap-3 pt-2">
+                  <div className="flex flex-col lg:flex-row gap-3 pt-2">
                     <Button
                       onClick={() => saveWallet(wallet.currency)}
                       disabled={saving}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                      className="flex flex-col lg:flex-row-1 bg-green-600 hover:bg-green-700 text-white"
                     >
                       <Save className="w-4 h-4 mr-2" />
                       {saving ? 'Saving...' : 'Save Changes'}
@@ -229,7 +229,7 @@ export default function AdminCryptoWalletsPage() {
                       onClick={cancelEdit}
                       disabled={saving}
                       variant="outline"
-                      className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-800"
+                      className="flex flex-col lg:flex-row-1 border-gray-600 text-gray-300 hover:bg-gray-800"
                     >
                       <X className="w-4 h-4 mr-2" />
                       Cancel

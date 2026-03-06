@@ -70,27 +70,27 @@ export default function TradingPlansPreview() {
 
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col lg:flex-row items-center justify-between">
                     <span className="text-gray-600">Min Deposit:</span>
                     <span className="font-semibold">{plan.minDeposit}</span>
                   </div>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col lg:flex-row items-center justify-between">
                     <span className="text-gray-600">Max Deposit:</span>
                     <span className="font-semibold">{plan.maxDeposit}</span>
                   </div>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col lg:flex-row items-center justify-between">
                     <span className="text-gray-600">Daily ROI:</span>
                     <span className="font-semibold text-green-600">{plan.dailyROI}</span>
                   </div>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col lg:flex-row items-center justify-between">
                     <span className="text-gray-600">Profit Withdrawal:</span>
                     <span className="font-semibold">{plan.profitWithdrawal}</span>
                   </div>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col lg:flex-row items-center justify-between">
                     <span className="text-gray-600">Capital Withdrawal:</span>
                     <span className="font-semibold">{plan.capitalWithdrawal}</span>
                   </div>

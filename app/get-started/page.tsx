@@ -145,9 +145,9 @@ export default function GetStartedPage() {
       <section className="py-8 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col lg:flex-row items-center justify-between">
               {steps.map((step, index) => (
-                <div key={step.id} className="flex items-center">
+                <div key={step.id} className="flex flex-col lg:flex-row items-center">
                   <div
                     className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold ${
                       activeStep >= step.id ? "bg-blue-600" : "bg-gray-300"
@@ -184,7 +184,7 @@ export default function GetStartedPage() {
                         onClick={() => setActiveStep(step.id)}
                       >
                         <CardContent className="p-4">
-                          <div className="flex items-center space-x-3">
+                          <div className="flex flex-col lg:flex-row items-center space-x-3">
                             <step.icon
                               className={`w-6 h-6 ${activeStep === step.id ? "text-blue-600" : "text-gray-400"}`}
                             />
@@ -194,7 +194,7 @@ export default function GetStartedPage() {
                               >
                                 {step.title}
                               </h4>
-                              <div className="flex items-center text-sm text-gray-500 mt-1">
+                              <div className="flex flex-col lg:flex-row items-center text-sm text-gray-500 mt-1">
                                 <Clock className="w-3 h-3 mr-1" />
                                 {step.duration}
                               </div>
@@ -213,8 +213,8 @@ export default function GetStartedPage() {
                   <div key={step.id} className={activeStep === step.id ? "block" : "hidden"}>
                     <Card className="mb-8">
                       <CardHeader>
-                        <div className="flex items-center space-x-4">
-                          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                        <div className="flex flex-col lg:flex-row items-center space-x-4">
+                          <div className="w-16 h-16 bg-blue-100 rounded-full flex flex-col lg:flex-row items-center justify-center">
                             <step.icon className="w-8 h-8 text-blue-600" />
                           </div>
                           <div>
@@ -230,8 +230,8 @@ export default function GetStartedPage() {
                           <h4 className="font-semibold text-gray-900 mb-3">What you'll need:</h4>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {step.requirements.map((req, index) => (
-                              <div key={index} className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
+                              <div key={index} className="flex flex-col lg:flex-row items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-600 flex flex-col lg:flex-row-shrink-0" />
                                 <span className="text-gray-600">{req}</span>
                               </div>
                             ))}
@@ -245,8 +245,8 @@ export default function GetStartedPage() {
 
                         {step.id === 1 && (
                           <div className="bg-blue-50 p-4 rounded-lg">
-                            <div className="flex items-start space-x-3">
-                              <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                            <div className="flex flex-col lg:flex-row items-start space-x-3">
+                              <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5 flex flex-col lg:flex-row-shrink-0" />
                               <div>
                                 <h5 className="font-semibold text-blue-900 mb-1">Important Note</h5>
                                 <p className="text-blue-800 text-sm">
@@ -260,8 +260,8 @@ export default function GetStartedPage() {
 
                         {step.id === 2 && (
                           <div className="bg-yellow-50 p-4 rounded-lg">
-                            <div className="flex items-start space-x-3">
-                              <Shield className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+                            <div className="flex flex-col lg:flex-row items-start space-x-3">
+                              <Shield className="w-5 h-5 text-yellow-600 mt-0.5 flex flex-col lg:flex-row-shrink-0" />
                               <div>
                                 <h5 className="font-semibold text-yellow-900 mb-1">Security Tip</h5>
                                 <p className="text-yellow-800 text-sm">
@@ -273,8 +273,8 @@ export default function GetStartedPage() {
                           </div>
                         )}
 
-                        <div className="flex justify-between items-center pt-4">
-                          <div className="flex items-center space-x-2">
+                        <div className="flex flex-col lg:flex-row justify-between items-center pt-4">
+                          <div className="flex flex-col lg:flex-row items-center space-x-2">
                             <Clock className="w-4 h-4 text-gray-400" />
                             <span className="text-sm text-gray-500">Estimated time: {step.duration}</span>
                           </div>
@@ -372,7 +372,7 @@ export default function GetStartedPage() {
                   <CardContent className="p-0">
                     <button
                       onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                      className="w-full p-6 text-left hover:bg-gray-50 transition-colors flex items-center justify-between"
+                      className="w-full p-6 text-left hover:bg-gray-50 transition-colors flex flex-col lg:flex-row items-center justify-between"
                     >
                       <h3 className="text-lg font-semibold text-gray-900 pr-4">{faq.question}</h3>
                       <ArrowRight
@@ -402,7 +402,7 @@ export default function GetStartedPage() {
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Join our platform today and start earning daily returns on your cryptocurrency investments.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex flex-col lg:flex-row-row gap-4 justify-center">
             <Button size="lg" variant="secondary" asChild>
               <Link href="/signup">
                 Create Account Now <ArrowRight className="w-4 h-4 ml-2" />

@@ -81,16 +81,16 @@ export default function TradingPlansPage() {
             Choose from our professionally managed investment plans designed to maximize your returns while minimizing
             risk through advanced trading algorithms and market analysis.
           </p>
-          <div className="flex justify-center space-x-8 text-sm text-gray-600">
-            <div className="flex items-center">
+          <div className="flex flex-col lg:flex-row justify-center space-x-8 text-sm text-gray-600">
+            <div className="flex flex-col lg:flex-row items-center">
               <Shield className="w-5 h-5 mr-2 text-green-500" />
               Secure & Regulated
             </div>
-            <div className="flex items-center">
+            <div className="flex flex-col lg:flex-row items-center">
               <TrendingUp className="w-5 h-5 mr-2 text-blue-500" />
               Guaranteed Returns
             </div>
-            <div className="flex items-center">
+            <div className="flex flex-col lg:flex-row items-center">
               <Zap className="w-5 h-5 mr-2 text-purple-500" />
               Fast Withdrawals
             </div>
@@ -122,22 +122,22 @@ export default function TradingPlansPage() {
 
                 <CardContent className="p-6">
                   <div className="space-y-4 mb-6">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col lg:flex-row items-center justify-between">
                       <span className="text-gray-600">Min Deposit:</span>
                       <span className="font-semibold">{plan.minDeposit}</span>
                     </div>
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col lg:flex-row items-center justify-between">
                       <span className="text-gray-600">Max Deposit:</span>
                       <span className="font-semibold">{plan.maxDeposit}</span>
                     </div>
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col lg:flex-row items-center justify-between">
                       <span className="text-gray-600">Profit Withdrawal:</span>
                       <span className="font-semibold">{plan.profitWithdrawal}</span>
                     </div>
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col lg:flex-row items-center justify-between">
                       <span className="text-gray-600">Capital Withdrawal:</span>
                       <span className="font-semibold">{plan.capitalWithdrawal}</span>
                     </div>
@@ -147,8 +147,8 @@ export default function TradingPlansPage() {
                     <h4 className="font-semibold text-gray-900 mb-3">Features Included:</h4>
                     <ul className="space-y-2">
                       {plan.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center text-sm text-gray-600">
-                          <CheckCircle className="w-4 h-4 mr-2 text-green-500 flex-shrink-0" />
+                        <li key={featureIndex} className="flex flex-col lg:flex-row items-center text-sm text-gray-600">
+                          <CheckCircle className="w-4 h-4 mr-2 text-green-500 flex flex-col lg:flex-row-shrink-0" />
                           {feature}
                         </li>
                       ))}
@@ -171,7 +171,7 @@ export default function TradingPlansPage() {
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Why Choose Our Trading Plans?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex flex-col lg:flex-row items-center justify-center mx-auto mb-4">
                 <TrendingUp className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Guaranteed Returns</h3>
@@ -180,14 +180,14 @@ export default function TradingPlansPage() {
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex flex-col lg:flex-row items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8 text-green-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Secure Platform</h3>
               <p className="text-gray-600">Your investments are protected by bank-level security and insurance.</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex flex-col lg:flex-row items-center justify-center mx-auto mb-4">
                 <Clock className="w-8 h-8 text-purple-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Fast Withdrawals</h3>

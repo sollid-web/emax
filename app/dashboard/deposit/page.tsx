@@ -151,7 +151,7 @@ export default function DepositPage() {
                 : 'border-gray-700 bg-gray-800 hover:border-gray-600'
             }`}
           >
-            <div className="flex justify-center mb-3">{cryptoIcons[currency]}</div>
+            <div className="flex flex-col lg:flex-row justify-center mb-3">{cryptoIcons[currency]}</div>
             <p className="font-bold text-white text-lg">{currency}</p>
             <p className="text-gray-400 text-sm">
               {currency === 'BTC' && 'Bitcoin'}
@@ -176,8 +176,8 @@ export default function DepositPage() {
                 <Label className="text-gray-300">
                   Wallet Address ({selectedWallet.network})
                 </Label>
-                <div className="flex gap-2">
-                  <div className="flex-1 p-3 bg-gray-800 rounded border border-gray-700 break-all">
+                <div className="flex flex-col lg:flex-row gap-2">
+                  <div className="flex flex-col lg:flex-row-1 p-3 bg-gray-800 rounded border border-gray-700 break-all">
                     <code className="text-blue-400 text-sm">{selectedWallet.wallet_address}</code>
                   </div>
                   <Button
@@ -270,26 +270,49 @@ export default function DepositPage() {
         <CardContent>
           {loading ? (
             <p className="text-gray-400 text-center py-8">Loading...</p>
+          ) : depositHistory.length === 0 ? (
+            <p className="text-gray-400 text-center py-8">No deposit history yet</p>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="border-b border-gray-700">
-                  <tr>
-                    <th className="text-left py-3 px-2 text-gray-300">Amount</th>
-                    <th className="text-left py-3 px-2 text-gray-300">Currency</th>
-                    <th className="text-left py-3 px-2 text-gray-300">Date</th>
-                    <th className="text-left py-3 px-2 text-gray-300">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {depositHistory.length === 0 ? (
+            <>
+              {/* Mobile Cards */}
+              <div className="block lg:hidden space-y-4">
+                {depositHistory.map(deposit => (
+                  <Card key={deposit.id} className="border-gray-700 bg-gray-800">
+                    <CardContent className="p-4">
+                      <div className="flex flex-col lg:flex-row justify-between items-start space-y-2 lg:space-y-0">
+                        <div>
+                          <p className="text-white font-semibold">{deposit.amount} {deposit.currency}</p>
+                          <p className="text-gray-400 text-sm">
+                            {new Date(deposit.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold self-start lg:self-center ${
+                          deposit.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                          deposit.status === 'approved'  ? 'bg-blue-500/20 text-blue-400' :
+                          deposit.status === 'pending'   ? 'bg-yellow-500/20 text-yellow-400' :
+                                                           'bg-red-500/20 text-red-400'
+                        }`}>
+                          {deposit.status.charAt(0).toUpperCase() + deposit.status.slice(1)}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Desktop Table */}
+              <div className="hidden lg:block overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="border-b border-gray-700">
                     <tr>
-                      <td colSpan={4} className="py-8 text-center text-gray-400">
-                        No deposit history yet
-                      </td>
+                      <th className="text-left py-3 px-2 text-gray-300">Amount</th>
+                      <th className="text-left py-3 px-2 text-gray-300">Currency</th>
+                      <th className="text-left py-3 px-2 text-gray-300">Date</th>
+                      <th className="text-left py-3 px-2 text-gray-300">Status</th>
                     </tr>
-                  ) : (
-                    depositHistory.map(deposit => (
+                  </thead>
+                  <tbody>
+                    {depositHistory.map(deposit => (
                       <tr key={deposit.id} className="border-b border-gray-800">
                         <td className="py-3 px-2 text-white">{deposit.amount}</td>
                         <td className="py-3 px-2 text-gray-300">{deposit.currency}</td>
@@ -307,11 +330,11 @@ export default function DepositPage() {
                           </span>
                         </td>
                       </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

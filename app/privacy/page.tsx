@@ -493,7 +493,7 @@ export default function PrivacyPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center mb-6">
+          <div className="flex flex-col lg:flex-row items-center justify-center mb-6">
             <Shield className="w-12 h-12 mr-4" />
             <h1 className="text-4xl lg:text-5xl font-bold">Privacy Policy</h1>
           </div>
@@ -502,7 +502,7 @@ export default function PrivacyPage() {
             Your privacy is important to us. This policy explains how we collect, use, and protect your personal
             information in compliance with UK GDPR and data protection laws.
           </p>
-          <div className="flex items-center justify-center space-x-4 text-sm">
+          <div className="flex flex-col lg:flex-row items-center justify-center space-x-4 text-sm">
             <Badge className="bg-green-600 text-white">Last Updated: January 15, 2025</Badge>
             <Badge className="bg-blue-600 text-white">GDPR Compliant</Badge>
             <Badge className="bg-purple-600 text-white">Version 2.1</Badge>
@@ -514,8 +514,8 @@ export default function PrivacyPage() {
       <section className="py-8 bg-gray-50 border-b">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center space-x-4">
+            <div className="flex flex-col lg:flex-row-wrap items-center justify-between gap-4">
+              <div className="flex flex-col lg:flex-row items-center space-x-4">
                 <span className="text-sm font-medium text-gray-700">Quick Actions:</span>
                 <Button onClick={expandAll} variant="outline" size="sm">
                   Expand All
@@ -524,7 +524,7 @@ export default function PrivacyPage() {
                   Collapse All
                 </Button>
               </div>
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col lg:flex-row items-center space-x-4">
                 <Button variant="outline" size="sm">
                   <FileText className="w-4 h-4 mr-2" />
                   Download PDF
@@ -595,8 +595,8 @@ export default function PrivacyPage() {
                   }}
                 >
                   <CardContent className="p-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="flex-shrink-0 text-blue-600">{section.icon}</div>
+                    <div className="flex flex-col lg:flex-row items-center space-x-3">
+                      <div className="flex flex-col lg:flex-row-shrink-0 text-blue-600">{section.icon}</div>
                       <div>
                         <div className="text-sm font-medium text-gray-900">
                           {index + 1}. {section.title}
@@ -623,16 +623,16 @@ export default function PrivacyPage() {
                     onClick={() => toggleSection(section.id)}
                   >
                     <CardContent className="p-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          <div className="flex-shrink-0 text-blue-600">{section.icon}</div>
+                      <div className="flex flex-col lg:flex-row items-center justify-between">
+                        <div className="flex flex-col lg:flex-row items-center space-x-4">
+                          <div className="flex flex-col lg:flex-row-shrink-0 text-blue-600">{section.icon}</div>
                           <div>
                             <h3 className="text-xl font-bold text-gray-900">
                               {index + 1}. {section.title}
                             </h3>
                           </div>
                         </div>
-                        <div className="flex-shrink-0">
+                        <div className="flex flex-col lg:flex-row-shrink-0">
                           {expandedSections.has(section.id) ? (
                             <ChevronUp className="w-5 h-5 text-gray-500" />
                           ) : (
@@ -660,33 +660,49 @@ export default function PrivacyPage() {
                                   <h4 className="text-lg font-semibold text-gray-900 mb-3">{subsection.title}</h4>
 
                                   {subsection.table ? (
-                                    <div className="overflow-x-auto">
-                                      <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-                                        <thead className="bg-gray-50">
-                                          <tr>
+                                    <>
+                                      {/* Mobile Cards */}
+                                      <div className="block lg:hidden space-y-4">
+                                        {subsection.table.rows.map((row, rowIndex) => (
+                                          <div key={rowIndex} className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                                             {subsection.table.headers.map((header, headerIndex) => (
-                                              <th
-                                                key={headerIndex}
-                                                className="px-4 py-3 text-left text-sm font-medium text-gray-900 border-b"
-                                              >
-                                                {header}
-                                              </th>
+                                              <div key={headerIndex} className="mb-2 last:mb-0">
+                                                <strong className="text-gray-900">{header}:</strong> {row[headerIndex]}
+                                              </div>
                                             ))}
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          {subsection.table.rows.map((row, rowIndex) => (
-                                            <tr key={rowIndex} className="border-b border-gray-100">
-                                              {row.map((cell, cellIndex) => (
-                                                <td key={cellIndex} className="px-4 py-3 text-sm text-gray-700">
-                                                  {cell}
-                                                </td>
+                                          </div>
+                                        ))}
+                                      </div>
+
+                                      {/* Desktop Table */}
+                                      <div className="hidden lg:block overflow-x-auto">
+                                        <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                                          <thead className="bg-gray-50">
+                                            <tr>
+                                              {subsection.table.headers.map((header, headerIndex) => (
+                                                <th
+                                                  key={headerIndex}
+                                                  className="px-4 py-3 text-left text-sm font-medium text-gray-900 border-b"
+                                                >
+                                                  {header}
+                                                </th>
                                               ))}
                                             </tr>
-                                          ))}
-                                        </tbody>
-                                      </table>
-                                    </div>
+                                          </thead>
+                                          <tbody>
+                                            {subsection.table.rows.map((row, rowIndex) => (
+                                              <tr key={rowIndex} className="border-b border-gray-100">
+                                                {row.map((cell, cellIndex) => (
+                                                  <td key={cellIndex} className="px-4 py-3 text-sm text-gray-700">
+                                                    {cell}
+                                                  </td>
+                                                ))}
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </>
                                   ) : (
                                     <div className="space-y-2">
                                       {subsection.content.map((item, itemIndex) => (

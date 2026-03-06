@@ -83,7 +83,7 @@ export default function ContactPage() {
         <div className="container mx-auto px-4">
           {/* Map Placeholder */}
           <div className="mb-16">
-            <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+            <div className="w-full h-64 bg-gray-200 rounded-lg flex flex-col lg:flex-row items-center justify-center">
               <div className="text-center text-gray-500">
                 <MapPin className="w-12 h-12 mx-auto mb-2" />
                 <p>Interactive Map</p>
@@ -100,8 +100,8 @@ export default function ContactPage() {
                   <CardTitle className="text-2xl font-bold">Get in Touch</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <MapPin className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+                  <div className="flex flex-col lg:flex-row items-start space-x-4">
+                    <MapPin className="w-6 h-6 text-blue-600 mt-1 flex flex-col lg:flex-row-shrink-0" />
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Address</h4>
                       <p className="text-gray-600">
@@ -112,8 +112,8 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-4">
-                    <Mail className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+                  <div className="flex flex-col lg:flex-row items-start space-x-4">
+                    <Mail className="w-6 h-6 text-blue-600 mt-1 flex flex-col lg:flex-row-shrink-0" />
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
                       <a href="mailto:info@emaxprotocol.com" className="text-blue-600 hover:underline">
@@ -122,8 +122,8 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-4">
-                    <Phone className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+                  <div className="flex flex-col lg:flex-row items-start space-x-4">
+                    <Phone className="w-6 h-6 text-blue-600 mt-1 flex flex-col lg:flex-row-shrink-0" />
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Phone</h4>
                       <a href="tel:+11223333444" className="text-blue-600 hover:underline">
@@ -132,8 +132,8 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-4">
-                    <Clock className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+                  <div className="flex flex-col lg:flex-row items-start space-x-4">
+                    <Clock className="w-6 h-6 text-blue-600 mt-1 flex flex-col lg:flex-row-shrink-0" />
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Support Hours</h4>
                       <p className="text-gray-600">24/7 Customer Support</p>
@@ -147,19 +147,19 @@ export default function ContactPage() {
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold mb-4">Why Contact Us?</h3>
                   <ul className="space-y-3 text-gray-600">
-                    <li className="flex items-center">
+                    <li className="flex flex-col lg:flex-row items-center">
                       <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
                       Technical support and consultation
                     </li>
-                    <li className="flex items-center">
+                    <li className="flex flex-col lg:flex-row items-center">
                       <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
                       Account assistance and guidance
                     </li>
-                    <li className="flex items-center">
+                    <li className="flex flex-col lg:flex-row items-center">
                       <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
                       Investment strategy consultation
                     </li>
-                    <li className="flex items-center">
+                    <li className="flex flex-col lg:flex-row items-center">
                       <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
                       Partnership and affiliate inquiries
                     </li>
@@ -177,7 +177,7 @@ export default function ContactPage() {
                 <CardContent>
                   {isSuccess ? (
                     <div className="text-center py-8">
-                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex flex-col lg:flex-row items-center justify-center mx-auto mb-4">
                         <Send className="w-8 h-8 text-green-600" />
                       </div>
                       <h3 className="text-xl font-semibold text-gray-900 mb-2">Message Sent!</h3>

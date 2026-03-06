@@ -133,10 +133,10 @@ export default function NewsPage() {
                       <Badge className="bg-green-600 text-white">{featuredArticle.category}</Badge>
                     </div>
                   </div>
-                  <CardContent className="p-8 flex flex-col justify-center">
+                  <CardContent className="p-8 flex flex-col lg:flex-row-col justify-center">
                     <h3 className="text-2xl font-bold text-gray-900 mb-4">{featuredArticle.title}</h3>
                     <p className="text-gray-600 mb-6 leading-relaxed">{featuredArticle.excerpt}</p>
-                    <div className="flex items-center text-sm text-gray-500 mb-6">
+                    <div className="flex flex-col lg:flex-row items-center text-sm text-gray-500 mb-6">
                       <Calendar className="w-4 h-4 mr-2" />
                       <span className="mr-4">{new Date(featuredArticle.date).toLocaleDateString()}</span>
                       <User className="w-4 h-4 mr-2" />
@@ -176,7 +176,7 @@ export default function NewsPage() {
                   <CardContent className="p-6">
                     <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">{article.title}</h3>
                     <p className="text-gray-600 mb-4 text-sm line-clamp-3">{article.excerpt}</p>
-                    <div className="flex items-center text-xs text-gray-500 mb-4">
+                    <div className="flex flex-col lg:flex-row items-center text-xs text-gray-500 mb-4">
                       <Calendar className="w-3 h-3 mr-1" />
                       <span className="mr-3">{new Date(article.date).toLocaleDateString()}</span>
                       <User className="w-3 h-3 mr-1" />
@@ -200,7 +200,7 @@ export default function NewsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Press Releases */}
               <div>
-                <div className="flex items-center mb-8">
+                <div className="flex flex-col lg:flex-row items-center mb-8">
                   <Image src="/icons/file-pdf.svg" alt="Documents" width={32} height={32} className="mr-3" />
                   <h2 className="text-2xl font-bold text-gray-900">Press Releases</h2>
                 </div>
@@ -209,10 +209,10 @@ export default function NewsPage() {
                   {pressReleases.map((release, index) => (
                     <Card key={index} className="hover:shadow-md transition-shadow">
                       <CardContent className="p-6">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
+                        <div className="flex flex-col lg:flex-row items-start justify-between">
+                          <div className="flex flex-col lg:flex-row-1">
                             <h3 className="font-semibold text-gray-900 mb-2">{release.title}</h3>
-                            <div className="flex items-center text-sm text-gray-500 mb-3">
+                            <div className="flex flex-col lg:flex-row items-center text-sm text-gray-500 mb-3">
                               <Calendar className="w-4 h-4 mr-2" />
                               <span className="mr-4">{new Date(release.date).toLocaleDateString()}</span>
                               <Badge variant="outline">{release.type}</Badge>
@@ -232,7 +232,7 @@ export default function NewsPage() {
 
               {/* Company Resources */}
               <div>
-                <div className="flex items-center mb-8">
+                <div className="flex flex-col lg:flex-row items-center mb-8">
                   <Image
                     src="/icons/diploma-certificate.svg"
                     alt="Certificates"
@@ -246,13 +246,13 @@ export default function NewsPage() {
                 <div className="space-y-6">
                   <Card className="hover:shadow-md transition-shadow">
                     <CardContent className="p-6">
-                      <div className="flex items-start space-x-4">
+                      <div className="flex flex-col lg:flex-row items-start space-x-4">
                         <Image
                           src="/icons/trend-up.svg"
                           alt="Performance"
                           width={40}
                           height={40}
-                          className="flex-shrink-0"
+                          className="flex flex-col lg:flex-row-shrink-0"
                         />
                         <div>
                           <h3 className="font-semibold text-gray-900 mb-2">Trading Performance Reports</h3>
@@ -269,13 +269,13 @@ export default function NewsPage() {
 
                   <Card className="hover:shadow-md transition-shadow">
                     <CardContent className="p-6">
-                      <div className="flex items-start space-x-4">
+                      <div className="flex flex-col lg:flex-row items-start space-x-4">
                         <Image
                           src="/icons/job-security.svg"
                           alt="Security"
                           width={40}
                           height={40}
-                          className="flex-shrink-0"
+                          className="flex flex-col lg:flex-row-shrink-0"
                         />
                         <div>
                           <h3 className="font-semibold text-gray-900 mb-2">Security & Compliance</h3>
@@ -292,13 +292,13 @@ export default function NewsPage() {
 
                   <Card className="hover:shadow-md transition-shadow">
                     <CardContent className="p-6">
-                      <div className="flex items-start space-x-4">
+                      <div className="flex flex-col lg:flex-row items-start space-x-4">
                         <Image
                           src="/icons/conversation.svg"
                           alt="Support"
                           width={40}
                           height={40}
-                          className="flex-shrink-0"
+                          className="flex flex-col lg:flex-row-shrink-0"
                         />
                         <div>
                           <h3 className="font-semibold text-gray-900 mb-2">Investor Relations</h3>
@@ -329,11 +329,11 @@ export default function NewsPage() {
             Subscribe to our newsletter and never miss important updates about platform developments and market
             insights.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+          <div className="flex flex-col sm:flex flex-col lg:flex-row-row gap-4 justify-center max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email address"
-              className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+              className="flex flex-col lg:flex-row-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
             />
             <Button variant="secondary" className="px-8">
               Subscribe

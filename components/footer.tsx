@@ -74,10 +74,10 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col lg:flex-row-col justify-between">
             <div>
               <h3 className="text-sm font-semibold mb-4 uppercase tracking-wide text-gray-400">Connect</h3>
-              <div className="flex space-x-4 mb-6">
+              <div className="flex flex-col lg:flex-row space-x-4 mb-6">
                 <a
                   href="https://twitter.com"
                   target="_blank"

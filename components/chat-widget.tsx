@@ -241,7 +241,7 @@ export function ChatWidget() {
         >
           <MessageCircle className="h-6 w-6 text-white" />
           {unreadCount > 0 && (
-            <Badge className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">
+            <Badge className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 text-white text-xs flex flex-col lg:flex-row items-center justify-center">
               {String(unreadCount)}
             </Badge>
           )}
@@ -254,11 +254,11 @@ export function ChatWidget() {
     <div
       className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ${isMinimized ? "h-16" : "h-[600px]"} w-96`}
     >
-      <Card className="h-full flex flex-col shadow-2xl border-blue-200">
+      <Card className="h-full flex flex-col lg:flex-row-col shadow-2xl border-blue-200">
         {/* Header */}
         <CardHeader className="p-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+          <div className="flex flex-col lg:flex-row items-center justify-between">
+            <div className="flex flex-col lg:flex-row items-center space-x-3">
               <div className="relative">
                 <Avatar className="h-10 w-10 border-2 border-white">
                   <AvatarImage src={currentAgent.avatar || "/placeholder.svg"} alt={currentAgent.name} />
@@ -282,7 +282,7 @@ export function ChatWidget() {
               </div>
               <div>
                 <h3 className="font-semibold text-sm">{currentAgent.name}</h3>
-                <div className="flex items-center space-x-1">
+                <div className="flex flex-col lg:flex-row items-center space-x-1">
                   <div
                     className={`h-2 w-2 rounded-full ${
                       chatStatus === "connected"
@@ -298,7 +298,7 @@ export function ChatWidget() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-col lg:flex-row items-center space-x-2">
               <Button
                 variant="ghost"
                 size="sm"
@@ -322,22 +322,22 @@ export function ChatWidget() {
         {!isMinimized && (
           <>
             {/* Status Bar */}
-            <div className="px-4 py-2 bg-blue-50 border-b flex items-center justify-between text-sm">
-              <div className="flex items-center space-x-2">
+            <div className="px-4 py-2 bg-blue-50 border-b flex flex-col lg:flex-row items-center justify-between text-sm">
+              <div className="flex flex-col lg:flex-row items-center space-x-2">
                 <Headphones className="h-4 w-4 text-blue-600" />
                 <span className="text-gray-700">Live Support</span>
                 <Badge variant="outline" className="text-xs">
                   {currentAgent.speciality}
                 </Badge>
               </div>
-              <div className="flex items-center space-x-1">
+              <div className="flex flex-col lg:flex-row items-center space-x-1">
                 <Star className="h-3 w-3 text-yellow-500 fill-current" />
                 <span className="text-gray-600 text-xs">{currentAgent.rating}</span>
               </div>
             </div>
 
             {/* Messages */}
-            <CardContent className="flex-1 p-0 overflow-hidden">
+            <CardContent className="flex flex-col lg:flex-row-1 p-0 overflow-hidden">
               <div className="h-full overflow-y-auto p-4 space-y-4">
                 {messages.map((message) => (
                   <div
@@ -350,7 +350,7 @@ export function ChatWidget() {
                       }`}
                     >
                       {message.sender !== "user" && (
-                        <Avatar className="h-8 w-8 flex-shrink-0">
+                        <Avatar className="h-8 w-8 flex flex-col lg:flex-row-shrink-0">
                           <AvatarImage
                             src={message.sender === "bot" ? "/placeholder.svg?height=32&width=32" : message.agentAvatar}
                             alt={message.sender === "bot" ? "Bot" : message.agentName}
@@ -379,8 +379,8 @@ export function ChatWidget() {
                 ))}
 
                 {isTyping && (
-                  <div className="flex justify-start">
-                    <div className="flex items-center space-x-2">
+                  <div className="flex flex-col lg:flex-row justify-start">
+                    <div className="flex flex-col lg:flex-row items-center space-x-2">
                       <Avatar className="h-8 w-8">
                         <AvatarImage src={currentAgent.avatar || "/placeholder.svg"} alt={currentAgent.name} />
                         <AvatarFallback className="bg-blue-100 text-blue-600">
@@ -388,7 +388,7 @@ export function ChatWidget() {
                         </AvatarFallback>
                       </Avatar>
                       <div className="bg-gray-100 rounded-lg p-3">
-                        <div className="flex space-x-1">
+                        <div className="flex flex-col lg:flex-row space-x-1">
                           <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
                           <div
                             className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
@@ -412,7 +412,7 @@ export function ChatWidget() {
             {messages.length <= 1 && (
               <div className="px-4 py-2 border-t bg-gray-50">
                 <p className="text-xs text-gray-600 mb-2">Quick questions:</p>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-col lg:flex-row-wrap gap-1">
                   {quickReplies.slice(0, 3).map((reply) => (
                     <Button
                       key={reply.id}
@@ -430,7 +430,7 @@ export function ChatWidget() {
 
             {/* Input */}
             <div className="p-4 border-t bg-white">
-              <div className="flex items-center space-x-2">
+              <div className="flex flex-col lg:flex-row items-center space-x-2">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -444,7 +444,7 @@ export function ChatWidget() {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                   placeholder="Type your message..."
-                  className="flex-1"
+                  className="flex flex-col lg:flex-row-1"
                 />
                 <Button
                   onClick={handleSendMessage}
@@ -463,9 +463,9 @@ export function ChatWidget() {
                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
               />
 
-              <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+              <div className="flex flex-col lg:flex-row items-center justify-between mt-2 text-xs text-gray-500">
                 <span>Powered by Emax Protocol Support</span>
-                <div className="flex items-center space-x-2">
+                <div className="flex flex-col lg:flex-row items-center space-x-2">
                   <Phone className="h-3 w-3" />
                   <Mail className="h-3 w-3" />
                   <Clock className="h-3 w-3" />

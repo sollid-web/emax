@@ -29,20 +29,20 @@ const adminItems = [
   { href: '/admin/crypto-wallets', icon: Wallet, label: 'Crypto Wallets' },
 ]
 
-export function DashboardSidebar() {
+export function DashboardSidebar({ onClose }: { onClose?: () => void } = {}) {
   const pathname = usePathname()
   const { user, signOut } = useAuth()
 
   return (
-    <aside className="w-64 bg-gray-900 border-r border-gray-800 p-6 flex flex-col md:flex">
+    <aside className="w-64 bg-gray-900 border-r border-gray-800 p-6 flex flex-col">
       {/* Logo */}
-      <Link href="/dashboard" className="text-2xl font-bold text-white mb-8 flex items-center gap-2">
+      <Link href="/dashboard" className="text-2xl font-bold text-white mb-8 flex flex-col lg:flex-row items-center gap-2">
         <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg" />
         Emax
       </Link>
 
       {/* Main Nav */}
-      <nav className="flex-1 space-y-1 overflow-y-auto">
+      <nav className="flex flex-col lg:flex-row-1 space-y-1 overflow-y-auto">
         <p className="text-xs text-gray-500 uppercase tracking-wider mb-2 px-2">Menu</p>
         {menuItems.map((item) => {
           const Icon = item.icon
@@ -51,6 +51,7 @@ export function DashboardSidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onClose}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
                 isActive
                   ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
@@ -66,7 +67,7 @@ export function DashboardSidebar() {
         {/* Admin Section — only visible to admins */}
         {user?.is_admin && (
           <div className="pt-4">
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-2 px-2 flex items-center gap-1">
+            <p className="text-xs text-gray-500 uppercase tracking-wider mb-2 px-2 flex flex-col lg:flex-row items-center gap-1">
               <ShieldCheck size={12} className="text-yellow-400" />
               Admin
             </p>
@@ -77,6 +78,7 @@ export function DashboardSidebar() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={onClose}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
                     isActive
                       ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white'
@@ -94,7 +96,7 @@ export function DashboardSidebar() {
 
       {/* Profile Section */}
       <div className="pt-6 border-t border-gray-800 mt-4">
-        <div className="flex items-center gap-3 px-2 mb-4">
+        <div className="flex flex-col lg:flex-row items-center gap-3 px-2 mb-4">
           {/* Avatar */}
           <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0">
             {user?.profile_picture_url ? (
@@ -109,7 +111,7 @@ export function DashboardSidebar() {
           </div>
 
           {/* User info */}
-          <div className="flex-1 min-w-0">
+          <div className="flex flex-col lg:flex-row-1 min-w-0">
             <p className="text-sm font-medium text-white truncate">
               {user?.full_name || user?.email?.split('@')[0]}
             </p>
@@ -147,7 +149,7 @@ export function DashboardSidebar() {
         {/* Sign out */}
         <button
           onClick={() => signOut()}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition"
+          className="w-full flex flex-col lg:flex-row items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition"
         >
           <LogOut size={18} />
           <span className="text-sm">Sign Out</span>

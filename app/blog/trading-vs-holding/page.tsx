@@ -9,7 +9,7 @@ export default function TradingVsHoldingPost() {
     <div className="pt-20 pb-16">
       <div className="max-w-3xl mx-auto px-4">
         <div className="mb-8">
-          <Link href="/blog" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6">
+          <Link href="/blog" className="flex flex-col lg:flex-row items-center gap-2 text-blue-600 hover:text-blue-700 mb-6">
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
           </Link>
@@ -18,16 +18,16 @@ export default function TradingVsHoldingPost() {
             Crypto Trading vs Long-Term Holding: Which Strategy Wins?
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 pb-6 border-b">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col lg:flex-row-wrap items-center gap-4 text-sm text-gray-600 pb-6 border-b">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               <User className="w-4 h-4" />
               <span>Sarah Chen</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               <Calendar className="w-4 h-4" />
               <span>January 12, 2024</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               <Clock className="w-4 h-4" />
               <span>9 min read</span>
             </div>
@@ -104,43 +104,85 @@ export default function TradingVsHoldingPost() {
 
           <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Head-to-Head Comparison</h2>
 
-          <div className="overflow-x-auto my-8">
-            <table className="min-w-full border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border border-gray-300 p-3 text-left">Factor</th>
-                  <th className="border border-gray-300 p-3 text-left">Holding</th>
-                  <th className="border border-gray-300 p-3 text-left">Trading</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border border-gray-300 p-3"><strong>Skill Required</strong></td>
-                  <td className="border border-gray-300 p-3">Minimal</td>
-                  <td className="border border-gray-300 p-3">Very High</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="border border-gray-300 p-3"><strong>Time Commitment</strong></td>
-                  <td className="border border-gray-300 p-3">2-5 hrs/month</td>
-                  <td className="border border-gray-300 p-3">20+ hrs/week</td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 p-3"><strong>Fees & Costs</strong></td>
-                  <td className="border border-gray-300 p-3">Minimal (&lt;1%/yr)</td>
-                  <td className="border border-gray-300 p-3">5-15%/yr</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="border border-gray-300 p-3"><strong>Avg. Returns</strong></td>
-                  <td className="border border-gray-300 p-3">20-40%/yr*</td>
-                  <td className="border border-gray-300 p-3">-10% to +50%/yr**</td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 p-3"><strong>Psychological</strong></td>
-                  <td className="border border-gray-300 p-3">Moderate stress</td>
-                  <td className="border border-gray-300 p-3">Very high stress</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="my-8">
+            {/* Mobile Cards */}
+            <div className="block lg:hidden space-y-4">
+              <div className="bg-gray-50 border border-gray-300 rounded p-4">
+                <h4 className="font-bold mb-2">Skill Required</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <div><strong>Holding:</strong> Minimal</div>
+                  <div><strong>Trading:</strong> Very High</div>
+                </div>
+              </div>
+              <div className="bg-white border border-gray-300 rounded p-4">
+                <h4 className="font-bold mb-2">Time Commitment</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <div><strong>Holding:</strong> 2-5 hrs/month</div>
+                  <div><strong>Trading:</strong> 20+ hrs/week</div>
+                </div>
+              </div>
+              <div className="bg-gray-50 border border-gray-300 rounded p-4">
+                <h4 className="font-bold mb-2">Fees & Costs</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <div><strong>Holding:</strong> Minimal (&lt;1%/yr)</div>
+                  <div><strong>Trading:</strong> 5-15%/yr</div>
+                </div>
+              </div>
+              <div className="bg-white border border-gray-300 rounded p-4">
+                <h4 className="font-bold mb-2">Avg. Returns</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <div><strong>Holding:</strong> 20-40%/yr*</div>
+                  <div><strong>Trading:</strong> -10% to +50%/yr**</div>
+                </div>
+              </div>
+              <div className="bg-gray-50 border border-gray-300 rounded p-4">
+                <h4 className="font-bold mb-2">Psychological</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <div><strong>Holding:</strong> Moderate stress</div>
+                  <div><strong>Trading:</strong> Very high stress</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop Table */}
+            <div className="hidden lg:block overflow-x-auto">
+              <table className="min-w-full border-collapse border border-gray-300">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="border border-gray-300 p-3 text-left">Factor</th>
+                    <th className="border border-gray-300 p-3 text-left">Holding</th>
+                    <th className="border border-gray-300 p-3 text-left">Trading</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="border border-gray-300 p-3"><strong>Skill Required</strong></td>
+                    <td className="border border-gray-300 p-3">Minimal</td>
+                    <td className="border border-gray-300 p-3">Very High</td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="border border-gray-300 p-3"><strong>Time Commitment</strong></td>
+                    <td className="border border-gray-300 p-3">2-5 hrs/month</td>
+                    <td className="border border-gray-300 p-3">20+ hrs/week</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-300 p-3"><strong>Fees & Costs</strong></td>
+                    <td className="border border-gray-300 p-3">Minimal (&lt;1%/yr)</td>
+                    <td className="border border-gray-300 p-3">5-15%/yr</td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="border border-gray-300 p-3"><strong>Avg. Returns</strong></td>
+                    <td className="border border-gray-300 p-3">20-40%/yr*</td>
+                    <td className="border border-gray-300 p-3">-10% to +50%/yr**</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-300 p-3"><strong>Psychological</strong></td>
+                    <td className="border border-gray-300 p-3">Moderate stress</td>
+                    <td className="border border-gray-300 p-3">Very high stress</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <p className="text-xs text-gray-500 mt-2">*Historical crypto returns, not guaranteed. **Highly variable, most traders underperform</p>
           </div>
 

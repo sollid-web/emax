@@ -14,22 +14,22 @@ export function CryptoMarket() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
+              <CardTitle className="flex flex-col lg:flex-row items-center">
                 <div className="w-8 h-8 bg-orange-500 rounded-full mr-3"></div>
                 Bitcoin (BTC)
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">Price:</span>
                   <span className="font-semibold">$45,230.50</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">24h Change:</span>
                   <span className="text-green-600">+2.45%</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">Market Cap:</span>
                   <span className="font-semibold">$890.2B</span>
                 </div>
@@ -39,22 +39,22 @@ export function CryptoMarket() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
+              <CardTitle className="flex flex-col lg:flex-row items-center">
                 <div className="w-8 h-8 bg-blue-500 rounded-full mr-3"></div>
                 Ethereum (ETH)
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">Price:</span>
                   <span className="font-semibold">$3,120.75</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">24h Change:</span>
                   <span className="text-green-600">+1.85%</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">Market Cap:</span>
                   <span className="font-semibold">$375.8B</span>
                 </div>
@@ -64,22 +64,22 @@ export function CryptoMarket() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
+              <CardTitle className="flex flex-col lg:flex-row items-center">
                 <div className="w-8 h-8 bg-gray-400 rounded-full mr-3"></div>
                 Litecoin (LTC)
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">Price:</span>
                   <span className="font-semibold">$185.30</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">24h Change:</span>
                   <span className="text-red-600">-0.75%</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">Market Cap:</span>
                   <span className="font-semibold">$13.5B</span>
                 </div>
@@ -89,22 +89,22 @@ export function CryptoMarket() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
+              <CardTitle className="flex flex-col lg:flex-row items-center">
                 <div className="w-8 h-8 bg-purple-500 rounded-full mr-3"></div>
                 Tether (USDT)
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">Price:</span>
                   <span className="font-semibold">$1.00</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">24h Change:</span>
                   <span className="text-gray-600">0.00%</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row justify-between">
                   <span className="text-gray-600">Market Cap:</span>
                   <span className="font-semibold">$95.2B</span>
                 </div>

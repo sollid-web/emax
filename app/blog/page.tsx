@@ -170,9 +170,9 @@ const searchIntentBlogPosts: BlogPost[] = [
 
 function BlogPostCard({ post }: { post: BlogPost }) {
   return (
-    <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
+    <Card className="hover:shadow-lg transition-shadow h-full flex flex-col lg:flex-row-col">
       <CardHeader>
-        <div className="flex items-start justify-between mb-3">
+        <div className="flex flex-col lg:flex-row items-start justify-between mb-3">
           <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
             {post.category}
           </Badge>
@@ -182,9 +182,9 @@ function BlogPostCard({ post }: { post: BlogPost }) {
           <Link href={`/blog/${post.id}`}>{post.title}</Link>
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex-grow flex flex-col">
+      <CardContent className="flex-grow flex flex-col lg:flex-row-col">
         <CardDescription className="text-gray-600 mb-4">{post.description}</CardDescription>
-        <div className="flex flex-wrap gap-1 mb-4">
+        <div className="flex flex-col lg:flex-row-wrap gap-1 mb-4">
           {post.keywords.map((keyword) => (
             <span key={keyword} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
               {keyword}
@@ -196,14 +196,14 @@ function BlogPostCard({ post }: { post: BlogPost }) {
             <p className="font-semibold text-gray-700">{post.author}</p>
             {post.authorBio && <p className="text-gray-500 line-clamp-1">{post.authorBio}</p>}
           </div>
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col gap-1 text-xs text-gray-500">
-              <span className="flex items-center gap-1">
+          <div className="flex flex-col lg:flex-row items-center justify-between">
+            <div className="flex flex-col lg:flex-row-col gap-1 text-xs text-gray-500">
+              <span className="flex flex-col lg:flex-row items-center gap-1">
                 <Calendar className="w-3 h-3" />
                 {post.date}
               </span>
               {post.lastUpdated && (
-                <span className="flex items-center gap-1 text-blue-600">
+                <span className="flex flex-col lg:flex-row items-center gap-1 text-blue-600">
                   <Calendar className="w-3 h-3" />
                   Updated: {post.lastUpdated}
                 </span>
@@ -226,7 +226,7 @@ export default function BlogPage() {
       <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="flex justify-center mb-4">
+            <div className="flex flex-col lg:flex-row justify-center mb-4">
               <BookOpen className="w-16 h-16 text-blue-600" />
             </div>
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Crypto Trading & Blockchain Blog</h1>
@@ -280,11 +280,11 @@ export default function BlogPage() {
           <p className="text-blue-100 mb-8">
             Subscribe to our newsletter for weekly insights on algorithmic trading, market analysis, and cryptocurrency strategy.
           </p>
-          <form className="flex flex-col sm:flex-row gap-2">
+          <form className="flex flex-col sm:flex flex-col lg:flex-row-row gap-2">
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg bg-white text-gray-900 placeholder-gray-400"
+              className="flex flex-col lg:flex-row-1 px-4 py-3 rounded-lg bg-white text-gray-900 placeholder-gray-400"
             />
             <button
               type="submit"

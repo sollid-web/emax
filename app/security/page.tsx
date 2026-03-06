@@ -19,7 +19,7 @@ export default function SecurityPage() {
       <section className="py-20 bg-gradient-to-br from-green-50 to-emerald-100">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="flex justify-center mb-4">
+            <div className="flex flex-col lg:flex-row justify-center mb-4">
               <Shield className="w-16 h-16 text-green-600" />
             </div>
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Crypto Platform Security Standards</h1>
@@ -40,7 +40,7 @@ export default function SecurityPage() {
             {/* Authentication */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <Key className="w-6 h-6 text-blue-600 mr-3" />
                   <CardTitle>Encrypted User Authentication</CardTitle>
                 </div>
@@ -61,7 +61,7 @@ export default function SecurityPage() {
             {/* Access Control */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <Lock className="w-6 h-6 text-purple-600 mr-3" />
                   <CardTitle>Multi-Layer Access Control</CardTitle>
                 </div>
@@ -82,7 +82,7 @@ export default function SecurityPage() {
             {/* Wallet Security */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <Server className="w-6 h-6 text-indigo-600 mr-3" />
                   <CardTitle>Secure Wallet Infrastructure</CardTitle>
                 </div>
@@ -103,7 +103,7 @@ export default function SecurityPage() {
             {/* Transaction Security */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <Eye className="w-6 h-6 text-green-600 mr-3" />
                   <CardTitle>Transaction Verification</CardTitle>
                 </div>
@@ -131,7 +131,7 @@ export default function SecurityPage() {
 
           <div className="space-y-8">
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex flex-col lg:flex-row items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-green-600" />
                 Encryption Standards
               </h3>
@@ -147,7 +147,7 @@ export default function SecurityPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex flex-col lg:flex-row items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-green-600" />
                 Continuous System Monitoring
               </h3>
@@ -163,7 +163,7 @@ export default function SecurityPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 flex flex-col lg:flex-row items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-green-600" />
                 Infrastructure Security
               </h3>

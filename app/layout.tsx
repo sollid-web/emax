@@ -1,14 +1,9 @@
-import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/contexts/auth-context"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { CookieConsent } from "@/components/cookie-consent"
-import { ChatWidget } from "@/components/chat-widget"
 import { organizationSchema } from "@/lib/schema"
-import { PublicLayoutWrapper } from "@/components/public-layout-wrapper"
+import { ClientLayout } from "@/components/client-layout"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -37,22 +32,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
       </head>
       <body className={inter.className}>
         <AuthProvider>
-          {/*
-            PublicLayoutWrapper checks the current path.
-            It shows Header/Footer only on public pages.
-            Dashboard and admin pages have their own layouts.
-          */}
-          <PublicLayoutWrapper
-            header={<Header />}
-            footer={<Footer />}
-          >
+          <ClientLayout>
             {children}
-          </PublicLayoutWrapper>
-          <CookieConsent />
-          <ChatWidget />
+          </ClientLayout>
         </AuthProvider>
       </body>
     </html>

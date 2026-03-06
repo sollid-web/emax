@@ -102,7 +102,7 @@ export default function SettingsPage() {
       {/* Security Settings */}
       <Card className="bg-gray-900 border-gray-800">
         <CardHeader>
-          <CardTitle className="text-white flex items-center gap-2">
+          <CardTitle className="text-white flex flex-col lg:flex-row items-center gap-2">
             <Lock size={20} />
             Security
           </CardTitle>
@@ -173,15 +173,15 @@ export default function SettingsPage() {
       {/* Notification Preferences */}
       <Card className="bg-gray-900 border-gray-800">
         <CardHeader>
-          <CardTitle className="text-white flex items-center gap-2">
+          <CardTitle className="text-white flex flex-col lg:flex-row items-center gap-2">
             <Bell size={20} />
             Notifications
           </CardTitle>
           <CardDescription>Manage how you receive updates</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col lg:flex-row items-center justify-between p-3 bg-gray-800 rounded-lg">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               <Mail size={18} className="text-gray-400" />
               <div>
                 <p className="text-white font-medium">Email Notifications</p>
@@ -194,7 +194,7 @@ export default function SettingsPage() {
             />
           </div>
 
-          <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+          <div className="flex flex-col lg:flex-row items-center justify-between p-3 bg-gray-800 rounded-lg">
             <div>
               <p className="text-white font-medium">Profit Notifications</p>
               <p className="text-gray-400 text-sm">Get notified about daily profits</p>
@@ -205,7 +205,7 @@ export default function SettingsPage() {
             />
           </div>
 
-          <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+          <div className="flex flex-col lg:flex-row items-center justify-between p-3 bg-gray-800 rounded-lg">
             <div>
               <p className="text-white font-medium">Withdrawal Updates</p>
               <p className="text-gray-400 text-sm">Get notified about withdrawal requests</p>
@@ -216,7 +216,7 @@ export default function SettingsPage() {
             />
           </div>
 
-          <div className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+          <div className="flex flex-col lg:flex-row items-center justify-between p-3 bg-gray-800 rounded-lg">
             <div>
               <p className="text-white font-medium">Security Alerts</p>
               <p className="text-gray-400 text-sm">Important security notifications</p>

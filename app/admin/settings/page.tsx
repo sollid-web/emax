@@ -37,7 +37,7 @@ export default function SettingsPage() {
   return (
     <div className="space-y-8 max-w-4xl">
       <div>
-        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+        <h1 className="text-3xl font-bold text-white flex flex-col lg:flex-row items-center gap-3">
           <Settings className="w-8 h-8" />
           Platform Settings
         </h1>
@@ -66,7 +66,7 @@ export default function SettingsPage() {
               />
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col lg:flex-row items-center gap-3">
               <input
                 type="checkbox"
                 id="maintenance"
@@ -79,7 +79,7 @@ export default function SettingsPage() {
               </label>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col lg:flex-row items-center gap-3">
               <input
                 type="checkbox"
                 id="emails"

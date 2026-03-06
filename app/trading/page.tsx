@@ -72,11 +72,11 @@ export default function TradingPage() {
                 for 7 days
               </div>
               <div className="space-y-2 text-sm text-white/80">
-                <div className="flex items-center justify-center">
+                <div className="flex flex-col lg:flex-row items-center justify-center">
                   <DollarSign className="w-4 h-4 mr-2" />
                   Start with as little as $100
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="flex flex-col lg:flex-row items-center justify-center">
                   <TrendingUp className="w-4 h-4 mr-2" />
                   Principal included. 17.5% total return
                 </div>
@@ -131,7 +131,7 @@ export default function TradingPage() {
           </div>
 
           {/* Trading Illustration */}
-          <div className="flex justify-center mb-16">
+          <div className="flex flex-col lg:flex-row justify-center mb-16">
             <div className="relative">
               <Image
                 src="/illustrations/trading-dashboard.png"
@@ -161,7 +161,7 @@ export default function TradingPage() {
             <Card className="relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50"></div>
               <CardHeader className="relative">
-                <CardTitle className="text-center text-2xl font-bold text-gray-900 flex items-center justify-center">
+                <CardTitle className="text-center text-2xl font-bold text-gray-900 flex flex-col lg:flex-row items-center justify-center">
                   <Calculator className="w-6 h-6 mr-2" />
                   Investment Calculator
                 </CardTitle>
@@ -189,15 +189,15 @@ export default function TradingPage() {
                   </div>
 
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center p-4 bg-white rounded-lg border">
+                    <div className="flex flex-col lg:flex-row justify-between items-center p-4 bg-white rounded-lg border">
                       <span className="text-gray-600">Hourly Profit</span>
                       <span className="font-bold text-green-600">{calculations.hourlyProfit.toFixed(8)} BTC</span>
                     </div>
-                    <div className="flex justify-between items-center p-4 bg-white rounded-lg border">
+                    <div className="flex flex-col lg:flex-row justify-between items-center p-4 bg-white rounded-lg border">
                       <span className="text-gray-600">Daily Profit</span>
                       <span className="font-bold text-green-600">{calculations.dailyProfit.toFixed(8)} BTC</span>
                     </div>
-                    <div className="flex justify-between items-center p-4 bg-white rounded-lg border">
+                    <div className="flex flex-col lg:flex-row justify-between items-center p-4 bg-white rounded-lg border">
                       <span className="text-gray-600">Total Return (7 days)</span>
                       <span className="font-bold text-blue-600">{calculations.totalReturn.toFixed(8)} BTC</span>
                     </div>
@@ -205,11 +205,11 @@ export default function TradingPage() {
                 </div>
 
                 <div className="mt-8 space-y-3 text-sm text-gray-600">
-                  <div className="flex items-center">
+                  <div className="flex flex-col lg:flex-row items-center">
                     <TrendingUp className="w-4 h-4 mr-2 text-blue-500" />
                     You can have as many deposits as you want
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex flex-col lg:flex-row items-center">
                     <Shield className="w-4 h-4 mr-2 text-blue-500" />
                     Minimum withdrawal amount is 0.0005 BTC
                   </div>
@@ -237,7 +237,7 @@ export default function TradingPage() {
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
-                <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex flex-col lg:flex-row items-center justify-center text-2xl font-bold mx-auto mb-4">
                   1
                 </div>
                 <h3 className="text-xl font-semibold mb-4">Market Analysis</h3>
@@ -248,7 +248,7 @@ export default function TradingPage() {
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex flex-col lg:flex-row items-center justify-center text-2xl font-bold mx-auto mb-4">
                   2
                 </div>
                 <h3 className="text-xl font-semibold mb-4">Automated Execution</h3>
@@ -258,7 +258,7 @@ export default function TradingPage() {
               </div>
 
               <div className="text-center">
-                <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex flex-col lg:flex-row items-center justify-center text-2xl font-bold mx-auto mb-4">
                   3
                 </div>
                 <h3 className="text-xl font-semibold mb-4">Profit Distribution</h3>
@@ -269,7 +269,7 @@ export default function TradingPage() {
             </div>
 
             {/* Mining Illustration */}
-            <div className="flex justify-center mt-16">
+            <div className="flex flex-col lg:flex-row justify-center mt-16">
               <div className="relative">
                 <Image
                   src="/illustrations/crypto-mining.svg"

@@ -37,7 +37,7 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="bg-gray-900 border-gray-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-col lg:flex-row-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-white">Total Users</CardTitle>
             <Users className="h-4 w-4 text-blue-500" />
           </CardHeader>
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
         </Card>
 
         <Card className="bg-gray-900 border-gray-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-col lg:flex-row-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-white">Pending KYC</CardTitle>
             <AlertCircle className="h-4 w-4 text-yellow-500" />
           </CardHeader>
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
         </Card>
 
         <Card className="bg-gray-900 border-gray-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-col lg:flex-row-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-white">Pending Deposits</CardTitle>
             <DollarSign className="h-4 w-4 text-green-500" />
           </CardHeader>
@@ -70,7 +70,7 @@ export default function AdminDashboard() {
         </Card>
 
         <Card className="bg-gray-900 border-gray-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-col lg:flex-row-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-white">Active Investments</CardTitle>
             <TrendingUp className="h-4 w-4 text-purple-500" />
           </CardHeader>
@@ -81,7 +81,7 @@ export default function AdminDashboard() {
         </Card>
 
         <Card className="bg-gray-900 border-gray-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-col lg:flex-row-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-white">Pending Withdrawals</CardTitle>
             <AlertCircle className="h-4 w-4 text-red-500" />
           </CardHeader>
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
         </Card>
 
         <Card className="bg-gray-900 border-gray-800">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-col lg:flex-row-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-white">Total Volume</CardTitle>
             <DollarSign className="h-4 w-4 text-indigo-500" />
           </CardHeader>

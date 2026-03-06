@@ -307,7 +307,7 @@ export default function TermsPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center mb-6">
+          <div className="flex flex-col lg:flex-row items-center justify-center mb-6">
             <Image src="/icons/file-pdf.svg" alt="Terms" width={48} height={48} className="mr-4" />
             <h1 className="text-4xl lg:text-5xl font-bold">Terms & Conditions</h1>
           </div>
@@ -316,7 +316,7 @@ export default function TermsPage() {
             Please read these terms and conditions carefully before using our services. By accessing our platform, you
             agree to be bound by these terms.
           </p>
-          <div className="flex items-center justify-center space-x-4 text-sm">
+          <div className="flex flex-col lg:flex-row items-center justify-center space-x-4 text-sm">
             <Badge className="bg-green-600 text-white">Last Updated: January 15, 2025</Badge>
             <Badge className="bg-blue-600 text-white">Version 3.2</Badge>
           </div>
@@ -327,8 +327,8 @@ export default function TermsPage() {
       <section className="py-8 bg-gray-50 border-b">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center space-x-4">
+            <div className="flex flex-col lg:flex-row-wrap items-center justify-between gap-4">
+              <div className="flex flex-col lg:flex-row items-center space-x-4">
                 <span className="text-sm font-medium text-gray-700">Quick Actions:</span>
                 <Button onClick={expandAll} variant="outline" size="sm">
                   Expand All
@@ -337,7 +337,7 @@ export default function TermsPage() {
                   Collapse All
                 </Button>
               </div>
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col lg:flex-row items-center space-x-4">
                 <Button variant="outline" size="sm">
                   <FileText className="w-4 h-4 mr-2" />
                   Download PDF
@@ -366,8 +366,8 @@ export default function TermsPage() {
                   }}
                 >
                   <CardContent className="p-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="flex-shrink-0 text-blue-600">{section.icon}</div>
+                    <div className="flex flex-col lg:flex-row items-center space-x-3">
+                      <div className="flex flex-col lg:flex-row-shrink-0 text-blue-600">{section.icon}</div>
                       <div>
                         <div className="text-sm font-medium text-gray-900">
                           {index + 1}. {section.title}
@@ -394,16 +394,16 @@ export default function TermsPage() {
                     onClick={() => toggleSection(section.id)}
                   >
                     <CardContent className="p-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          <div className="flex-shrink-0 text-blue-600">{section.icon}</div>
+                      <div className="flex flex-col lg:flex-row items-center justify-between">
+                        <div className="flex flex-col lg:flex-row items-center space-x-4">
+                          <div className="flex flex-col lg:flex-row-shrink-0 text-blue-600">{section.icon}</div>
                           <div>
                             <h3 className="text-xl font-bold text-gray-900">
                               {index + 1}. {section.title}
                             </h3>
                           </div>
                         </div>
-                        <div className="flex-shrink-0">
+                        <div className="flex flex-col lg:flex-row-shrink-0">
                           {expandedSections.has(section.id) ? (
                             <ChevronUp className="w-5 h-5 text-gray-500" />
                           ) : (
@@ -457,8 +457,8 @@ export default function TermsPage() {
           <div className="max-w-4xl mx-auto">
             <Card className="border-yellow-300 bg-yellow-50">
               <CardContent className="p-8">
-                <div className="flex items-start space-x-4">
-                  <AlertTriangle className="w-8 h-8 text-yellow-600 flex-shrink-0 mt-1" />
+                <div className="flex flex-col lg:flex-row items-start space-x-4">
+                  <AlertTriangle className="w-8 h-8 text-yellow-600 flex flex-col lg:flex-row-shrink-0 mt-1" />
                   <div>
                     <h3 className="text-xl font-bold text-yellow-900 mb-4">Important Legal Notice</h3>
                     <div className="space-y-3 text-yellow-800">

@@ -15,7 +15,7 @@ export function Hero() {
             <p className="text-lg text-gray-600 mb-8">
               Harness algorithmic trading technology designed to navigate cryptocurrency markets with structured execution, disciplined risk management, and data-driven strategy deployment. Our platform integrates blockchain infrastructure with automated trading systems to provide a streamlined digital asset participation experience.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex flex-col lg:flex-row-row gap-4">
               <Button size="lg" asChild>
                 <Link href="/how-it-works">Learn How It Works</Link>
               </Button>
@@ -25,7 +25,7 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex flex-col lg:flex-row justify-center">
             <Card className="w-full max-w-md">
               <CardContent className="p-6">
                 <div className="text-center mb-6">
@@ -37,11 +37,11 @@ export function Hero() {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex items-center text-sm text-gray-600">
+                  <div className="flex flex-col lg:flex-row items-center text-sm text-gray-600">
                     <Info className="w-4 h-4 mr-2 text-blue-500" />
                     Start with as little as $100.
                   </div>
-                  <div className="flex items-center text-sm text-gray-600">
+                  <div className="flex flex-col lg:flex-row items-center text-sm text-gray-600">
                     <Info className="w-4 h-4 mr-2 text-blue-500" />
                     Principal included. 15% total return. Earn each calendar day.
                   </div>

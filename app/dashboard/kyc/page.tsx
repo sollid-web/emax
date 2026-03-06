@@ -107,10 +107,7 @@ export default function KYCPage() {
       if (files.selfie) data.append('selfie', files.selfie)
       if (files.addressProof) data.append('addressProof', files.addressProof)
 
-        const response = await apiFetch('/kyc/submit', {
-        method: 'POST',
-        body: data,
-      })
+      const response = await apiFormFetch('/api/kyc/submit', data)
 
       if (!response.ok) {
         const error = await response.json()
@@ -169,12 +166,12 @@ export default function KYCPage() {
       {/* KYC Status */}
       <Card className="bg-gray-900 border-gray-800">
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col lg:flex-row items-center justify-between">
             <div>
               <CardTitle className="text-white">KYC Status</CardTitle>
               <CardDescription>Your verification status</CardDescription>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               {getStatusIcon(kycStatus.status)}
               <Badge className={`border capitalize ${getStatusColor(kycStatus.status)}`}>
                 {kycStatus.status.replace('_', ' ')}
@@ -350,8 +347,8 @@ export default function KYCPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <Label className="text-gray-300">ID Front *</Label>
-                    <label className="mt-2 flex items-center justify-center w-full p-4 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-gray-600 bg-gray-800/50">
-                      <div className="flex flex-col items-center">
+                    <label className="mt-2 flex flex-col lg:flex-row items-center justify-center w-full p-4 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-gray-600 bg-gray-800/50">
+                      <div className="flex flex-col lg:flex-row-col items-center">
                         <Upload className="w-6 h-6 text-gray-400" />
                         <span className="mt-2 text-sm text-gray-300">
                           {files.idFront ? files.idFront.name : 'Upload ID Front'}
@@ -368,8 +365,8 @@ export default function KYCPage() {
                   </div>
                   <div>
                     <Label className="text-gray-300">ID Back</Label>
-                    <label className="mt-2 flex items-center justify-center w-full p-4 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-gray-600 bg-gray-800/50">
-                      <div className="flex flex-col items-center">
+                    <label className="mt-2 flex flex-col lg:flex-row items-center justify-center w-full p-4 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-gray-600 bg-gray-800/50">
+                      <div className="flex flex-col lg:flex-row-col items-center">
                         <Upload className="w-6 h-6 text-gray-400" />
                         <span className="mt-2 text-sm text-gray-300">
                           {files.idBack ? files.idBack.name : 'Upload ID Back'}
@@ -386,8 +383,8 @@ export default function KYCPage() {
                   </div>
                   <div>
                     <Label className="text-gray-300">Selfie *</Label>
-                    <label className="mt-2 flex items-center justify-center w-full p-4 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-gray-600 bg-gray-800/50">
-                      <div className="flex flex-col items-center">
+                    <label className="mt-2 flex flex-col lg:flex-row items-center justify-center w-full p-4 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-gray-600 bg-gray-800/50">
+                      <div className="flex flex-col lg:flex-row-col items-center">
                         <Upload className="w-6 h-6 text-gray-400" />
                         <span className="mt-2 text-sm text-gray-300">
                           {files.selfie ? files.selfie.name : 'Upload Selfie'}
@@ -404,8 +401,8 @@ export default function KYCPage() {
                   </div>
                   <div>
                     <Label className="text-gray-300">Proof of Address</Label>
-                    <label className="mt-2 flex items-center justify-center w-full p-4 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-gray-600 bg-gray-800/50">
-                      <div className="flex flex-col items-center">
+                    <label className="mt-2 flex flex-col lg:flex-row items-center justify-center w-full p-4 border-2 border-dashed border-gray-700 rounded-lg cursor-pointer hover:border-gray-600 bg-gray-800/50">
+                      <div className="flex flex-col lg:flex-row-col items-center">
                         <Upload className="w-6 h-6 text-gray-400" />
                         <span className="mt-2 text-sm text-gray-300">
                           {files.addressProof ? files.addressProof.name : 'Upload Address Proof'}

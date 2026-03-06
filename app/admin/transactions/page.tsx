@@ -109,8 +109,8 @@ export default function TransactionsPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="flex gap-4">
-              <div className="flex-1 relative">
+            <div className="flex flex-col lg:flex-row gap-4">
+              <div className="flex flex-col lg:flex-row-1 relative">
                 <Search className="absolute left-3 top-3 w-4 h-4 text-gray-500" />
                 <input
                   type="text"
@@ -134,39 +134,68 @@ export default function TransactionsPage() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="text-left py-3 px-4 text-gray-400 font-semibold">Type</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-semibold">User</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-semibold">Amount</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-semibold">Currency</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-semibold">Status</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-semibold">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredTransactions.map((tx) => (
-                    <tr key={tx.id} className="border-b border-gray-800 hover:bg-gray-800/50 transition">
-                      <td className="py-3 px-4">
-                        <div className="flex items-center gap-2">
+              {/* Mobile Cards */}
+              <div className="block lg:hidden space-y-4">
+                {filteredTransactions.map((tx) => (
+                  <Card key={tx.id} className="bg-gray-800 border-gray-700">
+                    <CardContent className="p-4">
+                      <div className="flex flex-col lg:flex-row justify-between items-start space-y-2 lg:space-y-0">
+                        <div className="flex flex-col lg:flex-row items-center gap-2">
                           {getTypeIcon(tx.type)}
-                          <span className="capitalize text-white">{tx.type}</span>
+                          <div>
+                            <p className="text-white font-semibold capitalize">{tx.type}</p>
+                            <p className="text-gray-400 text-sm">{tx.user_email}</p>
+                          </div>
                         </div>
-                      </td>
-                      <td className="py-3 px-4 text-gray-300">{tx.user_email}</td>
-                      <td className="py-3 px-4 text-white font-medium">${tx.amount.toLocaleString()}</td>
-                      <td className="py-3 px-4 text-gray-400">{tx.currency}</td>
-                      <td className="py-3 px-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(tx.status)}`}>
-                          {tx.status}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4 text-gray-400">{tx.created_at}</td>
+                        <div className="flex flex-col lg:flex-row items-end lg:items-center space-y-1 lg:space-y-0 lg:space-x-2">
+                          <p className="text-white font-medium">${tx.amount.toLocaleString()} {tx.currency}</p>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(tx.status)}`}>
+                            {tx.status}
+                          </span>
+                        </div>
+                      </div>
+                      <p className="text-gray-400 text-xs mt-2">{tx.created_at}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Desktop Table */}
+              <div className="hidden lg:block">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-700">
+                      <th className="text-left py-3 px-4 text-gray-400 font-semibold">Type</th>
+                      <th className="text-left py-3 px-4 text-gray-400 font-semibold">User</th>
+                      <th className="text-left py-3 px-4 text-gray-400 font-semibold">Amount</th>
+                      <th className="text-left py-3 px-4 text-gray-400 font-semibold">Currency</th>
+                      <th className="text-left py-3 px-4 text-gray-400 font-semibold">Status</th>
+                      <th className="text-left py-3 px-4 text-gray-400 font-semibold">Date</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filteredTransactions.map((tx) => (
+                      <tr key={tx.id} className="border-b border-gray-800 hover:bg-gray-800/50 transition">
+                        <td className="py-3 px-4">
+                          <div className="flex flex-col lg:flex-row items-center gap-2">
+                            {getTypeIcon(tx.type)}
+                            <span className="capitalize text-white">{tx.type}</span>
+                          </div>
+                        </td>
+                        <td className="py-3 px-4 text-gray-300">{tx.user_email}</td>
+                        <td className="py-3 px-4 text-white font-medium">${tx.amount.toLocaleString()}</td>
+                        <td className="py-3 px-4 text-gray-400">{tx.currency}</td>
+                        <td className="py-3 px-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(tx.status)}`}>
+                            {tx.status}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-gray-400">{tx.created_at}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {filteredTransactions.length === 0 && (

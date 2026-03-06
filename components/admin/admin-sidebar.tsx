@@ -29,7 +29,11 @@ const menuItems = [
   { icon: Settings, label: 'Settings', href: '/admin/settings' },
 ]
 
-export function AdminSidebar() {
+interface AdminSidebarProps {
+  onClose?: () => void
+}
+
+export function AdminSidebar({ onClose }: AdminSidebarProps = {}) {
   const pathname = usePathname()
 
   return (
@@ -48,6 +52,7 @@ export function AdminSidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onClose}
               className={cn(
                 'flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors',
                 isActive

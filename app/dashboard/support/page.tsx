@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/auth-context'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -8,29 +8,92 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
-import { MessageSquare, Mail, Phone } from 'lucide-react'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { MessageSquare, Mail, Phone, Clock, CheckCircle, AlertCircle } from 'lucide-react'
+
+interface SupportTicket {
+  id: string
+  subject: string
+  message: string
+  status: 'open' | 'in_progress' | 'resolved' | 'closed'
+  created_at: string
+  updated_at: string
+  admin_response?: string
+}
 
 export default function SupportPage() {
   const { user } = useAuth()
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
+  const [tickets, setTickets] = useState<SupportTicket[]>([])
+  const [loading, setLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [alertMessage, setAlertMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+
+  useEffect(() => {
+    fetchTickets()
+  }, [user])
+
+  const fetchTickets = async () => {
+    if (!user) return
+
+    try {
+      setLoading(true)
+      const response = await fetch('/api/support')
+      if (response.ok) {
+        const data = await response.json()
+        setTickets(data.tickets || [])
+      }
+    } catch (error) {
+      console.error('Failed to fetch tickets:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!subject.trim() || !message.trim()) return
+
     setSubmitting(true)
+    setAlertMessage(null)
 
     try {
-      // TODO: Submit support ticket to database
-      console.log('Support ticket:', { subject, message, user })
+      const response = await fetch('/api/support', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subject, message })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to submit support ticket')
+      }
+
+      const data = await response.json()
+      setAlertMessage({ type: 'success', text: data.message || 'Support ticket submitted successfully' })
       setSubject('')
       setMessage('')
-      alert('Support ticket submitted successfully. We will respond within 24 hours.')
-    } catch (error) {
-      console.error('Error submitting ticket:', error)
-      alert('Failed to submit support ticket')
+      await fetchTickets()
+    } catch (error: any) {
+      setAlertMessage({ type: 'error', text: error.message || 'Failed to submit support ticket' })
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'open':
+        return <Badge variant="secondary" className="bg-blue-500/10 text-blue-500"><Clock className="w-3 h-3 mr-1" />Open</Badge>
+      case 'in_progress':
+        return <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-500"><AlertCircle className="w-3 h-3 mr-1" />In Progress</Badge>
+      case 'resolved':
+        return <Badge variant="secondary" className="bg-green-500/10 text-green-500"><CheckCircle className="w-3 h-3 mr-1" />Resolved</Badge>
+      case 'closed':
+        return <Badge variant="secondary" className="bg-gray-500/10 text-gray-500"><CheckCircle className="w-3 h-3 mr-1" />Closed</Badge>
+      default:
+        return <Badge variant="secondary">{status}</Badge>
     }
   }
 
@@ -41,82 +104,87 @@ export default function SupportPage() {
         <p className="text-gray-400">Get help from our support team</p>
       </div>
 
+      {alertMessage && (
+        <Alert className={alertMessage.type === 'success' ? 'border-green-500 bg-green-500/10' : 'border-red-500 bg-red-500/10'}>
+          <AlertDescription className={alertMessage.type === 'success' ? 'text-green-400' : 'text-red-400'}>
+            {alertMessage.text}
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* Contact Methods */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="bg-gray-900 border-gray-800">
           <CardContent className="pt-6">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex flex-col lg:flex-row items-center gap-3 mb-4">
               <Mail className="text-blue-400 w-6 h-6" />
               <h3 className="text-white font-semibold">Email</h3>
             </div>
-            <p className="text-gray-400 text-sm">support@emaxprotocol.pro</p>
-            <p className="text-gray-500 text-xs mt-2">Response time: 24 hours</p>
+            <p className="text-gray-400 text-sm">support@emaxprotocol.com</p>
+            <p className="text-gray-400 text-sm">Response within 24 hours</p>
           </CardContent>
         </Card>
 
         <Card className="bg-gray-900 border-gray-800">
           <CardContent className="pt-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Phone className="text-green-400 w-6 h-6" />
-              <h3 className="text-white font-semibold">Phone</h3>
-            </div>
-            <p className="text-gray-400 text-sm">+1-800-EMAX-123</p>
-            <p className="text-gray-500 text-xs mt-2">Mon-Fri: 9 AM - 5 PM EST</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gray-900 border-gray-800">
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-3 mb-4">
-              <MessageSquare className="text-purple-400 w-6 h-6" />
+            <div className="flex flex-col lg:flex-row items-center gap-3 mb-4">
+              <MessageSquare className="text-green-400 w-6 h-6" />
               <h3 className="text-white font-semibold">Live Chat</h3>
             </div>
-            <p className="text-gray-400 text-sm">Available in dashboard</p>
-            <p className="text-gray-500 text-xs mt-2">Real-time support</p>
+            <p className="text-gray-400 text-sm">Available 24/7</p>
+            <p className="text-gray-400 text-sm">Average response: 5 minutes</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-900 border-gray-800">
+          <CardContent className="pt-6">
+            <div className="flex flex-col lg:flex-row items-center gap-3 mb-4">
+              <Phone className="text-purple-400 w-6 h-6" />
+              <h3 className="text-white font-semibold">Phone</h3>
+            </div>
+            <p className="text-gray-400 text-sm">+1 (555) 123-4567</p>
+            <p className="text-gray-400 text-sm">Mon-Fri 9AM-6PM EST</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Support Ticket Form */}
+      {/* Submit Ticket Form */}
       <Card className="bg-gray-900 border-gray-800">
         <CardHeader>
-          <CardTitle className="text-white">Create Support Ticket</CardTitle>
-          <CardDescription>Describe your issue and we'll help you as soon as possible</CardDescription>
+          <CardTitle className="text-white">Submit a Support Ticket</CardTitle>
+          <CardDescription className="text-gray-400">
+            Describe your issue and we'll get back to you as soon as possible
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="subject" className="text-gray-300">
-                Subject
-              </Label>
+              <Label htmlFor="subject" className="text-white">Subject</Label>
               <Input
                 id="subject"
+                type="text"
                 placeholder="Brief description of your issue"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 className="bg-gray-800 border-gray-700 text-white"
-                disabled={submitting}
                 required
               />
             </div>
             <div>
-              <Label htmlFor="message" className="text-gray-300">
-                Message
-              </Label>
+              <Label htmlFor="message" className="text-white">Message</Label>
               <Textarea
                 id="message"
-                placeholder="Provide details about your issue..."
+                placeholder="Detailed description of your issue..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white h-32"
-                disabled={submitting}
+                className="bg-gray-800 border-gray-700 text-white min-h-[120px]"
                 required
               />
             </div>
             <Button
               type="submit"
-              className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
-              disabled={submitting || !subject || !message}
+              disabled={submitting || !subject.trim() || !message.trim()}
+              className="bg-blue-600 hover:bg-blue-700"
             >
               {submitting ? 'Submitting...' : 'Submit Ticket'}
             </Button>
@@ -124,30 +192,43 @@ export default function SupportPage() {
         </CardContent>
       </Card>
 
-      {/* FAQ Quick Links */}
+      {/* Ticket History */}
       <Card className="bg-gray-900 border-gray-800">
         <CardHeader>
-          <CardTitle className="text-white">Common Issues</CardTitle>
+          <CardTitle className="text-white">Your Support Tickets</CardTitle>
+          <CardDescription className="text-gray-400">
+            Track the status of your submitted tickets
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            {[
-              'How do I deposit funds?',
-              'What are the withdrawal fees?',
-              'How do I verify my account?',
-              'How can I reset my password?',
-              'What is the minimum investment?',
-              'How are profits calculated?',
-            ].map((faq, index) => (
-              <div
-                key={index}
-                className="p-3 bg-gray-800 rounded-lg hover:bg-gray-700 cursor-pointer transition flex items-center justify-between"
-              >
-                <p className="text-gray-300 text-sm">{faq}</p>
-                <span className="text-gray-500">→</span>
-              </div>
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center text-gray-400 py-8">Loading tickets...</div>
+          ) : tickets.length === 0 ? (
+            <div className="text-center text-gray-400 py-8">No support tickets found</div>
+          ) : (
+            <div className="space-y-4">
+              {tickets.map((ticket) => (
+                <div key={ticket.id} className="border border-gray-700 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-white font-medium">{ticket.subject}</h4>
+                    {getStatusBadge(ticket.status)}
+                  </div>
+                  <p className="text-gray-400 text-sm mb-2">{ticket.message}</p>
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    <span>Created: {new Date(ticket.created_at).toLocaleDateString()}</span>
+                    <span>Updated: {new Date(ticket.updated_at).toLocaleDateString()}</span>
+                  </div>
+                  {ticket.admin_response && (
+                    <div className="mt-3 p-3 bg-blue-500/10 border border-blue-500/20 rounded">
+                      <p className="text-sm text-blue-400">
+                        <strong>Admin Response:</strong> {ticket.admin_response}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

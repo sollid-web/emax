@@ -60,7 +60,7 @@ export default function AboutPage() {
                 </Link>
               </Button>
             </div>
-            <div className="flex justify-center">
+            <div className="flex flex-col lg:flex-row justify-center">
               <div className="relative">
                 <Image
                   src="/illustrations/trading-dashboard.png"
@@ -123,7 +123,7 @@ export default function AboutPage() {
           </div>
 
           {/* Digital Wallet Illustration */}
-          <div className="flex justify-center mt-16">
+          <div className="flex flex-col lg:flex-row justify-center mt-16">
             <div className="relative">
               <Image
                 src="/illustrations/digital-wallet.png"
@@ -211,7 +211,7 @@ export default function AboutPage() {
             </div>
 
             {/* Crypto Mining Illustration */}
-            <div className="flex justify-center">
+            <div className="flex flex-col lg:flex-row justify-center">
               <div className="relative">
                 <Image
                   src="/illustrations/crypto-mining.svg"
@@ -244,7 +244,7 @@ export default function AboutPage() {
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Join thousands of satisfied traders who trust Emax Protocol for their cryptocurrency investments.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex flex-col lg:flex-row-row gap-4 justify-center">
             <Button size="lg" variant="secondary" asChild>
               <Link href="/signup">Create Account</Link>
             </Button>

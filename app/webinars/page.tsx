@@ -135,7 +135,7 @@ export default function WebinarsPage() {
         </div>
 
         {/* Category Tabs */}
-        <div className="flex justify-center gap-4 mb-12">
+        <div className="flex flex-col lg:flex-row justify-center gap-4 mb-12">
           <button
             onClick={() => setSelectedCategory('upcoming')}
             className={`px-8 py-3 rounded-lg font-semibold transition ${
@@ -162,20 +162,20 @@ export default function WebinarsPage() {
         <div className="grid gap-6 mb-16">
           {displayedWebinars.map((webinar) => (
             <div key={webinar.id} className="bg-white border rounded-lg p-8 hover:shadow-lg transition">
-              <div className="flex items-start justify-between mb-4">
+              <div className="flex flex-col lg:flex-row items-start justify-between mb-4">
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">{webinar.title}</h3>
                   <p className="text-gray-600 text-sm mb-4">{webinar.description}</p>
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-                    <div className="flex items-center gap-1">
+                  <div className="flex flex-col lg:flex-row-wrap gap-4 text-sm text-gray-600">
+                    <div className="flex flex-col lg:flex-row items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       {webinar.date}
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex flex-col lg:flex-row items-center gap-1">
                       <Clock className="w-4 h-4" />
                       {webinar.time} ({webinar.duration})
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex flex-col lg:flex-row items-center gap-1">
                       <Users className="w-4 h-4" />
                       {webinar.attendees} registered
                     </div>
@@ -187,7 +187,7 @@ export default function WebinarsPage() {
                 <p className="text-sm font-semibold text-gray-600 mb-2">Key Topics:</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {webinar.topics.map((topic, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                    <div key={i} className="flex flex-col lg:flex-row items-start gap-2 text-sm text-gray-600">
                       <span className="text-blue-600 mt-1">✓</span>
                       {topic}
                     </div>
@@ -195,7 +195,7 @@ export default function WebinarsPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col lg:flex-row items-center justify-between">
                 <div>
                   <p className="text-sm font-semibold text-gray-600">Speaker</p>
                   <p className="text-gray-900 font-semibold">{webinar.speaker}</p>
@@ -240,11 +240,11 @@ export default function WebinarsPage() {
           <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
             Subscribe to receive calendar invitations, recording links, and exclusive resources for registered webinars.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+          <div className="flex flex-col sm:flex flex-col lg:flex-row-row gap-4 justify-center max-w-md mx-auto">
             <input 
               type="email" 
               placeholder="Enter your email" 
-              className="px-4 py-3 rounded-lg text-gray-900 flex-1"
+              className="px-4 py-3 rounded-lg text-gray-900 flex flex-col lg:flex-row-1"
             />
             <button className="px-6 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition font-semibold">
               Subscribe

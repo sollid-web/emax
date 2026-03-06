@@ -8,7 +8,7 @@ export default function RiskManagementPost() {
     <div className="pt-20 pb-16">
       <div className="max-w-3xl mx-auto px-4">
         <div className="mb-8">
-          <Link href="/blog" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6">
+          <Link href="/blog" className="flex flex-col lg:flex-row items-center gap-2 text-blue-600 hover:text-blue-700 mb-6">
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
           </Link>
@@ -17,16 +17,16 @@ export default function RiskManagementPost() {
             How Risk Management Works in Volatile Crypto Markets
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 pb-6 border-b">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col lg:flex-row-wrap items-center gap-4 text-sm text-gray-600 pb-6 border-b">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               <User className="w-4 h-4" />
               <span>Michael Torres</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               <Calendar className="w-4 h-4" />
               <span>January 10, 2024</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col lg:flex-row items-center gap-2">
               <Clock className="w-4 h-4" />
               <span>9 min read</span>
             </div>

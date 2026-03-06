@@ -6,7 +6,11 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 
-export function Header() {
+interface HeaderProps {
+  onHamburger?: () => void
+}
+
+export function Header({ onHamburger }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -20,7 +24,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-8">
             <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
               About Us
             </Link>
@@ -48,7 +52,7 @@ export function Header() {
           </nav>
 
           {/* Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
             <Button variant="outline" asChild>
               <Link href="/signup">Create Account</Link>
             </Button>
@@ -58,14 +62,17 @@ export function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button className="lg:hidden" onClick={() => {
+              setIsMenuOpen(!isMenuOpen);
+              if (!isMenuOpen && onHamburger) onHamburger();
+            }}>
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200">
+          <div className="lg:hidden py-4 border-t border-gray-200">
             <nav className="flex flex-col space-y-4">
               <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
                 About Us
@@ -91,7 +98,7 @@ export function Header() {
               <Link href="/contact" className="text-gray-700 hover:text-blue-600 transition-colors">
                 Contact
               </Link>
-              <div className="flex flex-col space-y-2 pt-4">
+              <div className="flex flex-col lg:flex-row-col space-y-2 pt-4">
                 <Button variant="outline" asChild>
                   <Link href="/signup">Create Account</Link>
                 </Button>

@@ -112,7 +112,7 @@ export default function FAQPage() {
         </div>
 
         <div className="mb-8">
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="flex flex-col lg:flex-row-wrap gap-2 justify-center">
             {categories.map(category => (
               <button
                 key={category}
@@ -134,7 +134,7 @@ export default function FAQPage() {
             <div key={index} className="border rounded-lg overflow-hidden">
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-6 py-4 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition"
+                className="w-full px-6 py-4 flex flex-col lg:flex-row items-center justify-between bg-gray-50 hover:bg-gray-100 transition"
               >
                 <h3 className="text-left font-semibold text-gray-900">{item.question}</h3>
                 <ChevronDown className={`w-5 h-5 text-gray-600 transition ${openIndex === index ? 'rotate-180' : ''}`} />
@@ -151,7 +151,7 @@ export default function FAQPage() {
         <div className="mt-16 p-8 bg-blue-50 rounded-lg text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Still Have Questions?</h2>
           <p className="text-gray-600 mb-6">Can't find what you're looking for? Our support team is here to help 24/7.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex flex-col lg:flex-row-row gap-4 justify-center">
             <Link href="/compliance" className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">
               View Compliance
             </Link>

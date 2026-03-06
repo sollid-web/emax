@@ -105,10 +105,10 @@ export default function DepositsPage() {
                   {deposits.map((deposit) => (
                     <div
                       key={deposit.id}
-                      className="flex items-center justify-between p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750"
+                      className="flex flex-col lg:flex-row items-center justify-between p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750"
                       onClick={() => setSelectedDeposit(deposit)}
                     >
-                      <div className="flex-1">
+                      <div className="flex flex-col lg:flex-row-1">
                         <p className="font-medium text-white">{deposit.user_name}</p>
                         <p className="text-sm text-gray-400">{deposit.user_email}</p>
                         <p className="text-xs text-gray-500 mt-1">
@@ -142,8 +142,8 @@ export default function DepositsPage() {
 
               <div>
                 <p className="text-sm text-gray-400 mb-1">Wallet Address</p>
-                <div className="flex gap-2">
-                  <code className="flex-1 p-2 bg-gray-800 rounded text-xs text-gray-300 break-all">
+                <div className="flex flex-col lg:flex-row gap-2">
+                  <code className="flex flex-col lg:flex-row-1 p-2 bg-gray-800 rounded text-xs text-gray-300 break-all">
                     {selectedDeposit.wallet_address_used}
                   </code>
                   <Button
@@ -174,7 +174,7 @@ export default function DepositsPage() {
                     className="bg-gray-800 border-gray-700 text-white"
                   />
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col lg:flex-row-col gap-2">
                     <Button
                       onClick={() => approveDeposit(selectedDeposit.id)}
                       className="bg-blue-600 hover:bg-blue-700"

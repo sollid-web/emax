@@ -39,19 +39,19 @@ export default function HowItWorksPage() {
             Our infrastructure is built to support:
           </p>
           <ul className="space-y-3 mb-8">
-            <li className="flex items-start">
+            <li className="flex flex-col lg:flex-row items-start">
               <span className="text-blue-600 font-bold mr-4">•</span>
               <span className="text-gray-600">Algorithmic execution strategies</span>
             </li>
-            <li className="flex items-start">
+            <li className="flex flex-col lg:flex-row items-start">
               <span className="text-blue-600 font-bold mr-4">•</span>
               <span className="text-gray-600">Portfolio diversification logic</span>
             </li>
-            <li className="flex items-start">
+            <li className="flex flex-col lg:flex-row items-start">
               <span className="text-blue-600 font-bold mr-4">•</span>
               <span className="text-gray-600">Market data integration</span>
             </li>
-            <li className="flex items-start">
+            <li className="flex flex-col lg:flex-row items-start">
               <span className="text-blue-600 font-bold mr-4">•</span>
               <span className="text-gray-600">Structured risk management protocols</span>
             </li>
@@ -68,7 +68,7 @@ export default function HowItWorksPage() {
             {/* Market Analysis Engine */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <BarChart3 className="w-6 h-6 text-blue-600 mr-3" />
                   <CardTitle>Market Analysis Engine</CardTitle>
                 </div>
@@ -83,7 +83,7 @@ export default function HowItWorksPage() {
             {/* Strategy Deployment Layer */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <Zap className="w-6 h-6 text-green-600 mr-3" />
                   <CardTitle>Strategy Deployment</CardTitle>
                 </div>
@@ -98,7 +98,7 @@ export default function HowItWorksPage() {
             {/* Risk Control Framework */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <Shield className="w-6 h-6 text-purple-600 mr-3" />
                   <CardTitle>Risk Control Framework</CardTitle>
                 </div>
@@ -113,7 +113,7 @@ export default function HowItWorksPage() {
             {/* Execution & Monitoring */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <TrendingUp className="w-6 h-6 text-indigo-600 mr-3" />
                   <CardTitle>Execution & Monitoring</CardTitle>
                 </div>
@@ -141,7 +141,7 @@ export default function HowItWorksPage() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="flex gap-4">
+            <div className="flex flex-col lg:flex-row gap-4">
               <div className="text-blue-600 font-bold text-xl">✓</div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">24/7 Market Monitoring</h3>
@@ -149,7 +149,7 @@ export default function HowItWorksPage() {
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col lg:flex-row gap-4">
               <div className="text-blue-600 font-bold text-xl">✓</div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">Data-Driven Execution</h3>
@@ -157,7 +157,7 @@ export default function HowItWorksPage() {
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col lg:flex-row gap-4">
               <div className="text-blue-600 font-bold text-xl">✓</div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">Reduced Emotional Bias</h3>
@@ -165,7 +165,7 @@ export default function HowItWorksPage() {
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col lg:flex-row gap-4">
               <div className="text-blue-600 font-bold text-xl">✓</div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">Diversified Allocation</h3>
@@ -189,7 +189,7 @@ export default function HowItWorksPage() {
           </p>
           <Link
             href="/signup"
-            className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+            className="inline-flex flex-col lg:flex-row items-center gap-2 bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
           >
             Create Account <ArrowRight className="w-4 h-4" />
           </Link>

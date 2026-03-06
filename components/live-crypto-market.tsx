@@ -77,7 +77,7 @@ export function LiveCryptoMarket() {
             {[...Array(8)].map((_, i) => (
               <Card key={i} className="animate-pulse">
                 <CardHeader>
-                  <div className="flex items-center">
+                  <div className="flex flex-col lg:flex-row items-center">
                     <div className="w-8 h-8 bg-gray-300 rounded-full mr-3"></div>
                     <div className="h-4 bg-gray-300 rounded w-24"></div>
                   </div>
@@ -101,9 +101,9 @@ export function LiveCryptoMarket() {
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mb-4">
             <h2 className="text-3xl font-bold text-gray-900">Live Cryptocurrency Prices</h2>
-            <div className="flex items-center gap-2 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+            <div className="flex flex-col lg:flex-row items-center gap-2 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
               <Zap className="w-4 h-4" />
               Live Updates
             </div>
@@ -112,7 +112,7 @@ export function LiveCryptoMarket() {
               size="sm"
               onClick={refetch}
               disabled={loading}
-              className="flex items-center gap-2"
+              className="flex flex-col lg:flex-row items-center gap-2"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
               Refresh
@@ -120,7 +120,7 @@ export function LiveCryptoMarket() {
           </div>
           <div className="w-20 h-1 bg-green-500 mx-auto mb-4"></div>
           {lastUpdated && (
-            <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-2 text-sm text-gray-600">
               <Clock className="w-4 h-4" />
               Last updated: {lastUpdated.toLocaleTimeString()}
             </div>
@@ -134,8 +134,8 @@ export function LiveCryptoMarket() {
           {data.map((crypto, index) => (
             <Card key={crypto.id} className="hover:shadow-lg transition-all duration-300 hover:scale-105">
               <CardHeader className="pb-2">
-                <CardTitle className="flex items-center justify-between">
-                  <div className="flex items-center">
+                <CardTitle className="flex flex-col lg:flex-row items-center justify-between">
+                  <div className="flex flex-col lg:flex-row items-center">
                     {getCryptoIcon(crypto.symbol)}
                     <div className="ml-3">
                       <div className="font-semibold">{crypto.name}</div>
@@ -152,11 +152,11 @@ export function LiveCryptoMarket() {
                     <div className="text-sm">{formatPercentage(crypto.price_change_percentage_24h)}</div>
                   </div>
                   <div className="space-y-1 text-sm">
-                    <div className="flex justify-between">
+                    <div className="flex flex-col lg:flex-row justify-between">
                       <span className="text-gray-600">Market Cap:</span>
                       <span className="font-semibold">{formatMarketCap(crypto.market_cap)}</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col lg:flex-row justify-between">
                       <span className="text-gray-600">Volume (24h):</span>
                       <span className="font-semibold">{formatMarketCap(crypto.total_volume)}</span>
                     </div>

@@ -19,7 +19,7 @@ export default function CompliancePage() {
       <section className="py-20 bg-gradient-to-br from-indigo-50 to-blue-100">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="flex justify-center mb-4">
+            <div className="flex flex-col lg:flex-row justify-center mb-4">
               <Building2 className="w-16 h-16 text-indigo-600" />
             </div>
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Compliance & Legal Framework</h1>
@@ -101,7 +101,7 @@ export default function CompliancePage() {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col lg:flex-row items-center gap-2">
                   <Users className="w-5 h-5 text-blue-600" />
                   <CardTitle>User Verification Requirements</CardTitle>
                 </div>
@@ -122,7 +122,7 @@ export default function CompliancePage() {
 
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col lg:flex-row items-center gap-2">
                   <Scale className="w-5 h-5 text-purple-600" />
                   <CardTitle>Anti-Money Laundering (AML) Compliance</CardTitle>
                 </div>
@@ -163,7 +163,7 @@ export default function CompliancePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex flex-col lg:flex-row items-center gap-2 mb-2">
                   <FileText className="w-5 h-5 text-blue-600" />
                   <CardTitle className="text-lg">Terms of Service</CardTitle>
                 </div>
@@ -180,7 +180,7 @@ export default function CompliancePage() {
 
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex flex-col lg:flex-row items-center gap-2 mb-2">
                   <FileText className="w-5 h-5 text-green-600" />
                   <CardTitle className="text-lg">Privacy Policy</CardTitle>
                 </div>
@@ -197,7 +197,7 @@ export default function CompliancePage() {
 
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex flex-col lg:flex-row items-center gap-2 mb-2">
                   <FileText className="w-5 h-5 text-orange-600" />
                   <CardTitle className="text-lg">Cookie Policy</CardTitle>
                 </div>
@@ -214,7 +214,7 @@ export default function CompliancePage() {
 
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex flex-col lg:flex-row items-center gap-2 mb-2">
                   <FileText className="w-5 h-5 text-red-600" />
                   <CardTitle className="text-lg">Risk Disclosure</CardTitle>
                 </div>
@@ -240,7 +240,7 @@ export default function CompliancePage() {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col lg:flex-row items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600" />
                   <CardTitle>Regulatory Framework</CardTitle>
                 </div>
@@ -364,19 +364,19 @@ export default function CompliancePage() {
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Download Legal Documents</h2>
 
           <div className="space-y-3">
-            <a href="#" className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-500 transition-colors">
+            <a href="#" className="flex flex-col lg:flex-row items-center gap-3 p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-500 transition-colors">
               <FileText className="w-5 h-5 text-blue-600" />
               <span className="font-semibold text-gray-900">Full Terms of Service (PDF)</span>
             </a>
-            <a href="#" className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-500 transition-colors">
+            <a href="#" className="flex flex-col lg:flex-row items-center gap-3 p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-500 transition-colors">
               <FileText className="w-5 h-5 text-green-600" />
               <span className="font-semibold text-gray-900">Privacy Policy (PDF)</span>
             </a>
-            <a href="#" className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-500 transition-colors">
+            <a href="#" className="flex flex-col lg:flex-row items-center gap-3 p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-500 transition-colors">
               <FileText className="w-5 h-5 text-red-600" />
               <span className="font-semibold text-gray-900">Risk Disclosure Statement (PDF)</span>
             </a>
-            <a href="#" className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-500 transition-colors">
+            <a href="#" className="flex flex-col lg:flex-row items-center gap-3 p-4 bg-white border border-gray-200 rounded-lg hover:border-blue-500 transition-colors">
               <FileText className="w-5 h-5 text-purple-600" />
               <span className="font-semibold text-gray-900">KYC/AML Policy (PDF)</span>
             </a>

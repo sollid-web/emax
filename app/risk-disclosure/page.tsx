@@ -19,7 +19,7 @@ export default function RiskDisclosurePage() {
       <section className="py-20 bg-gradient-to-br from-red-50 to-orange-100">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="flex justify-center mb-4">
+            <div className="flex flex-col lg:flex-row justify-center mb-4">
               <AlertCircle className="w-16 h-16 text-red-600" />
             </div>
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Risk Disclosure & Investment Warnings</h1>
@@ -35,30 +35,30 @@ export default function RiskDisclosurePage() {
       <section className="py-20 bg-red-50 border-b border-red-200">
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="bg-red-100 border-2 border-red-600 rounded-lg p-8 mb-8">
-            <h2 className="text-2xl font-bold text-red-900 mb-6 flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-red-900 mb-6 flex flex-col lg:flex-row items-center gap-2">
               <AlertCircle className="w-6 h-6" />
               Critical Risk Warnings
             </h2>
             <ul className="space-y-4">
-              <li className="flex gap-4">
+              <li className="flex flex-col lg:flex-row gap-4">
                 <span className="text-red-600 font-bold text-xl">⚠</span>
                 <span className="text-red-900">
                   <strong>You may lose your entire investment.</strong> Cryptocurrency trading is highly volatile and speculative. There is no guarantee of profitability.
                 </span>
               </li>
-              <li className="flex gap-4">
+              <li className="flex flex-col lg:flex-row gap-4">
                 <span className="text-red-600 font-bold text-xl">⚠</span>
                 <span className="text-red-900">
                   <strong>Past performance does not guarantee future results.</strong> Historical returns are not indicative of future market conditions or algorithmic system performance.
                 </span>
               </li>
-              <li className="flex gap-4">
+              <li className="flex flex-col lg:flex-row gap-4">
                 <span className="text-red-600 font-bold text-xl">⚠</span>
                 <span className="text-red-900">
                   <strong>Not suitable for all investors.</strong> Cryptocurrency trading carries substantial risk and may not be appropriate for conservative or risk-averse investors.
                 </span>
               </li>
-              <li className="flex gap-4">
+              <li className="flex flex-col lg:flex-row gap-4">
                 <span className="text-red-600 font-bold text-xl">⚠</span>
                 <span className="text-red-900">
                   <strong>Only invest what you can afford to lose.</strong> Never invest funds needed for essential expenses or retirement savings.
@@ -78,7 +78,7 @@ export default function RiskDisclosurePage() {
             {/* Market Volatility Risk */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <TrendingDown className="w-6 h-6 text-orange-600 mr-3" />
                   <CardTitle>Market Volatility</CardTitle>
                 </div>
@@ -94,7 +94,7 @@ export default function RiskDisclosurePage() {
             {/* Regulatory Risk */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <Lock className="w-6 h-6 text-blue-600 mr-3" />
                   <CardTitle>Regulatory Risk</CardTitle>
                 </div>
@@ -110,7 +110,7 @@ export default function RiskDisclosurePage() {
             {/* Liquidity Risk */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <RefreshCw className="w-6 h-6 text-purple-600 mr-3" />
                   <CardTitle>Liquidity Risk</CardTitle>
                 </div>
@@ -126,7 +126,7 @@ export default function RiskDisclosurePage() {
             {/* Technical Risk */}
             <Card>
               <CardHeader>
-                <div className="flex items-center mb-2">
+                <div className="flex flex-col lg:flex-row items-center mb-2">
                   <DollarSign className="w-6 h-6 text-green-600 mr-3" />
                   <CardTitle>Technology Risk</CardTitle>
                 </div>

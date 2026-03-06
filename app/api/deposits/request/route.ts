@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { cookies } from 'next/headers'
 
 function getAdminClient() {
   return createClient(
@@ -10,13 +11,13 @@ function getAdminClient() {
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify auth token
-    const authHeader = request.headers.get('authorization')
-    if (!authHeader?.startsWith('Bearer ')) {
+    // Get auth token from cookies
+    const cookieStore = await cookies()
+    const token = cookieStore.get('sb-auth-token')?.value
+    if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const token = authHeader.replace('Bearer ', '')
     const supabaseAdmin = getAdminClient();
     const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token)
     if (authError || !user) {

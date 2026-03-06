@@ -11,9 +11,9 @@ export function HeaderFallback() {
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="flex flex-col items-center">
+        <div className="flex flex-col lg:flex-row items-center justify-between h-16">
+          <Link href="/" className="flex flex-col lg:flex-row items-center space-x-2">
+            <div className="flex flex-col lg:flex-row-col items-center">
               <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 EMAX PROTOCOL
               </span>
@@ -22,7 +22,7 @@ export function HeaderFallback() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex flex-col lg:flex-row items-center space-x-8">
             <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
               About Us
             </Link>
@@ -44,7 +44,7 @@ export function HeaderFallback() {
           </nav>
 
           {/* Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex flex-col lg:flex-row items-center space-x-4">
             <Button variant="outline" asChild>
               <Link href="/signup">Create Account</Link>
             </Button>
@@ -62,7 +62,7 @@ export function HeaderFallback() {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200">
-            <nav className="flex flex-col space-y-4">
+            <nav className="flex flex-col lg:flex-row-col space-y-4">
               <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">
                 About Us
               </Link>
@@ -81,7 +81,7 @@ export function HeaderFallback() {
               <Link href="/contact" className="text-gray-700 hover:text-blue-600 transition-colors">
                 Contact
               </Link>
-              <div className="flex flex-col space-y-2 pt-4">
+              <div className="flex flex-col lg:flex-row-col space-y-2 pt-4">
                 <Button variant="outline" asChild>
                   <Link href="/signup">Create Account</Link>
                 </Button>

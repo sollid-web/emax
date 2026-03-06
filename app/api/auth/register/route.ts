@@ -3,7 +3,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password, fullname, username } = await request.json()
+    const body = await request.json()
+    // support both fullname and full_name for compatibility
+    const { email, password, username } = body
+    const fullname = body.fullname || body.full_name
 
     if (!email || !password || !fullname || !username) {
       return NextResponse.json(

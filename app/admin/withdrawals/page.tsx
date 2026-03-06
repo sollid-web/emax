@@ -114,13 +114,13 @@ export default function WithdrawalsPage() {
                   {withdrawals.map((withdrawal) => (
                     <div
                       key={withdrawal.id}
-                      className="flex items-center justify-between p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750"
+                      className="flex flex-col lg:flex-row items-center justify-between p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750"
                       onClick={() => setSelectedWithdrawal(withdrawal)}
                     >
-                      <div className="flex-1">
+                      <div className="flex flex-col lg:flex-row-1">
                         <p className="font-medium text-white">{withdrawal.user_name}</p>
                         <p className="text-sm text-gray-400">{withdrawal.user_email}</p>
-                        <div className="flex gap-2 mt-1">
+                        <div className="flex flex-col lg:flex-row gap-2 mt-1">
                           <span className="text-xs text-gray-500">
                             {withdrawal.amount} {withdrawal.currency}
                           </span>
@@ -175,7 +175,7 @@ export default function WithdrawalsPage() {
                     className="bg-gray-800 border-gray-700 text-white"
                   />
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col lg:flex-row-col gap-2">
                     <Button
                       onClick={() => approveWithdrawal(selectedWithdrawal.id)}
                       className="bg-blue-600 hover:bg-blue-700"

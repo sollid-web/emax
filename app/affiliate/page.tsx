@@ -106,8 +106,8 @@ export default function AffiliatePage() {
               </p>
 
               <div className="space-y-6">
-                <div className="flex items-start">
-                  <Globe className="w-6 h-6 text-blue-600 mt-1 mr-4 flex-shrink-0" />
+                <div className="flex flex-col lg:flex-row items-start">
+                  <Globe className="w-6 h-6 text-blue-600 mt-1 mr-4 flex flex-col lg:flex-row-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">Global Reach</h4>
                     <p className="text-gray-600">
@@ -116,8 +116,8 @@ export default function AffiliatePage() {
                   </div>
                 </div>
 
-                <div className="flex items-start">
-                  <Award className="w-6 h-6 text-blue-600 mt-1 mr-4 flex-shrink-0" />
+                <div className="flex flex-col lg:flex-row items-start">
+                  <Award className="w-6 h-6 text-blue-600 mt-1 mr-4 flex flex-col lg:flex-row-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">Proven Track Record</h4>
                     <p className="text-gray-600">
@@ -126,8 +126,8 @@ export default function AffiliatePage() {
                   </div>
                 </div>
 
-                <div className="flex items-start">
-                  <Users className="w-6 h-6 text-blue-600 mt-1 mr-4 flex-shrink-0" />
+                <div className="flex flex-col lg:flex-row items-start">
+                  <Users className="w-6 h-6 text-blue-600 mt-1 mr-4 flex flex-col lg:flex-row-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">Expert Support</h4>
                     <p className="text-gray-600">
@@ -138,24 +138,24 @@ export default function AffiliatePage() {
               </div>
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex flex-col lg:flex-row justify-center">
               <Card className="w-full max-w-md">
                 <CardContent className="p-8 text-center">
                   <h3 className="text-2xl font-bold text-gray-900 mb-6">Affiliate Benefits</h3>
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                    <div className="flex flex-col lg:flex-row justify-between items-center p-3 bg-blue-50 rounded-lg">
                       <span className="text-gray-700">No Active Deposit Required</span>
                       <span className="text-green-600 font-semibold">✓</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                    <div className="flex flex-col lg:flex-row justify-between items-center p-3 bg-blue-50 rounded-lg">
                       <span className="text-gray-700">Instant Commission Payments</span>
                       <span className="text-green-600 font-semibold">✓</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                    <div className="flex flex-col lg:flex-row justify-between items-center p-3 bg-blue-50 rounded-lg">
                       <span className="text-gray-700">Lifetime Earnings</span>
                       <span className="text-green-600 font-semibold">✓</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                    <div className="flex flex-col lg:flex-row justify-between items-center p-3 bg-blue-50 rounded-lg">
                       <span className="text-gray-700">Multi-level Referrals</span>
                       <span className="text-green-600 font-semibold">✓</span>
                     </div>
@@ -173,13 +173,13 @@ export default function AffiliatePage() {
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1">
-                <div className="flex justify-center">
+                <div className="flex flex-col lg:flex-row justify-center">
                   <Award className="w-64 h-64 text-purple-200" />
                 </div>
               </div>
 
               <div className="order-1 lg:order-2">
-                <div className="flex items-center mb-6">
+                <div className="flex flex-col lg:flex-row items-center mb-6">
                   <Award className="w-8 h-8 text-purple-600 mr-3" />
                   <h2 className="text-3xl font-bold text-gray-900">Join Our Representative Program</h2>
                 </div>

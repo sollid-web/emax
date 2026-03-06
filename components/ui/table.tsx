@@ -1,3 +1,4 @@
+// TODO: convert table to mobile cards (hidden lg:table)
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'

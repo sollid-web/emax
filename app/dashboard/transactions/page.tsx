@@ -84,9 +84,9 @@ export default function TransactionsPage() {
               {transactions.map((transaction) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center justify-between p-4 bg-gray-800 rounded-lg border border-gray-700 hover:border-gray-600 transition"
+                  className="flex flex-col lg:flex-row items-center justify-between p-4 bg-gray-800 rounded-lg border border-gray-700 hover:border-gray-600 transition"
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-col lg:flex-row items-center gap-4">
                     <div
                       className={`p-3 rounded-lg ${
                         transaction.type === 'deposit'

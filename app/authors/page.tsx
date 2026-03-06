@@ -78,7 +78,7 @@ export default function AuthorsPage() {
                   <p className="text-sm text-gray-600">{author.bio}</p>
                   <div>
                     <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Expertise</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-col lg:flex-row-wrap gap-2">
                       {author.expertise.map((exp) => (
                         <span key={exp} className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">
                           {exp}
@@ -86,9 +86,9 @@ export default function AuthorsPage() {
                       ))}
                     </div>
                   </div>
-                  <div className="pt-4 border-t flex items-center justify-between">
+                  <div className="pt-4 border-t flex flex-col lg:flex-row items-center justify-between">
                     <span className="text-xs text-gray-500">{author.articles} articles published</span>
-                    <div className="flex gap-2">
+                    <div className="flex flex-col lg:flex-row gap-2">
                       <a href={`mailto:${author.email}`} className="text-gray-400 hover:text-blue-600 transition">
                         <Mail className="w-4 h-4" />
                       </a>

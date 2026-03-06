@@ -110,7 +110,7 @@ export default function PortfolioPage() {
               { name: 'Hyperledger Fabric', percentage: 10, amount: '$1,000' },
             ].map((plan) => (
               <div key={plan.name}>
-                <div className="flex justify-between mb-2">
+                <div className="flex flex-col lg:flex-row justify-between mb-2">
                   <span className="text-gray-300">{plan.name}</span>
                   <span className="text-white font-semibold">{plan.amount}</span>
                 </div>

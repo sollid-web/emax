@@ -309,12 +309,12 @@ export function CookieConsent() {
           <div className="container mx-auto max-w-6xl">
             <Card className="border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
               <CardContent className="p-6">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
+                <div className="flex flex-col lg:flex-row items-start space-x-4">
+                  <div className="flex flex-col lg:flex-row-shrink-0">
                     <Cookie className="w-8 h-8 text-blue-600" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center space-x-2 mb-2">
+                  <div className="flex flex-col lg:flex-row-1 min-w-0">
+                    <div className="flex flex-col lg:flex-row items-center space-x-2 mb-2">
                       <h3 className="text-lg font-semibold text-gray-900">Cookie Preferences</h3>
                       <Badge className="bg-blue-600 text-white">GDPR Compliant</Badge>
                     </div>
@@ -323,7 +323,7 @@ export function CookieConsent() {
                       efforts. You can customize your preferences or accept all cookies to continue.
                     </p>
 
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-col lg:flex-row-wrap gap-3">
                       <Button onClick={acceptAll} className="bg-blue-600 hover:bg-blue-700">
                         <Check className="w-4 h-4 mr-2" />
                         Accept All
@@ -341,7 +341,7 @@ export function CookieConsent() {
                         </DialogTrigger>
                         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
                           <DialogHeader>
-                            <DialogTitle className="flex items-center space-x-2">
+                            <DialogTitle className="flex flex-col lg:flex-row items-center space-x-2">
                               <Cookie className="w-6 h-6 text-blue-600" />
                               <span>Cookie Preferences</span>
                             </DialogTitle>
@@ -362,15 +362,15 @@ export function CookieConsent() {
                               {categories.map((category) => (
                                 <Card key={category.id} className="overflow-hidden">
                                   <CardContent className="p-6">
-                                    <div className="flex items-center justify-between mb-4">
-                                      <div className="flex items-center space-x-3">
+                                    <div className="flex flex-col lg:flex-row items-center justify-between mb-4">
+                                      <div className="flex flex-col lg:flex-row items-center space-x-3">
                                         <div className="text-blue-600">{category.icon}</div>
                                         <div>
                                           <h4 className="font-semibold text-gray-900">{category.name}</h4>
                                           <p className="text-sm text-gray-600">{category.description}</p>
                                         </div>
                                       </div>
-                                      <div className="flex items-center space-x-2">
+                                      <div className="flex flex-col lg:flex-row items-center space-x-2">
                                         {category.required && (
                                           <Badge variant="outline" className="text-xs">
                                             Required
@@ -395,7 +395,7 @@ export function CookieConsent() {
                               {categories.map((category) => (
                                 <Card key={category.id}>
                                   <CardContent className="p-6">
-                                    <div className="flex items-center space-x-3 mb-4">
+                                    <div className="flex flex-col lg:flex-row items-center space-x-3 mb-4">
                                       <div className="text-blue-600">{category.icon}</div>
                                       <h4 className="font-semibold text-gray-900">{category.name}</h4>
                                       <Badge variant={category.enabled ? "default" : "secondary"}>
@@ -403,26 +403,41 @@ export function CookieConsent() {
                                       </Badge>
                                     </div>
                                     <div className="overflow-x-auto">
-                                      <table className="w-full text-sm">
-                                        <thead>
-                                          <tr className="border-b">
-                                            <th className="text-left py-2">Cookie Name</th>
-                                            <th className="text-left py-2">Purpose</th>
-                                            <th className="text-left py-2">Duration</th>
-                                            <th className="text-left py-2">Provider</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          {category.cookies.map((cookie, index) => (
-                                            <tr key={index} className="border-b">
-                                              <td className="py-2 font-mono text-xs">{cookie.name}</td>
-                                              <td className="py-2">{cookie.purpose}</td>
-                                              <td className="py-2">{cookie.duration}</td>
-                                              <td className="py-2">{cookie.provider}</td>
+                                      {/* Mobile Cards */}
+                                      <div className="block lg:hidden space-y-2">
+                                        {category.cookies.map((cookie, index) => (
+                                          <div key={index} className="bg-gray-50 border border-gray-200 rounded p-3">
+                                            <div className="font-mono text-xs font-semibold text-gray-900 mb-1">{cookie.name}</div>
+                                            <div className="text-sm text-gray-700 mb-1"><strong>Purpose:</strong> {cookie.purpose}</div>
+                                            <div className="text-sm text-gray-700 mb-1"><strong>Duration:</strong> {cookie.duration}</div>
+                                            <div className="text-sm text-gray-700"><strong>Provider:</strong> {cookie.provider}</div>
+                                          </div>
+                                        ))}
+                                      </div>
+
+                                      {/* Desktop Table */}
+                                      <div className="hidden lg:block">
+                                        <table className="w-full text-sm">
+                                          <thead>
+                                            <tr className="border-b">
+                                              <th className="text-left py-2">Cookie Name</th>
+                                              <th className="text-left py-2">Purpose</th>
+                                              <th className="text-left py-2">Duration</th>
+                                              <th className="text-left py-2">Provider</th>
                                             </tr>
-                                          ))}
-                                        </tbody>
-                                      </table>
+                                          </thead>
+                                          <tbody>
+                                            {category.cookies.map((cookie, index) => (
+                                              <tr key={index} className="border-b">
+                                                <td className="py-2 font-mono text-xs">{cookie.name}</td>
+                                                <td className="py-2">{cookie.purpose}</td>
+                                                <td className="py-2">{cookie.duration}</td>
+                                                <td className="py-2">{cookie.provider}</td>
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </table>
+                                      </div>
                                     </div>
                                   </CardContent>
                                 </Card>
@@ -433,7 +448,7 @@ export function CookieConsent() {
                               <Card>
                                 <CardContent className="p-6">
                                   <div className="space-y-4">
-                                    <div className="flex items-start space-x-3">
+                                    <div className="flex flex-col lg:flex-row items-start space-x-3">
                                       <Shield className="w-6 h-6 text-blue-600 mt-1" />
                                       <div>
                                         <h4 className="font-semibold text-gray-900 mb-2">Your Privacy Rights</h4>
@@ -445,7 +460,7 @@ export function CookieConsent() {
                                       </div>
                                     </div>
 
-                                    <div className="flex items-start space-x-3">
+                                    <div className="flex flex-col lg:flex-row items-start space-x-3">
                                       <Eye className="w-6 h-6 text-green-600 mt-1" />
                                       <div>
                                         <h4 className="font-semibold text-gray-900 mb-2">Data Collection</h4>
@@ -457,7 +472,7 @@ export function CookieConsent() {
                                       </div>
                                     </div>
 
-                                    <div className="flex items-start space-x-3">
+                                    <div className="flex flex-col lg:flex-row items-start space-x-3">
                                       <Lock className="w-6 h-6 text-purple-600 mt-1" />
                                       <div>
                                         <h4 className="font-semibold text-gray-900 mb-2">Data Security</h4>
@@ -484,7 +499,7 @@ export function CookieConsent() {
                             </TabsContent>
                           </Tabs>
 
-                          <div className="flex justify-between items-center pt-4 border-t">
+                          <div className="flex flex-col lg:flex-row justify-between items-center pt-4 border-t">
                             <Button variant="outline" onClick={() => setShowDetails(false)}>
                               Cancel
                             </Button>
@@ -504,7 +519,7 @@ export function CookieConsent() {
                       </Link>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={() => setIsVisible(false)} className="flex-shrink-0">
+                  <Button variant="ghost" size="sm" onClick={() => setIsVisible(false)} className="flex flex-col lg:flex-row-shrink-0">
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
@@ -530,7 +545,7 @@ export function CookieConsent() {
             </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle className="flex items-center space-x-2">
+                <DialogTitle className="flex flex-col lg:flex-row items-center space-x-2">
                   <Cookie className="w-6 h-6 text-blue-600" />
                   <span>Cookie Settings</span>
                 </DialogTitle>
@@ -539,13 +554,13 @@ export function CookieConsent() {
 
               <div className="space-y-4">
                 <div className="bg-blue-50 p-4 rounded-lg">
-                  <div className="flex items-center space-x-2 mb-2">
+                  <div className="flex flex-col lg:flex-row items-center space-x-2 mb-2">
                     <Info className="w-5 h-5 text-blue-600" />
                     <span className="font-medium text-blue-900">Current Settings</span>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     {categories.map((category) => (
-                      <div key={category.id} className="flex items-center space-x-2">
+                      <div key={category.id} className="flex flex-col lg:flex-row items-center space-x-2">
                         <div className={`w-3 h-3 rounded-full ${category.enabled ? "bg-green-500" : "bg-gray-400"}`} />
                         <span className="text-blue-800">{category.name}</span>
                       </div>
@@ -556,15 +571,15 @@ export function CookieConsent() {
                 {categories.map((category) => (
                   <Card key={category.id}>
                     <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
+                      <div className="flex flex-col lg:flex-row items-center justify-between">
+                        <div className="flex flex-col lg:flex-row items-center space-x-3">
                           <div className="text-blue-600">{category.icon}</div>
                           <div>
                             <h4 className="font-medium text-gray-900">{category.name}</h4>
                             <p className="text-sm text-gray-600">{category.description}</p>
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex flex-col lg:flex-row items-center space-x-2">
                           {category.required && (
                             <Badge variant="outline" className="text-xs">
                               Required
@@ -581,7 +596,7 @@ export function CookieConsent() {
                   </Card>
                 ))}
 
-                <div className="flex justify-between items-center pt-4 border-t">
+                <div className="flex flex-col lg:flex-row justify-between items-center pt-4 border-t">
                   <Button variant="outline" onClick={resetPreferences}>
                     <AlertTriangle className="w-4 h-4 mr-2" />
                     Reset to Default
