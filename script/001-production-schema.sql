@@ -229,6 +229,9 @@ ALTER TABLE public.admin_logs ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "users_select_own" ON public.users
   FOR SELECT USING (auth.uid() = id OR is_admin = TRUE);
 
+CREATE POLICY "users_insert_service_role" ON public.users
+  FOR INSERT WITH CHECK (TRUE); -- Service role can insert any user
+
 CREATE POLICY "users_update_own" ON public.users
   FOR UPDATE USING (auth.uid() = id);
 

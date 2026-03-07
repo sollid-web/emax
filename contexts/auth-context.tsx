@@ -150,8 +150,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     try {
-      // Call production authentication API
-      const response = await fetch('/api/auth/authenticate', {
+      // Call production login API
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -171,13 +171,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const data = await response.json()
       if (data.user) {
-        setUser(data.user)
+        setUser(data.profile || data.user)
         // Store session tokens
         if (data.session) {
           sessionStorage.setItem('sb-access-token', data.session.access_token)
           sessionStorage.setItem('sb-refresh-token', data.session.refresh_token)
         }
-        router.push(data.user.is_admin ? '/admin' : '/dashboard')
+        router.push((data.profile?.is_admin || data.user?.is_admin) ? '/admin' : '/dashboard')
       }
     } catch (error: any) {
       console.error('[v0] Sign in error:', error)

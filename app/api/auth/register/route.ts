@@ -92,9 +92,17 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (userError) {
-      console.error('Profile error:', userError)
+      console.error('❌ Profile upsert error:', userError)
       return NextResponse.json(
         { error: 'Failed to create user profile: ' + userError.message },
+        { status: 400 }
+      )
+    }
+
+    if (!user) {
+      console.error('❌ Profile upsert returned no data (null):', { userError, user })
+      return NextResponse.json(
+        { error: 'Failed to create user profile: No data returned from database' },
         { status: 400 }
       )
     }
