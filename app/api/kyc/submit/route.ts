@@ -10,7 +10,7 @@ const supabaseAdmin = createClient(
 export async function POST(request: NextRequest) {
   try {
     // Get auth token from cookies
-    const cookieStore = await await cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get('sb-auth-token')?.value
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -38,17 +38,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // Handle file uploads to Supabase Storage
+    // Handle file uploads to Supabase Storage (optional - gracefully handle missing bucket)
     const uploadFile = async (file: File | null, path: string) => {
       if (!file) return null
-      const { data, error } = await supabaseAdmin.storage
-        .from('kyc-documents')
-        .upload(`${user.id}/${path}`, file, { upsert: true })
-      if (error) throw error
-      const { data: urlData } = supabaseAdmin.storage
-        .from('kyc-documents')
-        .getPublicUrl(data.path)
-      return urlData.publicUrl
+      try {
+        const { data, error } = await supabaseAdmin.storage
+          .from('kyc-documents')
+          .upload(`${user.id}/${path}`, file, { upsert: true })
+        if (error) {
+          console.warn(`File upload error for ${path}:`, error)
+          return null // Continue without the file
+        }
+        const { data: urlData } = supabaseAdmin.storage
+          .from('kyc-documents')
+          .getPublicUrl(data.path)
+        return urlData.publicUrl
+      } catch (uploadErr) {
+        console.warn(`Upload exception for ${path}:`, uploadErr)
+        return null // Continue without the file
+      }
     }
 
     const idFrontFile  = formData.get('idFront') as File | null

@@ -5,12 +5,13 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     // support both fullname and full_name for compatibility
-    const { email, password, username } = body
+    const { email, password, is_admin } = body
     const fullname = body.fullname || body.full_name
+    const username = body.username || email.split('@')[0] // Default to email prefix
 
-    if (!email || !password || !fullname || !username) {
+    if (!email || !password || !fullname) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required fields: email, password, full_name' },
         { status: 400 }
       )
     }
@@ -85,7 +86,7 @@ export async function POST(request: NextRequest) {
         balance: 0,                // ✅ was wrongly 'account_balance'
         total_invested: 0,
         total_earnings: 0,
-        is_admin: false,
+        is_admin: is_admin === true, // Allow setting admin flag on registration
       })
       .select()
       .single()

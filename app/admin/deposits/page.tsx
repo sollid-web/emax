@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { Copy, Check } from 'lucide-react'
+import { apiFetch } from '@/lib/api'
 
 interface Deposit {
   id: string
@@ -18,6 +19,7 @@ interface Deposit {
   transaction_hash?: string
   status: 'pending' | 'approved' | 'completed' | 'rejected'
   created_at: string
+  notes?: string
 }
 
 export default function DepositsPage() {
@@ -26,6 +28,7 @@ export default function DepositsPage() {
   const [selectedDeposit, setSelectedDeposit] = useState<Deposit | null>(null)
   const [rejectionReason, setRejectionReason] = useState('')
   const [copied, setCopied] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     fetchDeposits()
@@ -34,7 +37,13 @@ export default function DepositsPage() {
   const fetchDeposits = async () => {
     try {
       setLoading(true)
-      // TODO: Fetch deposits from API
+      const response = await apiFetch('/api/admin/deposits?status=pending')
+      if (response.ok) {
+        const data = await response.json()
+        setDeposits(data.deposits || [])
+      } else {
+        console.error('Failed to fetch deposits:', response.status)
+      }
     } catch (error) {
       console.error('Failed to fetch deposits:', error)
     } finally {
@@ -43,20 +52,56 @@ export default function DepositsPage() {
   }
 
   const approveDeposit = async (depositId: string) => {
+    setSubmitting(true)
     try {
-      // TODO: Call admin deposit approval API
-      console.log('Approving deposit:', depositId)
+      const response = await apiFetch('/api/admin/deposit-approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          deposit_id: depositId,
+          status: 'approved',
+        }),
+      })
+
+      if (response.ok) {
+        setSelectedDeposit(null)
+        await fetchDeposits()
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to approve deposit')
+      }
     } catch (error) {
       console.error('Failed to approve deposit:', error)
+      alert('Error approving deposit')
+    } finally {
+      setSubmitting(false)
     }
   }
 
   const completeDeposit = async (depositId: string) => {
+    setSubmitting(true)
     try {
-      // TODO: Call admin deposit complete API
-      console.log('Completing deposit:', depositId)
+      const response = await apiFetch('/api/admin/deposit-approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          deposit_id: depositId,
+          status: 'completed',
+        }),
+      })
+
+      if (response.ok) {
+        setSelectedDeposit(null)
+        await fetchDeposits()
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to complete deposit')
+      }
     } catch (error) {
       console.error('Failed to complete deposit:', error)
+      alert('Error completing deposit')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -65,13 +110,31 @@ export default function DepositsPage() {
       alert('Please provide a rejection reason')
       return
     }
+    setSubmitting(true)
     try {
-      // TODO: Call admin deposit rejection API
-      console.log('Rejecting deposit:', depositId)
-      setRejectionReason('')
-      setSelectedDeposit(null)
+      const response = await apiFetch('/api/admin/deposit-approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          deposit_id: depositId,
+          status: 'rejected',
+          rejection_reason: rejectionReason,
+        }),
+      })
+
+      if (response.ok) {
+        setRejectionReason('')
+        setSelectedDeposit(null)
+        await fetchDeposits()
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to reject deposit')
+      }
     } catch (error) {
       console.error('Failed to reject deposit:', error)
+      alert('Error rejecting deposit')
+    } finally {
+      setSubmitting(false)
     }
   }
 

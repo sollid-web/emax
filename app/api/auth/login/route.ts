@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,36 +12,63 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // For development: mock authentication
-    // In production, replace with real Supabase authentication
-    const mockUser = {
-      id: 'user_' + Math.random().toString(36).substr(2, 9),
-      email: email,
-      created_at: new Date().toISOString(),
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+    if (!supabaseUrl || !supabaseKey) {
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      )
     }
 
-    const mockProfile = {
-      id: mockUser.id,
-      email: email,
-      full_name: email.split('@')[0],
-      username: email.split('@')[0],
-      balance: 10000,
-      total_invested: 5000,
-      total_earnings: 1500,
-      created_at: new Date().toISOString(),
+    const supabase = createClient(supabaseUrl, supabaseKey)
+
+    // Authenticate with Supabase
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (authError || !authData?.user) {
+      return NextResponse.json(
+        { error: authError?.message || 'Invalid email or password' },
+        { status: 401 }
+      )
     }
 
-    // Simulate successful login
+    // Get user details from users table
+    let userProfile = null
+    const { data: profileData, error: profileError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', authData.user.id)
+      .single()
+
+    if (profileError) {
+      console.error('Profile fetch error:', profileError)
+    } else {
+      userProfile = profileData
+    }
+
     return NextResponse.json(
-      { 
-        success: true, 
-        user: mockUser, 
-        profile: mockProfile,
+      {
+        success: true,
+        user: {
+          id: authData.user.id,
+          email: authData.user.email,
+          created_at: authData.user.created_at,
+        },
+        profile: userProfile,
+        session: {
+          access_token: authData.session?.access_token,
+          refresh_token: authData.session?.refresh_token,
+        },
       },
       { status: 200 }
     )
   } catch (error: any) {
-    console.error('[v0] Login API error:', error)
+    console.error('[login] error:', error)
     return NextResponse.json(
       { error: error?.message || 'Login failed' },
       { status: 500 }

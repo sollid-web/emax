@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
+import { apiFetch } from '@/lib/api'
 
 interface Withdrawal {
   id: string
@@ -18,6 +19,7 @@ interface Withdrawal {
   wallet_address: string
   status: 'pending' | 'approved' | 'processing' | 'completed' | 'rejected'
   created_at: string
+  notes?: string
 }
 
 export default function WithdrawalsPage() {
@@ -26,6 +28,7 @@ export default function WithdrawalsPage() {
   const [selectedWithdrawal, setSelectedWithdrawal] = useState<Withdrawal | null>(null)
   const [rejectionReason, setRejectionReason] = useState('')
   const [transactionHash, setTransactionHash] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     fetchWithdrawals()
@@ -34,7 +37,13 @@ export default function WithdrawalsPage() {
   const fetchWithdrawals = async () => {
     try {
       setLoading(true)
-      // TODO: Fetch withdrawals from API
+      const response = await apiFetch('/api/admin/withdrawals?status=pending')
+      if (response.ok) {
+        const data = await response.json()
+        setWithdrawals(data.withdrawals || [])
+      } else {
+        console.error('Failed to fetch withdrawals:', response.status)
+      }
     } catch (error) {
       console.error('Failed to fetch withdrawals:', error)
     } finally {
@@ -43,20 +52,56 @@ export default function WithdrawalsPage() {
   }
 
   const approveWithdrawal = async (withdrawalId: string) => {
+    setSubmitting(true)
     try {
-      // TODO: Call admin withdrawal approval API
-      console.log('Approving withdrawal:', withdrawalId)
+      const response = await apiFetch('/api/admin/withdrawals-approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          withdrawal_id: withdrawalId,
+          action: 'approve',
+        }),
+      })
+
+      if (response.ok) {
+        setSelectedWithdrawal(null)
+        await fetchWithdrawals()
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to approve withdrawal')
+      }
     } catch (error) {
       console.error('Failed to approve withdrawal:', error)
+      alert('Error approving withdrawal')
+    } finally {
+      setSubmitting(false)
     }
   }
 
   const processWithdrawal = async (withdrawalId: string) => {
+    setSubmitting(true)
     try {
-      // TODO: Call admin withdrawal processing API
-      console.log('Processing withdrawal:', withdrawalId)
+      const response = await apiFetch('/api/admin/withdrawals-approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          withdrawal_id: withdrawalId,
+          action: 'process',
+        }),
+      })
+
+      if (response.ok) {
+        setSelectedWithdrawal(null)
+        await fetchWithdrawals()
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to process withdrawal')
+      }
     } catch (error) {
       console.error('Failed to process withdrawal:', error)
+      alert('Error processing withdrawal')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -65,13 +110,31 @@ export default function WithdrawalsPage() {
       alert('Please provide a transaction hash')
       return
     }
+    setSubmitting(true)
     try {
-      // TODO: Call admin withdrawal completion API
-      console.log('Completing withdrawal:', withdrawalId, 'TxHash:', transactionHash)
-      setTransactionHash('')
-      setSelectedWithdrawal(null)
+      const response = await apiFetch('/api/admin/withdrawals-approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          withdrawal_id: withdrawalId,
+          action: 'complete',
+          transaction_hash: transactionHash,
+        }),
+      })
+
+      if (response.ok) {
+        setTransactionHash('')
+        setSelectedWithdrawal(null)
+        await fetchWithdrawals()
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to complete withdrawal')
+      }
     } catch (error) {
       console.error('Failed to complete withdrawal:', error)
+      alert('Error completing withdrawal')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -80,13 +143,31 @@ export default function WithdrawalsPage() {
       alert('Please provide a rejection reason')
       return
     }
+    setSubmitting(true)
     try {
-      // TODO: Call admin withdrawal rejection API
-      console.log('Rejecting withdrawal:', withdrawalId)
-      setRejectionReason('')
-      setSelectedWithdrawal(null)
+      const response = await apiFetch('/api/admin/withdrawals-approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          withdrawal_id: withdrawalId,
+          action: 'reject',
+          rejection_reason: rejectionReason,
+        }),
+      })
+
+      if (response.ok) {
+        setRejectionReason('')
+        setSelectedWithdrawal(null)
+        await fetchWithdrawals()
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to reject withdrawal')
+      }
     } catch (error) {
       console.error('Failed to reject withdrawal:', error)
+      alert('Error rejecting withdrawal')
+    } finally {
+      setSubmitting(false)
     }
   }
 

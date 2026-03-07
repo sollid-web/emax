@@ -1,4 +1,3 @@
-import { LiveCryptoMarket } from "@/components/live-crypto-market"
 
 export default function MarketsPage() {
   return (
@@ -11,7 +10,6 @@ export default function MarketsPage() {
           </p>
         </div>
       </section>
-      <LiveCryptoMarket />
     </div>
   )
 }

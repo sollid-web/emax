@@ -37,7 +37,6 @@ export default function HomePage() {
       </section>
       <Features />
       <TradingPlansPreview />
-      <LiveCryptoMarket />
       <About />
       <Security />
     </div>
