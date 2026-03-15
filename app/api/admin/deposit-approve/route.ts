@@ -86,31 +86,31 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to update deposit' }, { status: 400 })
     }
 
-    // If approved, credit user's account balance
+    // If approved, credit user's balance (correct column name)
     if (status === 'approved' || status === 'completed') {
       const { data: user } = await supabase
         .from('users')
-        .select('account_balance')
+        .select('balance')
         .eq('id', deposit.user_id)
         .single()
 
       if (user) {
-        const newBalance = (user.account_balance || 0) + parseFloat(deposit.amount)
+        const newBalance = (user.balance || 0) + parseFloat(deposit.amount)
         await supabase
           .from('users')
-          .update({ account_balance: newBalance })
+          .update({ balance: newBalance })
           .eq('id', deposit.user_id)
 
-        // Log transaction
+        // Log transaction with correct fields
         await supabase
           .from('transactions')
           .insert({
             user_id: deposit.user_id,
-            type: 'deposit',
+            transaction_type: 'deposit',
+            related_id: deposit_id,
             amount: deposit.amount,
-            currency: deposit.currency,
+            description: 'Deposit approved',
             status: 'completed',
-            reference_id: deposit_id,
           })
       }
     }

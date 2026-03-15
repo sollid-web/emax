@@ -43,7 +43,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
 
-    const { withdrawal_id, action, transaction_hash, rejection_reason } = await request.json()
+    // support both the newer `action` field and the older `status` alias so
+    // our shell scripts (which historically sent `status`) keep working.
+    let { withdrawal_id, action, transaction_hash, rejection_reason, status } = await request.json()
+
+    // map status to action when action is not provided
+    if (!action && status) {
+      switch (status) {
+        case 'approved':
+          action = 'approve'
+          break
+        case 'processing':
+          action = 'process'
+          break
+        case 'completed':
+          action = 'complete'
+          break
+        case 'rejected':
+          action = 'reject'
+          break
+      }
+    }
 
     if (!withdrawal_id || !action) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })

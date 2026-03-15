@@ -9,9 +9,15 @@ const supabaseAdmin = createClient(
 
 export async function GET(request: NextRequest) {
   try {
-    // Get auth token from cookies
-    const cookieStore = await cookies()
-    const token = cookieStore.get('sb-auth-token')?.value
+    // Get auth token from header or cookies
+    const authHeader = request.headers.get('authorization')
+    let token: string | null = null
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7)
+    } else {
+      const cookieStore = await cookies()
+      token = cookieStore.get('sb-auth-token')?.value || null
+    }
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }

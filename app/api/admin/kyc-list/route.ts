@@ -26,9 +26,17 @@ export async function GET(request: NextRequest) {
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-    // Get admin auth token from cookies
-    const cookieStore = await cookies()
-    const token = cookieStore.get('sb-auth-token')?.value
+    // Get admin auth token from Authorization header or cookies
+    const authHeader = request.headers.get('authorization')
+    let token = null
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7)
+    } else {
+      const cookieStore = await cookies()
+      token = cookieStore.get('sb-auth-token')?.value
+    }
+
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -59,7 +67,7 @@ export async function GET(request: NextRequest) {
         created_at,
         users:user_id(
           email,
-          raw_user_meta_data
+          full_name
         )
       `)
       .eq('status', status)

@@ -67,8 +67,8 @@ export async function POST(request: NextRequest) {
       .update({
         status,
         rejection_reason: status === 'rejected' ? rejection_reason : null,
-        reviewed_at: new Date().toISOString(),
-        reviewed_by_admin_id: adminUser.id,
+        verified_at: new Date().toISOString(),
+        approved_by_admin_id: adminUser.id,
       })
       .eq('id', kyc_id)
       .select()
