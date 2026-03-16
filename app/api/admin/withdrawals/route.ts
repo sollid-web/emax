@@ -36,14 +36,14 @@ export async function GET(request: NextRequest) {
     }
 
     if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { data: { user: adminUser }, error: authError } = await supabase.auth.getUser(token)
+
+    const { data, error: authError } = await supabase.auth.getUser(token);
+    const adminUser = data?.user;
     if (authError || !adminUser) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
     const isAdminUser = await isAdmin(supabase, adminUser.id)
@@ -104,10 +104,11 @@ export async function GET(request: NextRequest) {
       })
     )
 
-    return NextResponse.json({ success: true, withdrawals: withdrawals })
+
+    return NextResponse.json({ success: true, withdrawals: withdrawals });
   } catch (error: any) {
-    console.error('[admin withdrawals] GET error:', error)
-    return NextResponse.json({ error: error?.message || 'Failed to fetch withdrawals' }, { status: 500 })
+    console.error('[admin withdrawals] GET error:', error);
+    return NextResponse.json({ error: error?.message || 'Failed to fetch withdrawals' }, { status: 500 });
   }
 }
 

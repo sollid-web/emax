@@ -69,34 +69,36 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    let status = ''
-    let message = ''
+
+
+    let newStatus = '';
+    let newMessage = '';
 
     switch (action) {
       case 'approve':
-        status = 'approved'
-        message = 'Withdrawal approved successfully'
-        break
+        newStatus = 'approved';
+        newMessage = 'Withdrawal approved successfully';
+        break;
       case 'process':
-        status = 'processing'
-        message = 'Withdrawal marked as processing'
-        break
+        newStatus = 'processing';
+        newMessage = 'Withdrawal marked as processing';
+        break;
       case 'complete':
         if (!transaction_hash?.trim()) {
-          return NextResponse.json({ error: 'Transaction hash required for completion' }, { status: 400 })
+          return NextResponse.json({ error: 'Transaction hash required for completion' }, { status: 400 });
         }
-        status = 'completed'
-        message = 'Withdrawal completed'
-        break
+        newStatus = 'completed';
+        newMessage = 'Withdrawal completed';
+        break;
       case 'reject':
         if (!rejection_reason?.trim()) {
-          return NextResponse.json({ error: 'Rejection reason required' }, { status: 400 })
+          return NextResponse.json({ error: 'Rejection reason required' }, { status: 400 });
         }
-        status = 'rejected'
-        message = 'Withdrawal rejected'
-        break
+        newStatus = 'rejected';
+        newMessage = 'Withdrawal rejected';
+        break;
       default:
-        return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
+        return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
 
     // Get withdrawal details
@@ -112,18 +114,18 @@ export async function POST(request: NextRequest) {
 
     // Update withdrawal status
     const updateData: any = {
-      status,
+      status: newStatus,
       approved_by_admin_id: adminUser.id,
       approved_at: new Date().toISOString(),
+    };
+
+    if (newStatus === 'completed' && transaction_hash) {
+      updateData.transaction_hash = transaction_hash;
+      updateData.completed_at = new Date().toISOString();
     }
 
-    if (status === 'completed' && transaction_hash) {
-      updateData.transaction_hash = transaction_hash
-      updateData.completed_at = new Date().toISOString()
-    }
-
-    if (status === 'rejected') {
-      updateData.rejection_reason = rejection_reason
+    if (newStatus === 'rejected') {
+      updateData.rejection_reason = rejection_reason;
     }
 
     const { data: updatedWithdrawal, error: updateError } = await supabase
@@ -139,23 +141,23 @@ export async function POST(request: NextRequest) {
 
     // If completed, this is final - no balance changes needed as it was held during request
     // If rejected, refund the held balance
-    if (status === 'rejected') {
+    if (newStatus === 'rejected') {
       const { data: user } = await supabase
         .from('users')
         .select('balance')
         .eq('id', withdrawal.user_id)
-        .single()
+        .single();
 
       if (user) {
         await supabase
           .from('users')
           .update({ balance: user.balance + parseFloat(withdrawal.amount) })
-          .eq('id', withdrawal.user_id)
+          .eq('id', withdrawal.user_id);
       }
     }
 
     // Log transaction for completed withdrawals
-    if (status === 'completed') {
+    if (newStatus === 'completed') {
       await supabase
         .from('transactions')
         .insert({
@@ -165,7 +167,7 @@ export async function POST(request: NextRequest) {
           currency: withdrawal.currency,
           status: 'completed',
           reference_id: withdrawal_id,
-        })
+        });
     }
 
     // Log admin action
@@ -180,9 +182,9 @@ export async function POST(request: NextRequest) {
       })
 
     return NextResponse.json(
-      { success: true, withdrawal: updatedWithdrawal, message },
+      { success: true, withdrawal: updatedWithdrawal, message: newMessage },
       { status: 200 }
-    )
+    );
   } catch (error: any) {
     console.error('[v0] Withdrawal approval error:', error)
     return NextResponse.json({ error: error.message || 'Failed to process approval' }, { status: 500 })
