@@ -10,7 +10,7 @@ export interface User {
   total_invested: number
   total_earnings: number
   kyc_status: 'not_started' | 'pending' | 'approved' | 'rejected'
-  is_admin: boolean
+  role: 'user' | 'super_admin' | 'finance_admin' | 'support'
   account_status: 'active' | 'suspended' | 'banned'
   two_fa_enabled: boolean
   created_at: string
@@ -125,11 +125,10 @@ export interface DailyEarning {
 export interface Transaction {
   id: string
   userId: string
-  type: 'deposit' | 'withdrawal' | 'investment' | 'earning'
+  transaction_type: 'deposit' | 'withdrawal' | 'investment' | 'earnings' | 'admin_adjustment' | 'investment_return' | 'fee' | 'refund' | 'reversal'
   amount: number
   currency?: string
-  referenceId?: string
-  referenceType?: string
+  related_id?: string
   status: 'pending' | 'completed' | 'failed'
   description?: string
   createdAt: string

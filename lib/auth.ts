@@ -12,7 +12,7 @@ export async function signUpWithEmail(email: string, password: string, fullname:
     const response = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, fullname, username }),
+      body: JSON.stringify({ email, password, full_name: fullname, username }),
     })
 
     if (!response.ok) {

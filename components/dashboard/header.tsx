@@ -15,6 +15,7 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ onMenuClick }: DashboardHeaderProps = {}) {
   const { user, signOut } = useAuth()
+  const isAdmin = ['super_admin', 'finance_admin', 'support'].includes(user?.role || '')
   const [profileOpen, setProfileOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -66,7 +67,7 @@ export function DashboardHeader({ onMenuClick }: DashboardHeaderProps = {}) {
           </Link>
 
           {/* Admin link — only if admin, hidden on mobile */}
-          {user?.is_admin && (
+          {isAdmin && (
             <Link
               href="/admin"
               className="hidden md:flex items-center gap-2 px-3 py-2 bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 rounded-lg transition text-xs md:text-sm font-medium"
@@ -121,7 +122,7 @@ export function DashboardHeader({ onMenuClick }: DashboardHeaderProps = {}) {
                     <div className="flex flex-col lg:flex-row-1 min-w-0">
                       <p className="text-white font-semibold truncate">{user?.full_name}</p>
                       <p className="text-gray-400 text-xs truncate">{user?.email}</p>
-                      {user?.is_admin && (
+                      {isAdmin && (
                         <span className="text-xs text-yellow-400 font-medium flex flex-col lg:flex-row items-center gap-1 mt-0.5">
                           <ShieldCheck size={10} /> Admin
                         </span>
@@ -191,7 +192,7 @@ export function DashboardHeader({ onMenuClick }: DashboardHeaderProps = {}) {
                     Settings
                   </Link>
 
-                  {user?.is_admin && (
+                  {isAdmin && (
                     <Link
                       href="/admin"
                       onClick={() => setProfileOpen(false)}

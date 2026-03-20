@@ -16,16 +16,46 @@ const { GET, POST } = await import('@/app/api/admin/crypto-wallets/route');
 describe('GET /api/admin/crypto-wallets', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('returns active wallets publicly', async () => {
-    mockFrom.mockReturnValue({
-      select: vi.fn().mockReturnThis(),
-      eq: vi.fn().mockReturnThis(),
-      order: vi.fn().mockResolvedValue({
-        data: [{ id: 'w-1', currency: 'BTC', wallet_address: 'addr123', is_active: true }],
-        error: null,
-      }),
-    });
+  it('returns 401 when not authorized', async () => {
     const req = new NextRequest('http://localhost/api/admin/crypto-wallets');
+    const res = await GET(req);
+    expect(res.status).toBe(401);
+    const body = await res.json();
+    expect(body.error).toBe('Unauthorized');
+  });
+
+  it('returns active wallets when admin', async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: 'admin-123' } }, error: null });
+
+    mockFrom.mockImplementation((table) => {
+      if (table === 'users') {
+        return {
+          select: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              single: vi.fn().mockResolvedValue({
+                data: { id: 'admin-123', role: 'super_admin' },
+                error: null,
+              }),
+            }),
+          }),
+        }
+      }
+
+      // platform_crypto_wallets
+      return {
+        select: vi.fn().mockReturnValue({
+          order: vi.fn().mockResolvedValue({
+            data: [{ id: 'w-1', currency: 'BTC', wallet_address: 'addr123', is_active: true }],
+            error: null,
+          }),
+        }),
+      }
+    });
+
+    const req = new NextRequest('http://localhost/api/admin/crypto-wallets', {
+      headers: { Authorization: 'Bearer valid-token' },
+    });
+
     const res = await GET(req);
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -49,17 +79,30 @@ describe('POST /api/admin/crypto-wallets', () => {
 
   it('returns 400 when currency or wallet_address missing', async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: 'admin-123' } }, error: null });
-    mockFrom.mockReturnValue({
-      select: vi.fn().mockReturnThis(),
-      eq: vi.fn().mockReturnThis(),
-      single: vi.fn().mockResolvedValue({ data: { id: 'admin-123', is_admin: true } }),
+
+    mockFrom.mockImplementation((table) => {
+      if (table === 'users') {
+        return {
+          select: vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+              single: vi.fn().mockResolvedValue({
+                data: { id: 'admin-123', role: 'super_admin' },
+                error: null,
+              }),
+            }),
+          }),
+        }
+      }
+      return { select: vi.fn().mockReturnThis() }
     });
+
     const req = new NextRequest('http://localhost/api/admin/crypto-wallets', {
       method: 'POST',
       body: JSON.stringify({ currency: 'BTC' }),
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer valid-token' },
     });
     const res = await POST(req);
+
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error).toBe('Currency and wallet address are required');

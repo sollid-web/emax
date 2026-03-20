@@ -49,7 +49,7 @@ export function ClientLayout({ children }: ClientLayoutProps) {
         </div>
       )}
 
-      <CookieConsent />
+      {/* <CookieConsent /> */}
       <ChatWidget />
     </PublicLayoutWrapper>
   )

@@ -45,12 +45,11 @@ export default function DepositPage() {
     }
   }, [user])
 
-  // FIX 1: Wallet address — fetch without admin auth (public endpoint)
-  // FIX 2: Refetch when currency changes so address always reflects latest
+  // Wallet addresses are publicly readable, but exposed through a dedicated public endpoint
+  // so we don't expose admin-only routes to the client.
   const fetchCryptoWallets = async () => {
     try {
-      // Platform wallets are publicly readable — no auth needed
-      const response = await fetch('/api/admin/crypto-wallets')
+      const response = await apiFetch('/api/crypto-wallets')
       const data = await response.json()
       setCryptoWallets(data.wallets || [])
     } catch (error) {

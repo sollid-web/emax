@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/auth-context'
-import {
-  getUserPortfolio,
-  getUserInvestments,
-  getUserTransactions,
-  getUserWithdrawals,
-  getUserProfile,
-} from '@/lib/db-operations'
+import { apiFetch } from '@/lib/api'
+
+async function fetchJson(path: string) {
+  const res = await apiFetch(path)
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error || 'Request failed')
+  return data
+}
 
 export function useDashboardData() {
   const { user } = useAuth()
@@ -29,11 +30,11 @@ export function useDashboardData() {
         setLoading(true)
         const [portfolioData, investmentsData, transactionsData, withdrawalsData, profileData] =
           await Promise.all([
-            getUserPortfolio(user.id),
-            getUserInvestments(user.id),
-            getUserTransactions(user.id),
-            getUserWithdrawals(user.id),
-            getUserProfile(user.id),
+            fetchJson('/api/dashboard/portfolio').then(d => d.portfolio),
+            fetchJson('/api/investments/history').then(d => d.investments),
+            fetchJson(`/api/admin/transactions?user_id=${user.id}`).then(d => d.transactions),
+            fetchJson('/api/withdrawals/history').then(d => d.withdrawals),
+            fetchJson('/api/user/profile').then(d => d.profile),
           ])
 
         setPortfolio(portfolioData)

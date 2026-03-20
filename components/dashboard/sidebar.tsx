@@ -32,6 +32,7 @@ const adminItems = [
 export function DashboardSidebar({ onClose }: { onClose?: () => void } = {}) {
   const pathname = usePathname()
   const { user, signOut } = useAuth()
+  const isAdmin = ['super_admin', 'finance_admin', 'support'].includes(user?.role || '')
 
   return (
     <aside className="w-64 bg-gray-900 border-r border-gray-800 p-6 flex flex-col">
@@ -65,7 +66,7 @@ export function DashboardSidebar({ onClose }: { onClose?: () => void } = {}) {
         })}
 
         {/* Admin Section — only visible to admins */}
-        {user?.is_admin && (
+        {isAdmin && (
           <div className="pt-4">
             <p className="text-xs text-gray-500 uppercase tracking-wider mb-2 px-2 flex flex-col lg:flex-row items-center gap-1">
               <ShieldCheck size={12} className="text-yellow-400" />
@@ -116,7 +117,7 @@ export function DashboardSidebar({ onClose }: { onClose?: () => void } = {}) {
               {user?.full_name || user?.email?.split('@')[0]}
             </p>
             <p className="text-xs text-gray-400 truncate">{user?.email}</p>
-            {user?.is_admin && (
+            {isAdmin && (
               <span className="text-xs text-yellow-400 font-medium">Admin</span>
             )}
           </div>

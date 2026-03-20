@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CheckCircle, XCircle, Clock, AlertCircle } from 'lucide-react'
+import { apiFetch } from '@/lib/api'
 
 interface Investment {
   id: string
@@ -38,9 +39,10 @@ export default function InvestmentsPage() {
   const fetchInvestments = async () => {
     try {
       setLoading(true)
-      // TODO: Fetch investments from API
-      // For now, using mock data
-      setInvestments([])
+      const res = await apiFetch('/api/admin/investments?status=pending')
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to fetch investments')
+      setInvestments(data.investments || [])
     } catch (error) {
       console.error('Failed to fetch investments:', error)
     } finally {
@@ -51,21 +53,19 @@ export default function InvestmentsPage() {
   const approveInvestment = async (investmentId: string) => {
     try {
       setActionLoading(investmentId)
-      const response = await fetch('/api/admin/investments', {
+      const response = await apiFetch('/api/admin/investments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           investment_id: investmentId,
-          status: 'approved'
-        })
+          status: 'approved',
+        }),
       })
 
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'Failed to approve investment')
-      }
-
       const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to approve investment')
+      }
       setMessage({ type: 'success', text: data.message || 'Investment approved successfully' })
       await fetchInvestments()
     } catch (error: any) {
@@ -80,22 +80,20 @@ export default function InvestmentsPage() {
 
     try {
       setActionLoading(selectedInvestment.id)
-      const response = await fetch('/api/admin/investments', {
+      const response = await apiFetch('/api/admin/investments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           investment_id: selectedInvestment.id,
           status: 'rejected',
-          rejection_reason: rejectionReason
-        })
+          rejection_reason: rejectionReason,
+        }),
       })
 
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'Failed to reject investment')
-      }
-
       const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to reject investment')
+      }
       setMessage({ type: 'success', text: data.message || 'Investment rejected' })
       setSelectedInvestment(null)
       setRejectionReason('')

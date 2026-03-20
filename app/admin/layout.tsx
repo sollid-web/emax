@@ -20,7 +20,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         router.push('/signin')
         return
       }
-      if (!user.is_admin) {
+      const role = (user.role || '').toLowerCase()
+      if (!['super_admin', 'finance_admin', 'support'].includes(role)) {
         router.push('/dashboard')
         return
       }
@@ -46,7 +47,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900">
+    <div className="flex flex-col lg:flex-row h-screen bg-gray-900">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block">
         <AdminSidebar />

@@ -16,7 +16,7 @@ interface User {
   account_status: 'active' | 'pending' | 'suspended'
   kyc_status: 'approved' | 'pending' | 'rejected' | 'not_started'
   created_at: string
-  is_admin: boolean
+  role: 'user' | 'super_admin' | 'finance_admin' | 'support'
 }
 
 interface CreateUserData {
@@ -26,7 +26,7 @@ interface CreateUserData {
   username: string
   phone: string
   initial_balance: string
-  is_admin: boolean
+  role: 'user' | 'super_admin' | 'finance_admin' | 'support'
 }
 
 interface BalanceAdjustmentData {
@@ -57,7 +57,7 @@ export default function UsersPage() {
     username: '',
     phone: '',
     initial_balance: '0',
-    is_admin: false
+    role: 'user'
   })
 
   const [balanceData, setBalanceData] = useState<BalanceAdjustmentData>({
@@ -134,7 +134,7 @@ export default function UsersPage() {
           username: '',
           phone: '',
           initial_balance: '0',
-          is_admin: false
+          role: 'user'
         })
         alert('User created successfully!')
       } else {
@@ -308,16 +308,17 @@ export default function UsersPage() {
                           </div>
                         </div>
                         <div className="flex flex-col lg:flex-row justify-between items-center space-y-2 lg:space-y-0">
-                          <label className="flex items-center space-x-2">
-                            <input
-                              type="checkbox"
-                              checked={user.is_admin}
-                              onChange={(e) => updateUser(user.id, { is_admin: e.target.checked })}
-                              disabled={updating === user.id}
-                              className="w-4 h-4"
-                            />
-                            <span className="text-gray-300 text-sm">Admin</span>
-                          </label>
+                          <select
+                            value={user.role || 'user'}
+                            onChange={(e) => updateUser(user.id, { role: e.target.value as any })}
+                            disabled={updating === user.id}
+                            className="px-2 py-1 text-xs bg-gray-700 text-white rounded border border-gray-600 focus:border-blue-500 focus:outline-none"
+                          >
+                            <option value="user">User</option>
+                            <option value="support">Support</option>
+                            <option value="finance_admin">Finance Admin</option>
+                            <option value="super_admin">Super Admin</option>
+                          </select>
                           <select
                             value={user.account_status}
                             onChange={(e) => updateUser(user.id, { account_status: e.target.value as any })}
@@ -368,13 +369,17 @@ export default function UsersPage() {
                         </td>
                         <td className="py-3 px-4 text-gray-400 text-xs">{new Date(user.created_at).toLocaleDateString()}</td>
                         <td className="py-3 px-4">
-                          <input
-                            type="checkbox"
-                            checked={user.is_admin}
-                            onChange={(e) => updateUser(user.id, { is_admin: e.target.checked })}
+                          <select
+                            value={user.role || 'user'}
+                            onChange={(e) => updateUser(user.id, { role: e.target.value as any })}
                             disabled={updating === user.id}
-                            className="w-4 h-4"
-                          />
+                            className="px-2 py-1 text-xs bg-gray-800 text-white rounded border border-gray-700 focus:border-blue-500 focus:outline-none"
+                          >
+                            <option value="user">User</option>
+                            <option value="support">Support</option>
+                            <option value="finance_admin">Finance Admin</option>
+                            <option value="super_admin">Super Admin</option>
+                          </select>
                         </td>
                         <td className="py-3 px-4 text-center space-x-2">
                           <Button
@@ -479,15 +484,18 @@ export default function UsersPage() {
                   placeholder="0.00"
                 />
               </div>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="is_admin"
-                  checked={createUserData.is_admin}
-                  onChange={(e) => setCreateUserData({ ...createUserData, is_admin: e.target.checked })}
-                  className="w-4 h-4"
-                />
-                <label htmlFor="is_admin" className="text-sm text-gray-300">Admin User</label>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Role</label>
+                <select
+                  value={createUserData.role}
+                  onChange={(e) => setCreateUserData({ ...createUserData, role: e.target.value as any })}
+                  className="w-full px-3 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none"
+                >
+                  <option value="user">User</option>
+                  <option value="support">Support</option>
+                  <option value="finance_admin">Finance Admin</option>
+                  <option value="super_admin">Super Admin</option>
+                </select>
               </div>
               <div className="flex gap-3 pt-4">
                 <Button

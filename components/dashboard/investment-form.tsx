@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '@/contexts/auth-context'
-import { createInvestment } from '@/lib/db-operations'
+import { apiFetch } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -19,14 +19,22 @@ export function InvestmentForm() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
 
-  const plans = [
-    { id: 'consensus', name: 'Consensus', min: 250, max: 999, roi: 1.5 },
-    { id: 'polkadot', name: 'Polkadot', min: 2000, max: 4999, roi: 2 },
-    { id: 'ethereum', name: 'Ethereum Protocol', min: 6000, max: 10000, roi: 3 },
-    { id: 'hyperledger', name: 'Hyperledger Fabric', min: 20000, max: 999999, roi: 4 },
-  ]
-
+  const [plans, setPlans] = useState<any[]>([])
   const selectedPlan = plans.find((p) => p.id === formData.plan_id)
+
+  useEffect(() => {
+    const loadPlans = async () => {
+      try {
+        const res = await apiFetch('/api/trading-plans')
+        const data = await res.json()
+        if (res.ok && data.plans) setPlans(data.plans)
+      } catch (err) {
+        console.error('[v0] Failed to load trading plans:', err)
+      }
+    }
+
+    loadPlans()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -46,16 +54,16 @@ export function InvestmentForm() {
 
     setLoading(true)
     try {
-      await createInvestment({
-        user_id: user?.id,
-        plan_id: formData.plan_id,
-        amount,
-        daily_roi: selectedPlan.roi,
-        status: 'active',
-        created_at: new Date().toISOString(),
+      const res = await apiFetch('/api/investments/purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan_id: formData.plan_id, amount }),
       })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to create investment')
+
       setSuccess(true)
-      setFormData({ plan_id: 'consensus', amount: '' })
+      setFormData({ plan_id: plans[0]?.id || '', amount: '' })
     } catch (err: any) {
       setError(err.message)
     } finally {

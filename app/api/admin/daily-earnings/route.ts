@@ -5,11 +5,11 @@ import { cookies } from 'next/headers'
 async function isAdmin(supabase: any, adminId: string): Promise<boolean> {
   const { data } = await supabase
     .from('users')
-    .select('is_admin')
+    .select('role')
     .eq('id', adminId)
     .single()
 
-  return data?.is_admin || false
+  return ['super_admin','finance_admin','support'].includes(data?.role) || false
 }
 
 export async function POST(request: NextRequest) {
@@ -28,7 +28,14 @@ export async function POST(request: NextRequest) {
 
     // Get admin auth token from cookies
     const cookieStore = await cookies()
-    const token = cookieStore.get('sb-auth-token')?.value
+    const authHeader = request.headers.get('authorization');
+    let token = null;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+    } else {
+      const cookieStore = await cookies();
+      token = cookieStore.get('sb-access-token')?.value || null;
+    }
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }

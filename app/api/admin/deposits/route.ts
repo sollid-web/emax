@@ -1,113 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { cookies } from 'next/headers'
+import { getToken } from '@/app/api/_lib/get-token'
 
-async function isAdmin(supabase: any, adminId: string): Promise<boolean> {
-  const { data } = await supabase
-    .from('users')
-    .select('is_admin')
-    .eq('id', adminId)
-    .single()
+const supabaseAdmin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 
-  return data?.is_admin || false
+async function isAdmin(adminId: string): Promise<boolean> {
+  const { data } = await supabaseAdmin.from('users').select('role').eq('id', adminId).single()
+  return ['super_admin', 'finance_admin', 'support'].includes(data?.role) || false
 }
 
-// GET: Fetch pending deposits for admin
 export async function GET(request: NextRequest) {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const token = await getToken(request)
+    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    if (!supabaseUrl || !supabaseServiceKey) {
-      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
-    }
+    const { data: { user: adminUser }, error: authError } = await supabaseAdmin.auth.getUser(token)
+    if (authError || !adminUser) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    if (!await isAdmin(adminUser.id)) return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const status = new URL(request.url).searchParams.get('status') || 'pending'
+    const { data: depositsRaw, error } = await supabaseAdmin.from('deposits')
+      .select('id,user_id,amount,currency,wallet_address_used,transaction_hash,status,created_at,approved_at,notes')
+      .eq('status', status).order('created_at', { ascending: false })
 
-    // Get admin auth token from Authorization header or cookies
-    const authHeader = request.headers.get('authorization')
-    let token = null
+    if (error) throw error
 
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      token = authHeader.substring(7)
-    } else {
-      const cookieStore = await cookies()
-      token = cookieStore.get('sb-auth-token')?.value
-    }
+    const deposits = await Promise.all(depositsRaw.map(async (d: any) => {
+      const { data: user } = await supabaseAdmin.from('users').select('email,full_name').eq('id', d.user_id).single()
+      return { ...d, amount: d.amount.toString(), user_email: user?.email || 'Unknown', user_name: user?.full_name || 'User' }
+    }))
 
-    if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const { data: { user: adminUser }, error: authError } = await supabase.auth.getUser(token)
-    if (authError || !adminUser) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
-    }
-
-    const isAdminUser = await isAdmin(supabase, adminUser.id)
-    if (!isAdminUser) {
-      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
-    }
-
-    // Get query params for filtering
-    const url = new URL(request.url)
-    const status = url.searchParams.get('status') || 'pending'
-
-    // First: Fetch all deposits with user details
-    const { data: depositsRaw, error: depositError } = await supabase
-      .from('deposits')
-      .select(`
-        id,
-        user_id,
-        amount,
-        currency,
-        wallet_address_used,
-        transaction_hash,
-        status,
-        created_at,
-        approved_at,
-        notes
-      `)
-      .eq('status', status)
-      .order('created_at', { ascending: false })
-
-    if (depositError) {
-      console.error('[deposits GET error]:', depositError)
-      throw depositError
-    }
-
-    // Then: Get user info separately for better reliability
-    const deposits = await Promise.all(
-      depositsRaw.map(async (d: any) => {
-        const { data: user } = await supabase
-          .from('users')
-          .select('email, full_name, raw_user_meta_data')
-          .eq('id', d.user_id)
-          .single()
-
-        return {
-          id: d.id,
-          user_id: d.user_id,
-          user_email: user?.email || 'Unknown',
-          user_name: user?.full_name || user?.raw_user_meta_data?.full_name || 'User',
-          amount: d.amount.toString(),
-          currency: d.currency,
-          wallet_address_used: d.wallet_address_used,
-          transaction_hash: d.transaction_hash,
-          status: d.status,
-          created_at: d.created_at,
-          approved_at: d.approved_at,
-          notes: d.notes,
-        }
-      })
-    )
-
-    return NextResponse.json({ success: true, deposits: deposits })
+    return NextResponse.json({ success: true, deposits })
   } catch (error: any) {
-    console.error('[admin deposits] GET error:', error)
     return NextResponse.json({ error: error?.message || 'Failed to fetch deposits' }, { status: 500 })
   }
 }
 
-// POST: Alias to deposit-approve endpoint for backwards compatibility
 export { POST } from '../deposit-approve/route'

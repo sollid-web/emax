@@ -4,123 +4,63 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    // support both fullname and full_name for compatibility
-    const { email, password, is_admin } = body
+    const { email, password } = body
     const fullname = body.fullname || body.full_name
-    const username = body.username || email.split('@')[0] // Default to email prefix
+    const username = body.username || email.split('@')[0]
 
     if (!email || !password || !fullname) {
-      return NextResponse.json(
-        { error: 'Missing required fields: email, password, full_name' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Missing required fields: email, password, full_name' }, { status: 400 })
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 
-    if (!supabaseUrl || !supabaseServiceKey) {
-      return NextResponse.json(
-        { error: 'Server configuration error' },
-        { status: 500 }
-      )
-    }
+    const { data: existingUser } = await supabase.from('users').select('id').eq('email', email).single()
+    if (existingUser) return NextResponse.json({ error: 'Email already registered' }, { status: 400 })
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
-
-    // Check if email already exists
-    const { data: existingUser } = await supabase
-      .from('users')
-      .select('id')
-      .eq('email', email)
-      .single()
-
-    if (existingUser) {
-      return NextResponse.json(
-        { error: 'Email already registered' },
-        { status: 400 }
-      )
-    }
-
-    // Check if username already exists
-    const { data: existingUsername } = await supabase
-      .from('users')
-      .select('id')
-      .eq('username', username)
-      .single()
-
-    if (existingUsername) {
-      return NextResponse.json(
-        { error: 'Username already taken' },
-        { status: 400 }
-      )
-    }
-
-    // Create Supabase auth user
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
-      email,
-      password,
-      email_confirm: true,
+      email, password, email_confirm: true,
       user_metadata: { full_name: fullname, username }
     })
 
     if (authError || !authData.user) {
-      return NextResponse.json(
-        { error: authError?.message || 'Registration failed' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: authError?.message || 'Registration failed' }, { status: 400 })
     }
 
-    // Wait briefly for trigger to fire first, then upsert
-    // to avoid race condition between trigger and manual insert
     await new Promise(resolve => setTimeout(resolve, 500))
 
-    const { data: user, error: userError } = await supabase
-      .from('users')
-      .upsert({
-        id: authData.user.id,
-        email,
-        full_name: fullname,       // ✅ correct field name
-        username,
-        kyc_status: 'not_started', // ✅ correct default value
-        balance: 0,                // ✅ was wrongly 'account_balance'
-        total_invested: 0,
-        total_earnings: 0,
-        is_admin: is_admin === true, // Allow setting admin flag on registration
-      })
-      .select()
-      .single()
+    await supabase.from('users').upsert({
+      id: authData.user.id, email, full_name: fullname, username,
+      kyc_status: 'not_started', balance: 0, total_invested: 0, total_earnings: 0, role: 'user',
+    })
 
-    if (userError) {
-      console.error('❌ Profile upsert error:', userError)
-      return NextResponse.json(
-        { error: 'Failed to create user profile: ' + userError.message },
-        { status: 400 }
-      )
+    // ✅ Sign in immediately after registration so cookies get set
+    const anonClient = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
+    const { data: signInData, error: signInError } = await anonClient.auth.signInWithPassword({ email, password })
+
+    if (signInError || !signInData.session) {
+      // Registration succeeded but auto-login failed — user can log in manually
+      return NextResponse.json({ success: true, message: 'Account created. Please log in.' }, { status: 201 })
     }
 
-    if (!user) {
-      console.error('❌ Profile upsert returned no data (null):', { userError, user })
-      return NextResponse.json(
-        { error: 'Failed to create user profile: No data returned from database' },
-        { status: 400 }
-      )
-    }
+    const response = NextResponse.json({
+      success: true,
+      user: { id: authData.user.id, email: authData.user.email },
+      session: { access_token: signInData.session.access_token, refresh_token: signInData.session.refresh_token },
+      message: 'Account created successfully',
+    }, { status: 201 })
 
-    return NextResponse.json(
-      {
-        success: true,
-        user,
-        message: 'Account created successfully',
-      },
-      { status: 201 }
-    )
+    // Set same httpOnly cookies as login route
+    response.cookies.set('sb-access-token', signInData.session.access_token, {
+      httpOnly: true, secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax', maxAge: 60 * 60, path: '/',
+    })
+    response.cookies.set('sb-refresh-token', signInData.session.refresh_token, {
+      httpOnly: true, secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax', maxAge: 60 * 60 * 24 * 7, path: '/',
+    })
 
+    return response
   } catch (error: any) {
-    console.error('[v0] Registration error:', error)
-    return NextResponse.json(
-      { error: error?.message || 'Registration failed' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: error?.message || 'Registration failed' }, { status: 500 })
   }
 }

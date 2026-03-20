@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth-context'
-import { supabase } from '@/lib/supabase-client'
+import { apiFetch } from '@/lib/api'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { TrendingUp, Wallet, CreditCard, Send, ArrowUpRight, ArrowDownLeft } from 'lucide-react'
@@ -16,20 +16,18 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const fetchPortfolio = async () => {
-      if (!user?.id || !supabase) {
+      if (!user?.id) {
         setLoading(false)
         return
       }
 
       try {
-        const { data, error } = await supabase
-          .from('portfolios')
-          .select('*')
-          .eq('user_id', user.id)
-          .single()
-
-        if (!error && data) {
-          setPortfolio(data)
+        const res = await apiFetch('/api/dashboard/portfolio')
+        const data = await res.json()
+        if (res.ok && data.portfolio) {
+          setPortfolio(data.portfolio)
+        } else {
+          console.error('[v0] Portfolio fetch error:', data.error || data)
         }
       } catch (err) {
         console.error('[v0] Portfolio fetch error:', err)

@@ -1,17 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  try {
-    // Clear authentication (client will handle session cleanup)
-    return NextResponse.json(
-      { success: true, message: 'Logged out successfully' },
-      { status: 200 }
-    )
-  } catch (error: any) {
-    console.error('[v0] Logout API error:', error)
-    return NextResponse.json(
-      { error: error?.message || 'Logout failed' },
-      { status: 500 }
-    )
-  }
+  const response = NextResponse.json({ success: true })
+  response.cookies.set('sb-access-token', '', { maxAge: 0, path: '/' })
+  response.cookies.set('sb-refresh-token', '', { maxAge: 0, path: '/' })
+  return response
 }

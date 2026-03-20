@@ -25,13 +25,9 @@ export default function SettingsPage() {
   }
 
   const handleSave = async () => {
-    try {
-      // TODO: API call to save settings
-      setSavedMessage('Settings saved successfully!')
-      setTimeout(() => setSavedMessage(''), 3000)
-    } catch (error) {
-      console.error('[v0] Failed to save settings:', error)
-    }
+    // Settings persistence is not implemented yet.
+    setSavedMessage('Saving settings is not supported in this build.')
+    setTimeout(() => setSavedMessage(''), 3000)
   }
 
   return (
