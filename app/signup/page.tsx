@@ -127,7 +127,7 @@ export default function SignupPage() {
             }}
           />
         ))}
-      </div></div>
+      </div>
 
       <div className="relative z-10 w-full max-w-md mx-4">
         <Card className="backdrop-blur-md bg-white/10 border-white/20 text-white">
