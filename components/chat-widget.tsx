@@ -1,481 +1,224 @@
-"use client"
+'use client'
 
-import type React from "react"
-import { useState, useEffect, useRef } from "react"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  MessageCircle,
-  X,
-  Send,
-  Paperclip,
-  Phone,
-  Mail,
-  Clock,
-  Minimize2,
-  Maximize2,
-  User,
-  Bot,
-  Headphones,
-  Star,
-} from "lucide-react"
+import { useState, useEffect, useRef } from 'react'
+import { MessageCircle, X, Send, Bot, User } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { apiFetch } from '@/lib/api'
 
 interface Message {
   id: string
   text: string
-  sender: "user" | "agent" | "bot"
+  sender: 'user' | 'bot'
   timestamp: Date
-  type?: "text" | "quick-reply" | "file" | "system"
-  agentName?: string
-  agentAvatar?: string
 }
 
-interface QuickReply {
-  id: string
-  text: string
-  category: string
+const botReplies: Record<string, string> = {
+  default: "Thanks for reaching out! A support agent will respond to your message shortly. You can also check your ticket status in the Support section of your dashboard.",
+  deposit: "For deposit issues, please ensure you've sent funds to the correct wallet address shown on the deposit page. Deposits are credited after admin approval. If it's been over 24 hours, please describe your issue below.",
+  withdraw: "Withdrawals are processed after admin review. Profit withdrawals are available based on your plan's withdrawal schedule. Describe your issue and we'll look into it.",
+  kyc: "KYC verification usually takes 24-48 hours. Make sure all documents are clear and valid. If rejected, you'll see a reason in your KYC section.",
+  investment: "Investment plans are activated after admin approval. Your daily ROI begins from the activation date. Describe any issue below and we'll assist.",
+  login: "If you're having login issues, try resetting your password using the 'Forgot Password' link. If the problem persists, describe it below.",
 }
 
-const quickReplies: QuickReply[] = [
-  { id: "1", text: "How do I start trading?", category: "trading" },
-  { id: "2", text: "Account verification help", category: "account" },
-  { id: "3", text: "Deposit/Withdrawal issues", category: "payments" },
-  { id: "4", text: "Security concerns", category: "security" },
-  { id: "5", text: "Platform technical issues", category: "technical" },
-  { id: "6", text: "Fee information", category: "fees" },
-]
-
-const supportAgents = [
-  {
-    id: "1",
-    name: "Sarah Chen",
-    avatar: "/placeholder.svg?height=40&width=40",
-    status: "online",
-    speciality: "Trading Support",
-    rating: 4.9,
-  },
-  {
-    id: "2",
-    name: "Mike Rodriguez",
-    avatar: "/placeholder.svg?height=40&width=40",
-    status: "online",
-    speciality: "Technical Support",
-    rating: 4.8,
-  },
-  {
-    id: "3",
-    name: "Emma Thompson",
-    avatar: "/placeholder.svg?height=40&width=40",
-    status: "busy",
-    speciality: "Account Management",
-    rating: 4.9,
-  },
-]
+function getBotReply(text: string): string {
+  const t = text.toLowerCase()
+  if (t.includes('deposit')) return botReplies.deposit
+  if (t.includes('withdraw')) return botReplies.withdraw
+  if (t.includes('kyc') || t.includes('verification')) return botReplies.kyc
+  if (t.includes('invest') || t.includes('plan')) return botReplies.investment
+  if (t.includes('login') || t.includes('password') || t.includes('sign in')) return botReplies.login
+  return botReplies.default
+}
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isMinimized, setIsMinimized] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
-  const [inputValue, setInputValue] = useState("")
-  const [isTyping, setIsTyping] = useState(false)
-  const [currentAgent, setCurrentAgent] = useState(supportAgents[0])
-  const [chatStatus, setChatStatus] = useState<"waiting" | "connected" | "ended">("waiting")
-  const [unreadCount, setUnreadCount] = useState(0)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [input, setInput] = useState('')
+  const [sending, setSending] = useState(false)
+  const [ticketCreated, setTicketCreated] = useState(false)
+  const [unread, setUnread] = useState(0)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      // Initialize chat with welcome message
-      const welcomeMessage: Message = {
-        id: "welcome",
-        text: "Hi! I'm here to help you with any questions about Emax Protocol. How can I assist you today?",
-        sender: "bot",
+      setMessages([{
+        id: 'welcome',
+        text: "Hi! Welcome to Emax Protocol support. How can we help you today? Type your question and we'll create a support ticket for you.",
+        sender: 'bot',
         timestamp: new Date(),
-        type: "text",
-      }
-      setMessages([welcomeMessage])
+      }])
     }
-  }, [isOpen, messages.length])
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
-
-  useEffect(() => {
-    if (!isOpen && messages.length > 1) {
-      setUnreadCount((prev) => prev + 1)
-    }
-  }, [messages, isOpen])
-
-  useEffect(() => {
-    if (isOpen) {
-      setUnreadCount(0)
-    }
+    if (isOpen) setUnread(0)
   }, [isOpen])
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return
+  const sendMessage = async () => {
+    if (!input.trim() || sending) return
+    const text = input.trim()
+    setInput('')
+    setSending(true)
 
-    const userMessage: Message = {
+    // Add user message
+    setMessages(prev => [...prev, {
       id: Date.now().toString(),
-      text: inputValue,
-      sender: "user",
+      text,
+      sender: 'user',
       timestamp: new Date(),
-      type: "text",
-    }
+    }])
 
-    setMessages((prev) => [...prev, userMessage])
-    setInputValue("")
-    setIsTyping(true)
-
-    // Simulate agent response
-    setTimeout(() => {
-      setIsTyping(false)
-      if (chatStatus === "waiting") {
-        setChatStatus("connected")
+    try {
+      // Create or update support ticket
+      if (!ticketCreated) {
+        await apiFetch('/api/support', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject: text.slice(0, 80),
+            message: text,
+          }),
+        })
+        setTicketCreated(true)
       }
 
-      const agentResponse: Message = {
+      // Bot reply
+      setTimeout(() => {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          text: getBotReply(text),
+          sender: 'bot',
+          timestamp: new Date(),
+        }])
+        if (!isOpen) setUnread(u => u + 1)
+        setSending(false)
+      }, 800)
+
+    } catch {
+      setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
-        text: getAgentResponse(inputValue),
-        sender: "agent",
+        text: 'Message sent. Our team will get back to you soon.',
+        sender: 'bot',
         timestamp: new Date(),
-        type: "text",
-        agentName: currentAgent.name,
-        agentAvatar: currentAgent.avatar,
-      }
-      setMessages((prev) => [...prev, agentResponse])
-    }, 1500)
-  }
-
-  const getAgentResponse = (userInput: string): string => {
-    const input = userInput.toLowerCase()
-
-    if (input.includes("trading") || input.includes("trade")) {
-      return "I'd be happy to help you with trading! Our platform offers automated trading with daily returns. You can start with as little as $100. Would you like me to guide you through the account setup process?"
+      }])
+      setSending(false)
     }
-
-    if (input.includes("deposit") || input.includes("withdrawal")) {
-      return "For deposits and withdrawals, we support multiple payment methods including bank transfers, credit cards, and cryptocurrency. Processing times vary from instant to 3-5 business days. What specific payment method are you interested in?"
-    }
-
-    if (input.includes("security") || input.includes("safe")) {
-      return "Security is our top priority. We use bank-grade encryption, 2FA authentication, cold storage for funds, and are fully regulated. Your investments are protected by our insurance fund. Is there a specific security concern I can address?"
-    }
-
-    if (input.includes("fee") || input.includes("cost")) {
-      return "Our fee structure is transparent: 0% deposit fees, competitive trading fees starting at 0.1%, and withdrawal fees vary by method. We also offer reduced fees for high-volume traders. Would you like detailed fee information?"
-    }
-
-    return "Thank you for your question! I'm reviewing your inquiry and will provide you with detailed information. In the meantime, you can also check our FAQ section or schedule a call with our specialists."
-  }
-
-  const handleQuickReply = (reply: QuickReply) => {
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: reply.text,
-      sender: "user",
-      timestamp: new Date(),
-      type: "text",
-    }
-
-    setMessages((prev) => [...prev, userMessage])
-    setIsTyping(true)
-
-    // Simulate agent response
-    setTimeout(() => {
-      setIsTyping(false)
-      if (chatStatus === "waiting") {
-        setChatStatus("connected")
-      }
-
-      const agentResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        text: getAgentResponse(reply.text),
-        sender: "agent",
-        timestamp: new Date(),
-        type: "text",
-        agentName: currentAgent.name,
-        agentAvatar: currentAgent.avatar,
-      }
-      setMessages((prev) => [...prev, agentResponse])
-    }, 1500)
-  }
-
-  const handleFileUpload = () => {
-    fileInputRef.current?.click()
-  }
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      const fileMessage: Message = {
-        id: Date.now().toString(),
-        text: `Uploaded file: ${file.name}`,
-        sender: "user",
-        timestamp: new Date(),
-        type: "file",
-      }
-      setMessages((prev) => [...prev, fileMessage])
-    }
-  }
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-  }
-
-  if (!isOpen) {
-    return (
-      <div className="fixed bottom-6 right-6 z-50">
-        <Button
-          onClick={() => setIsOpen(true)}
-          className="relative h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all duration-300"
-        >
-          <MessageCircle className="h-6 w-6 text-white" />
-          {unreadCount > 0 && (
-            <Badge className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 text-white text-xs flex flex-col lg:flex-row items-center justify-center">
-              {String(unreadCount)}
-            </Badge>
-          )}
-        </Button>
-      </div>
-    )
   }
 
   return (
-    <div
-      className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ${isMinimized ? "h-16" : "h-[600px]"} w-96`}
-    >
-      <Card className="h-full flex flex-col lg:flex-row-col shadow-2xl border-blue-200">
-        {/* Header */}
-        <CardHeader className="p-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg">
-          <div className="flex flex-col lg:flex-row items-center justify-between">
-            <div className="flex flex-col lg:flex-row items-center space-x-3">
-              <div className="relative">
-                <Avatar className="h-10 w-10 border-2 border-white">
-                  <AvatarImage src={currentAgent.avatar || "/placeholder.svg"} alt={currentAgent.name} />
-                  <AvatarFallback className="bg-blue-500 text-white">
-                    {currentAgent.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")
-                      .toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <div
-                  className={`absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-white ${
-                    currentAgent.status === "online"
-                      ? "bg-green-500"
-                      : currentAgent.status === "busy"
-                        ? "bg-yellow-500"
-                        : "bg-gray-500"
-                  }`}
-                />
+    <div className="fixed bottom-6 right-6 z-50">
+      {/* Chat window */}
+      {isOpen && (
+        <div className="mb-4 w-80 sm:w-96 bg-gray-950 border border-gray-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden" style={{ height: '480px' }}>
+
+          {/* Header */}
+          <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center">
+                <Bot size={16} className="text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-sm">{currentAgent.name}</h3>
-                <div className="flex flex-col lg:flex-row items-center space-x-1">
-                  <div
-                    className={`h-2 w-2 rounded-full ${
-                      chatStatus === "connected"
-                        ? "bg-green-400"
-                        : chatStatus === "waiting"
-                          ? "bg-yellow-400"
-                          : "bg-gray-400"
-                    }`}
-                  />
-                  <span className="text-xs opacity-90">
-                    {chatStatus === "connected" ? "Connected" : chatStatus === "waiting" ? "Connecting..." : "Offline"}
-                  </span>
-                </div>
+                <p className="text-white text-sm font-semibold">Emax Support</p>
+                <p className="text-white/70 text-xs">We typically reply within 24h</p>
               </div>
             </div>
-            <div className="flex flex-col lg:flex-row items-center space-x-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsMinimized(!isMinimized)}
-                className="text-white hover:bg-white/20 h-8 w-8 p-0"
-              >
-                {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/20 h-8 w-8 p-0"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
+            <button onClick={() => setIsOpen(false)} className="text-white/70 hover:text-white transition-colors">
+              <X size={18} />
+            </button>
           </div>
-        </CardHeader>
 
-        {!isMinimized && (
-          <>
-            {/* Status Bar */}
-            <div className="px-4 py-2 bg-blue-50 border-b flex flex-col lg:flex-row items-center justify-between text-sm">
-              <div className="flex flex-col lg:flex-row items-center space-x-2">
-                <Headphones className="h-4 w-4 text-blue-600" />
-                <span className="text-gray-700">Live Support</span>
-                <Badge variant="outline" className="text-xs">
-                  {currentAgent.speciality}
-                </Badge>
-              </div>
-              <div className="flex flex-col lg:flex-row items-center space-x-1">
-                <Star className="h-3 w-3 text-yellow-500 fill-current" />
-                <span className="text-gray-600 text-xs">{currentAgent.rating}</span>
-              </div>
-            </div>
-
-            {/* Messages */}
-            <CardContent className="flex flex-col lg:flex-row-1 p-0 overflow-hidden">
-              <div className="h-full overflow-y-auto p-4 space-y-4">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
-                  >
-                    <div
-                      className={`flex items-start space-x-2 max-w-[80%] ${
-                        message.sender === "user" ? "flex-row-reverse space-x-reverse" : ""
-                      }`}
-                    >
-                      {message.sender !== "user" && (
-                        <Avatar className="h-8 w-8 flex flex-col lg:flex-row-shrink-0">
-                          <AvatarImage
-                            src={message.sender === "bot" ? "/placeholder.svg?height=32&width=32" : message.agentAvatar}
-                            alt={message.sender === "bot" ? "Bot" : message.agentName}
-                          />
-                          <AvatarFallback className="bg-blue-100 text-blue-600">
-                            {message.sender === "bot" ? <Bot className="h-4 w-4" /> : <User className="h-4 w-4" />}
-                          </AvatarFallback>
-                        </Avatar>
-                      )}
-                      <div
-                        className={`rounded-lg p-3 ${
-                          message.sender === "user"
-                            ? "bg-blue-600 text-white"
-                            : message.sender === "bot"
-                              ? "bg-gray-100 text-gray-800"
-                              : "bg-white border border-gray-200 text-gray-800"
-                        }`}
-                      >
-                        <p className="text-sm">{String(message.text)}</p>
-                        <p className={`text-xs mt-1 ${message.sender === "user" ? "text-blue-100" : "text-gray-500"}`}>
-                          {formatTime(message.timestamp)}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-
-                {isTyping && (
-                  <div className="flex flex-col lg:flex-row justify-start">
-                    <div className="flex flex-col lg:flex-row items-center space-x-2">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src={currentAgent.avatar || "/placeholder.svg"} alt={currentAgent.name} />
-                        <AvatarFallback className="bg-blue-100 text-blue-600">
-                          <User className="h-4 w-4" />
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="bg-gray-100 rounded-lg p-3">
-                        <div className="flex flex-col lg:flex-row space-x-1">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                          <div
-                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                            style={{ animationDelay: "0.1s" }}
-                          />
-                          <div
-                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                            style={{ animationDelay: "0.2s" }}
-                          />
-                        </div>
-                      </div>
-                    </div>
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            {messages.map(msg => (
+              <div key={msg.id} className={`flex gap-2 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                {msg.sender === 'bot' && (
+                  <div className="h-7 w-7 rounded-full bg-blue-600 flex items-center justify-center shrink-0 mt-1">
+                    <Bot size={14} className="text-white" />
                   </div>
                 )}
-
-                <div ref={messagesEndRef} />
+                <div className={`max-w-[75%] px-3 py-2 rounded-2xl text-sm ${
+                  msg.sender === 'user'
+                    ? 'bg-blue-600 text-white rounded-br-sm'
+                    : 'bg-gray-800 text-gray-100 rounded-bl-sm'
+                }`}>
+                  {msg.text}
+                  <p className={`text-xs mt-1 ${msg.sender === 'user' ? 'text-blue-200' : 'text-gray-500'}`}>
+                    {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </div>
+                {msg.sender === 'user' && (
+                  <div className="h-7 w-7 rounded-full bg-gray-700 flex items-center justify-center shrink-0 mt-1">
+                    <User size={14} className="text-gray-300" />
+                  </div>
+                )}
               </div>
-            </CardContent>
-
-            {/* Quick Replies */}
-            {messages.length <= 1 && (
-              <div className="px-4 py-2 border-t bg-gray-50">
-                <p className="text-xs text-gray-600 mb-2">Quick questions:</p>
-                <div className="flex flex-col lg:flex-row-wrap gap-1">
-                  {quickReplies.slice(0, 3).map((reply) => (
-                    <Button
-                      key={reply.id}
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleQuickReply(reply)}
-                      className="text-xs h-7 px-2"
-                    >
-                      {reply.text}
-                    </Button>
-                  ))}
+            ))}
+            {sending && (
+              <div className="flex gap-2 justify-start">
+                <div className="h-7 w-7 rounded-full bg-blue-600 flex items-center justify-center shrink-0">
+                  <Bot size={14} className="text-white" />
+                </div>
+                <div className="bg-gray-800 px-4 py-3 rounded-2xl rounded-bl-sm flex gap-1 items-center">
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" />
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
                 </div>
               </div>
             )}
+            <div ref={bottomRef} />
+          </div>
 
-            {/* Input */}
-            <div className="p-4 border-t bg-white">
-              <div className="flex flex-col lg:flex-row items-center space-x-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleFileUpload}
-                  className="h-9 w-9 p-0 text-gray-500 hover:text-gray-700"
+          {/* Quick replies */}
+          {messages.length <= 1 && (
+            <div className="px-4 py-2 border-t border-gray-800 flex flex-wrap gap-1">
+              {['Deposit issue', 'Withdrawal help', 'KYC status', 'Investment query'].map(q => (
+                <button
+                  key={q}
+                  onClick={() => { setInput(q); }}
+                  className="text-xs px-3 py-1 rounded-full bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors border border-gray-700"
                 >
-                  <Paperclip className="h-4 w-4" />
-                </Button>
-                <Input
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                  placeholder="Type your message..."
-                  className="flex flex-col lg:flex-row-1"
-                />
-                <Button
-                  onClick={handleSendMessage}
-                  disabled={!inputValue.trim()}
-                  className="h-9 w-9 p-0 bg-blue-600 hover:bg-blue-700"
-                >
-                  <Send className="h-4 w-4" />
-                </Button>
-              </div>
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                onChange={handleFileChange}
-                className="hidden"
-                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-              />
-
-              <div className="flex flex-col lg:flex-row items-center justify-between mt-2 text-xs text-gray-500">
-                <span>Powered by Emax Protocol Support</span>
-                <div className="flex flex-col lg:flex-row items-center space-x-2">
-                  <Phone className="h-3 w-3" />
-                  <Mail className="h-3 w-3" />
-                  <Clock className="h-3 w-3" />
-                  <span>24/7 Available</span>
-                </div>
-              </div>
+                  {q}
+                </button>
+              ))}
             </div>
-          </>
+          )}
+
+          {/* Input */}
+          <div className="p-3 border-t border-gray-800 flex gap-2">
+            <Input
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && sendMessage()}
+              placeholder="Type a message..."
+              className="flex-1 bg-gray-800 border-gray-700 text-white placeholder-gray-500 text-sm"
+            />
+            <Button
+              onClick={sendMessage}
+              disabled={!input.trim() || sending}
+              size="sm"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-3"
+            >
+              <Send size={15} />
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Toggle button */}
+      <button
+        onClick={() => setIsOpen(o => !o)}
+        className="relative h-14 w-14 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+      >
+        {isOpen ? <X size={22} className="text-white" /> : <MessageCircle size={22} className="text-white" />}
+        {unread > 0 && !isOpen && (
+          <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center font-bold">
+            {unread}
+          </span>
         )}
-      </Card>
+      </button>
     </div>
   )
 }

@@ -175,7 +175,7 @@ export default function DepositsPage() {
                         <p className="font-medium text-white">{deposit.user_name}</p>
                         <p className="text-sm text-gray-400">{deposit.user_email}</p>
                         <p className="text-xs text-gray-500 mt-1">
-                          {deposit.amount} {deposit.currency}
+                          $${parseFloat(deposit.amount).toLocaleString()} USD (paid in {deposit.currency})
                         </p>
                       </div>
                       <Badge variant="outline" className="bg-blue-900 text-blue-200">
@@ -199,7 +199,7 @@ export default function DepositsPage() {
               <div>
                 <p className="text-sm text-gray-400">Amount</p>
                 <p className="text-lg font-bold text-white">
-                  {selectedDeposit.amount} {selectedDeposit.currency}
+                  $${parseFloat(selectedDeposit.amount).toLocaleString()} USD (paid in {selectedDeposit.currency})
                 </p>
               </div>
 
