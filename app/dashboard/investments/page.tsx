@@ -184,7 +184,7 @@ export default function InvestmentsPage() {
                     )}
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Button size="sm" variant="outline" className="border-gray-700 text-white">
+                    <Button size="sm" className="bg-gray-700 hover:bg-gray-600 text-white border-gray-600">
                       View Details
                     </Button>
                   </div>

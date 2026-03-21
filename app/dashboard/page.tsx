@@ -143,15 +143,13 @@ export default function DashboardPage() {
           </Button>
           <Button 
             onClick={() => router.push('/dashboard/plans')}
-            variant="outline" 
-            className="h-12 text-base border-gray-700 text-white hover:bg-gray-900"
+            className="h-12 text-base bg-gray-800 border border-gray-700 text-white hover:bg-gray-700"
           >
             View Plans
           </Button>
           <Button 
             onClick={() => router.push('/dashboard/settings')}
-            variant="outline" 
-            className="h-12 text-base border-gray-700 text-white hover:bg-gray-900"
+            className="h-12 text-base bg-gray-800 border border-gray-700 text-white hover:bg-gray-700"
           >
             Account Settings
           </Button>

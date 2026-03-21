@@ -110,7 +110,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 relative overflow-hidden py-8">
+    <div className="min-h-screen pt-16 flex flex-col lg:flex-row items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 relative overflow-hidden py-8">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         {[...Array(6)].map((_, i) => (
@@ -127,42 +127,7 @@ export default function SignupPage() {
             }}
           />
         ))}
-      </div>
-
-      {/* Top Navigation */}
-      <div className="absolute top-0 left-0 right-0 p-4 bg-black/20 backdrop-blur-sm">
-        <div className="container mx-auto">
-          <nav className="flex flex-col lg:flex-row-wrap gap-4 text-sm text-white/80">
-            <Link href="/" className="hover:text-white transition-colors">
-              🏠 Home
-            </Link>
-            <Link href="/about" className="hover:text-white transition-colors">
-              📖 About Us
-            </Link>
-            <Link href="/trading" className="hover:text-white transition-colors">
-              📊 Trading
-            </Link>
-            <Link href="/affiliate" className="hover:text-white transition-colors">
-              📢 Affiliate Program
-            </Link>
-            <Link href="/get-started" className="hover:text-white transition-colors">
-              🚀 Get Started
-            </Link>
-            <Link href="/faq" className="hover:text-white transition-colors">
-              ❓ FAQ
-            </Link>
-            <Link href="/news" className="hover:text-white transition-colors">
-              📰 News
-            </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
-              📝 Terms & Conditions
-            </Link>
-            <Link href="/contact" className="hover:text-white transition-colors">
-              📞 Contact Us
-            </Link>
-          </nav>
-        </div>
-      </div>
+      </div></div>
 
       <div className="relative z-10 w-full max-w-md mx-4">
         <Card className="backdrop-blur-md bg-white/10 border-white/20 text-white">
