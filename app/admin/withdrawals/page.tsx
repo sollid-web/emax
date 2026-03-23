@@ -203,7 +203,7 @@ export default function WithdrawalsPage() {
                         <p className="text-sm text-gray-400">{withdrawal.user_email}</p>
                         <div className="flex flex-col lg:flex-row gap-2 mt-1">
                           <span className="text-xs text-gray-500">
-                            {withdrawal.amount} {withdrawal.currency}
+                            $${parseFloat(withdrawal.amount).toLocaleString()} via {withdrawal.currency}
                           </span>
                           <span className="text-xs text-gray-500">
                             ({withdrawal.withdrawal_type})
@@ -231,7 +231,7 @@ export default function WithdrawalsPage() {
               <div>
                 <p className="text-sm text-gray-400">Amount</p>
                 <p className="text-lg font-bold text-white">
-                  {selectedWithdrawal.amount} {selectedWithdrawal.currency}
+                  $${parseFloat(selectedWithdrawal.amount).toLocaleString()} via {selectedWithdrawal.currency}
                 </p>
               </div>
 

@@ -107,7 +107,7 @@ export default function WithdrawalsPage() {
       }
 
       setMessage({ type: 'success', text: 'Withdrawal request submitted successfully' })
-      setAmount('')
+      setAmount (USD)('')
       setWalletAddress('')
       await fetchWithdrawals()
     } catch (error) {
@@ -206,10 +206,10 @@ export default function WithdrawalsPage() {
               </div>
             </div>
 
-            {/* Amount */}
+            {/* Amount (USD) */}
             <div>
               <Label htmlFor="amount" className="text-gray-300">
-                Withdrawal Amount (USD)
+                Withdrawal Amount (USD) (USD)
               </Label>
               <Input
                 id="amount"
@@ -219,7 +219,7 @@ export default function WithdrawalsPage() {
                 max={maxWithdrawal}
                 placeholder="0.00"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => setAmount (USD)(e.target.value)}
                 className="bg-gray-800 border-gray-700 text-white mt-2"
                 disabled={submitting}
               />

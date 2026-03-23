@@ -1,15 +1,64 @@
+import type { Metadata } from "next"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Users, DollarSign, Award, TrendingUp, Mail, Globe } from "lucide-react"
 import Link from "next/link"
 
+export const metadata: Metadata = {
+  title: "Affiliate Program - Earn with Emax Protocol Crypto Investment Platform",
+  description:
+    "Join Emax Protocol affiliate program to earn recurring commission from bitcoin investment referrals and promote automated crypto trading plans for passive income crypto growth.",
+  keywords: [
+    "crypto investment platform",
+    "automated crypto trading",
+    "daily ROI",
+    "bitcoin investment",
+    "cryptocurrency returns",
+    "passive income crypto",
+    "emax protocol",
+    "trading plans",
+    "crypto portfolio",
+  ],
+  openGraph: {
+    title: "Affiliate Program - Emax Protocol",
+    description:
+      "Refer users to Emax Protocol and earn affiliate commissions while they participate in crypto trading plans and daily ROI bitcoin investment.",
+    url: "https://emaxprotocol.pro/affiliate",
+  },
+  alternates: {
+    canonical: "https://emaxprotocol.pro/affiliate",
+  },
+}
+
 export default function AffiliatePage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Affiliate Program",
+    description: "Earn recurring commissions by referring users to Emax Protocol crypto trading platform and trading plans",
+    provider: {
+      "@type": "Organization",
+      name: "Emax Protocol",
+      url: "https://emaxprotocol.pro",
+    },
+    offers: {
+      "@type": "Offer",
+      name: "Affiliate Commission",
+      description: "2-4% commission on all referral deposits",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+    },
+  };
+
   return (
-    <div className="pt-16 min-h-screen">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <div className="pt-16 min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl lg:text-5xl font-bold mb-6">Refer Your Friends and Get Commission!</h1>
+          <h2 className="text-2xl font-semibold text-blue-100 mb-3">Earn Passive Income Crypto with a Leading Trading Plan Platform</h2>
           <div className="w-20 h-1 bg-green-400 mx-auto mb-6"></div>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto">
             The affiliate program was created to reward members who share our cryptocurrency trading platform with their
@@ -234,5 +283,6 @@ export default function AffiliatePage() {
         </div>
       </section>
     </div>
+    </>
   )
 }

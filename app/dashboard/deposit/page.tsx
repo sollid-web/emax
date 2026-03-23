@@ -166,7 +166,7 @@ export default function DepositPage() {
       <Card className="border-gray-700 bg-gray-900">
         <CardHeader>
           <CardTitle className="text-white">Send {selectedCurrency} to this address</CardTitle>
-          <CardDescription>Copy the address below and send your {selectedCurrency}</CardDescription>
+          <CardDescription>Copy the address, send your {selectedCurrency}, then enter the USD value below</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {selectedWallet ? (
@@ -190,7 +190,7 @@ export default function DepositPage() {
               </div>
               <Alert className="border-blue-500 bg-blue-500/10">
                 <AlertDescription className="text-blue-200">
-                  After sending your {selectedCurrency}, the transaction must be confirmed and approved by our admin team. This typically takes 1-24 hours.
+                  After sending your {selectedCurrency}, enter the USD equivalent amount below and submit your request. The transaction must be confirmed and approved by our admin team. This typically takes 1-24 hours.
                 </AlertDescription>
               </Alert>
             </>
@@ -210,12 +210,12 @@ export default function DepositPage() {
           <form onSubmit={handleDepositRequest} className="space-y-4">
             <div>
               <Label htmlFor="amount" className="text-gray-300">
-                Deposit Amount ({selectedCurrency})
+                Deposit Amount (USD)
               </Label>
               <Input
                 id="amount"
                 type="number"
-                step="0.00000001"
+                step="0.01"
                 min="0"
                 placeholder="0.00"
                 value={depositAmount}
@@ -280,7 +280,7 @@ export default function DepositPage() {
                     <CardContent className="p-4">
                       <div className="flex flex-col lg:flex-row justify-between items-start space-y-2 lg:space-y-0">
                         <div>
-                          <p className="text-white font-semibold">{deposit.amount} {deposit.currency}</p>
+                          <p className="text-white font-semibold">${`${parseFloat(deposit.amount).toLocaleString("en-US", {minimumFractionDigits:2})}`} <span className="text-gray-400 text-xs">via {deposit.currency}</span></p>
                           <p className="text-gray-400 text-sm">
                             {new Date(deposit.created_at).toLocaleDateString()}
                           </p>
@@ -313,7 +313,7 @@ export default function DepositPage() {
                   <tbody>
                     {depositHistory.map(deposit => (
                       <tr key={deposit.id} className="border-b border-gray-800">
-                        <td className="py-3 px-2 text-white">{deposit.amount}</td>
+                        <td className="py-3 px-2 text-white">${`${parseFloat(deposit.amount).toLocaleString("en-US", {minimumFractionDigits:2})}`}</td>
                         <td className="py-3 px-2 text-gray-300">{deposit.currency}</td>
                         <td className="py-3 px-2 text-gray-400">
                           {new Date(deposit.created_at).toLocaleDateString()}

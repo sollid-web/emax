@@ -6,16 +6,46 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'How Automated Crypto Trading Works | Emax Protocol',
   description:
-    'Learn how our algorithmic crypto trading systems work. Understand our market analysis engine, strategy deployment, risk management, and execution framework.',
+    'Learn how our algorithmic crypto trading systems work on Emax Protocol, with comprehensive bitcoin investment, crypto portfolio risk controls, and daily ROI trading plans.',
+  keywords: [
+    'crypto investment platform',
+    'automated crypto trading',
+    'daily ROI',
+    'bitcoin investment',
+    'cryptocurrency returns',
+    'passive income crypto',
+    'emax protocol',
+    'trading plans',
+    'crypto portfolio',
+  ],
   openGraph: {
-    title: 'How Automated Crypto Trading Works',
-    description: 'Explore our structured crypto trading process and technological infrastructure.',
+    title: 'How Automated Crypto Trading Works - Emax Protocol',
+    description:
+      'Explore a complete explanation of our automated crypto trading infrastructure, strategy deployment, and daily ROI-focused trading plans.',
+    url: 'https://emaxprotocol.pro/how-it-works',
+  },
+  alternates: {
+    canonical: 'https://emaxprotocol.pro/how-it-works',
   },
 }
 
 export default function HowItWorksPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "How Automated Crypto Trading Works",
+    description: "Learn how algorithmic crypto trading systems work on Emax Protocol with market analysis, strategy deployment, and risk management",
+    provider: {
+      "@type": "Organization",
+      name: "Emax Protocol",
+      url: "https://emaxprotocol.pro",
+    },
+  };
+
   return (
-    <div className="pt-16">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <div className="pt-16">
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="container mx-auto px-4">
@@ -196,5 +226,6 @@ export default function HowItWorksPage() {
         </div>
       </section>
     </div>
+    </>
   )
 }

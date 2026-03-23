@@ -1,12 +1,62 @@
+import type { Metadata } from "next"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, TrendingUp, Shield, Award, Users, Clock } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
+export const metadata: Metadata = {
+  title: "About Emax Protocol - Crypto Investment Platform with Automated Trading",
+  description:
+    "Learn about Emax Protocol, a crypto investment platform offering automated crypto trading, bitcoin investment services, and daily ROI plans for secure passive income crypto growth.",
+  keywords: [
+    "crypto investment platform",
+    "automated crypto trading",
+    "daily ROI",
+    "bitcoin investment",
+    "cryptocurrency returns",
+    "passive income crypto",
+    "emax protocol",
+    "trading plans",
+    "crypto portfolio",
+  ],
+  openGraph: {
+    title: "About Emax Protocol - Trusted Crypto Investment Platform",
+    description:
+      "Discover Emax Protocol’s mission, vision, and approach to delivering automated crypto trading, bitcoin investment and crypto portfolio returns.",
+    url: "https://emaxprotocol.pro/about",
+  },
+  alternates: {
+    canonical: "https://emaxprotocol.pro/about",
+  },
+}
+
 export default function AboutPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Emax Protocol",
+    url: "https://emaxprotocol.pro",
+    logo: "https://emaxprotocol.pro/logo.png",
+    description: "Registered cryptocurrency trading broker offering automated crypto trading and algorithmic trading solutions since 2017",
+    foundingDate: "2017",
+    areaServed: "Worldwide",
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "Customer Support",
+      telephone: "+1-122-3333-4444",
+      email: "info@emaxprotocol.com",
+    },
+    founder: {
+      "@type": "Organization",
+      name: "Emax Protocol Team",
+    },
+  };
+
   return (
-    <div className="pt-16 min-h-screen">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <div className="pt-16 min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-20 relative overflow-hidden">
         {/* Floating Blockchain Illustration */}
@@ -34,10 +84,11 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Building a Better Crypto Portfolio Experience</h3>
             <p className="text-lg text-gray-600 leading-relaxed">
               Emax Protocol analysts use advanced predictions to purchase profitable digital currency at the optimal
               time. We provide customized portfolio services with minimal risk aversion, allowing traders to see better
-              returns on their investments while protecting them from potential market risks.
+              cryptocurrency returns and daily ROI while participating in a true crypto investment platform.
             </p>
           </div>
 
@@ -260,5 +311,6 @@ export default function AboutPage() {
         </div>
       </section>
     </div>
+    </>
   )
 }
